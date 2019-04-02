@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		goods
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		GOODS_ID,
+		GOODSNAME,
+		GOODSDESC,
+		BUYNOTICE,
+		SELLMONEY,
+		ORIGINALMONEY,
+		BALANCEMONEY,
+		BACKMONEY0,
+		BACKMONEY1,
+		BACKMONEY2,
+		STARTTIME,
+		ENDTIME,
+		SELLED,
+		STORE,
+		SHOP_ID,
+		CREATETIME,
+		CREATEPEOPLE,
+		UPDATETIME,
+		UPDATEPEOPLE,
+		SHAREDESC,
+		BUYNUMBER,
+		VIEWNUMBER1,
+		VIEWNUMBER2,
+		PRAISENUMBER,
+		STATE
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{GOODS_ID},
+		#{GOODSNAME},
+		#{GOODSDESC},
+		#{BUYNOTICE},
+		#{SELLMONEY},
+		#{ORIGINALMONEY},
+		#{BALANCEMONEY},
+		#{BACKMONEY0},
+		#{BACKMONEY1},
+		#{BACKMONEY2},
+		#{STARTTIME},
+		#{ENDTIME},
+		#{SELLED},
+		#{STORE},
+		#{SHOP_ID},
+		#{CREATETIME},
+		#{CREATEPEOPLE},
+		#{UPDATETIME},
+		#{UPDATEPEOPLE},
+		#{SHAREDESC},
+		#{BUYNUMBER},
+		#{VIEWNUMBER1},
+		#{VIEWNUMBER2},
+		#{PRAISENUMBER},
+		#{STATE}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+	        g.GOODS_ID,
+			g.GOODSNAME,
+			g.GOODSDESC,
+			g.BUYNOTICE,
+			g.SELLMONEY,
+			g.ORIGINALMONEY,
+			g.BALANCEMONEY,
+			g.BACKMONEY0,
+			g.BACKMONEY1,
+			g.BACKMONEY2,
+			g.STARTTIME,
+			g.ENDTIME,
+			g.SELLED,
+			g.STORE,
+			g.SHOP_ID,
+			g.CREATETIME,
+			g.CREATEPEOPLE,
+			g.UPDATETIME,
+			g.UPDATEPEOPLE,
+			g.SHAREDESC,
+			g.BUYNUMBER,
+			g.VIEWNUMBER1,
+			g.VIEWNUMBER2,
+			g.PRAISENUMBER,
+			g.STATE,
+			s.SHOPNAME
+        from
+        <include refid="tableName"></include> g
+        left join shop s on g.shop_id = s.shop_id
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.GOODSNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
+            and g.STATE = #{pd.STATE}
+        </if>
+        <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
+            and g.SHOP_ID = #{pd.SHOP_ID}
+        </if>
+        order by g.GOODS_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+          select
+          	g.GOODS_ID,
+			g.GOODSNAME,
+			g.GOODSDESC,
+			g.BUYNOTICE,
+			g.SELLMONEY,
+			g.ORIGINALMONEY,
+			g.BALANCEMONEY,
+			g.BACKMONEY0,
+			g.BACKMONEY1,
+			g.BACKMONEY2,
+			g.STARTTIME,
+			g.ENDTIME,
+			g.SELLED,
+			g.STORE,
+			g.SHOP_ID,
+			g.CREATETIME,
+			g.CREATEPEOPLE,
+			g.UPDATETIME,
+			g.UPDATEPEOPLE,
+			g.SHAREDESC,
+			g.BUYNUMBER,
+			g.VIEWNUMBER1,
+			g.VIEWNUMBER2,
+			g.PRAISENUMBER,
+			g.STATE,
+			s.SHOPNAME
+        from
+        <include refid="tableName"></include> g
+        left join shop s on g.shop_id = s.shop_id
+        where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.GOODSNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="STATE!= null and STATE != ''"><!-- 关键词检索 -->
+            and g.STATE = #{STATE}
+        </if>
+        <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
+            and g.SHOP_ID = #{SHOP_ID}
+        </if>
+        order by g.GOODS_ID ASC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="GOODS_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        GOODS_ID = #{GOODS_ID}
+        <if test="GOODSNAME != null and GOODSNAME != ''">
+            ,GOODSNAME = #{GOODSNAME}
+        </if>
+        <if test="GOODSDESC != null and GOODSDESC != ''">
+            ,GOODSDESC = #{GOODSDESC}
+        </if>
+        <if test="BUYNOTICE != null and BUYNOTICE != ''">
+            ,BUYNOTICE = #{BUYNOTICE}
+        </if>
+        <if test="SELLMONEY != null and SELLMONEY != ''">
+            ,SELLMONEY = #{SELLMONEY}
+        </if>
+        <if test="ORIGINALMONEY != null and ORIGINALMONEY != ''">
+            ,ORIGINALMONEY = #{ORIGINALMONEY}
+        </if>
+        <if test="BALANCEMONEY != null and BALANCEMONEY != ''">
+            ,BALANCEMONEY = #{BALANCEMONEY}
+        </if>
+        <if test="BACKMONEY0 != null and BACKMONEY0 != ''">
+            ,BACKMONEY0 = #{BACKMONEY0}
+        </if>
+        <if test="BACKMONEY1 != null and BACKMONEY1 != ''">
+            ,BACKMONEY1 = #{BACKMONEY1}
+        </if>
+        <if test="BACKMONEY2 != null and BACKMONEY2 != ''">
+            ,BACKMONEY2 = #{BACKMONEY2}
+        </if>
+        <if test="STARTTIME != null and STARTTIME != ''">
+            ,STARTTIME = #{STARTTIME}
+        </if>
+        <if test="ENDTIME != null and ENDTIME != ''">
+            ,ENDTIME = #{ENDTIME}
+        </if>
+        <if test="SELLED != null and SELLED != ''">
+            ,SELLED = #{SELLED}
+        </if>
+        <if test="STORE != null and STORE != ''">
+            ,STORE = #{STORE}
+        </if>
+        <if test="SHAREDESC != null and SHAREDESC != ''">
+            ,SHAREDESC = #{SHAREDESC}
+        </if>
+        <if test="BUYNUMBER != null and BUYNUMBER != ''">
+            ,BUYNUMBER = #{BUYNUMBER}
+        </if>
+        <if test="VIEWNUMBER1 != null and VIEWNUMBER1 != ''">
+            ,VIEWNUMBER1 = #{VIEWNUMBER1}
+        </if>
+        <if test="VIEWNUMBER2 != null and VIEWNUMBER2 != ''">
+            ,VIEWNUMBER2 = #{VIEWNUMBER2}
+        </if>
+        <if test="PRAISENUMBER != null and PRAISENUMBER != ''">
+            ,PRAISENUMBER = #{PRAISENUMBER}
+        </if>
+        <if test="UPDATETIME != null and UPDATETIME != ''">
+            ,UPDATETIME = #{UPDATETIME}
+        </if>
+        <if test="UPDATEPEOPLE != null and UPDATEPEOPLE != ''">
+            ,UPDATEPEOPLE = #{UPDATEPEOPLE}
+        </if>
+        <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
+        <if test="SHOP_ID != null and SHOP_ID != ''">
+            ,SHOP_ID = #{SHOP_ID}
+        </if>
+        where
+        GOODS_ID = #{GOODS_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        GOODS_ID = #{GOODS_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+        	g.GOODS_ID,
+			g.GOODSNAME,
+			g.GOODSDESC,
+			g.BUYNOTICE,
+			g.SELLMONEY,
+			g.ORIGINALMONEY,
+			g.BALANCEMONEY,
+			g.BACKMONEY0,
+			g.BACKMONEY1,
+			g.BACKMONEY2,
+			g.STARTTIME,
+			g.ENDTIME,
+			g.SELLED,
+			g.STORE,
+			g.SHOP_ID,
+			g.CREATETIME,
+			g.CREATEPEOPLE,
+			g.UPDATETIME,
+			g.UPDATEPEOPLE,
+			g.SHAREDESC,
+			g.BUYNUMBER,
+			g.VIEWNUMBER1,
+			g.VIEWNUMBER2,
+			g.PRAISENUMBER,
+			g.STATE,
+			s.SHOPNAME
+        from
+        <include refid="tableName"></include> g
+        left join shop s on g.shop_id = s.shop_id
+        where
+        g.GOODS_ID = #{GOODS_ID}
+    </select>
+</mapper>

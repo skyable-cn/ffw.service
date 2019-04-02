@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LotteryMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		lottery
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		LOTTERY_ID,
+		LOTTERYRULE,
+		STARTTIME,
+		ENDTIME,
+		LOTTERYDESC,
+		LIMITPEOPLE,
+		SPONSORNAME,
+		SPONSORURL
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{LOTTERY_ID},
+		#{LOTTERYRULE},
+		#{STARTTIME},
+		#{ENDTIME},
+		#{LOTTERYDESC},
+		#{LIMITPEOPLE},
+		#{SPONSORNAME},
+		#{SPONSORURL}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+	        l.LOTTERY_ID,
+			l.LOTTERYRULE,
+			l.STARTTIME,
+			l.ENDTIME,
+			l.LOTTERYDESC,
+			l.LIMITPEOPLE,
+			l.SPONSORNAME,
+			l.SPONSORURL,
+			f.FILEPATH
+        from
+        <include refid="tableName"></include> l
+         left join file f on l.lottery_id = f.reference_id and f.filetype = '4'
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	l.LOTTERYDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.STARTTIME != null and pd.STARTTIME != ''">
+			and l.starttime <![CDATA[ <= ]]> str_to_date(#{pd.STARTTIME}, '%Y-%m-%d')
+		</if>
+		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
+			and l.endtime <![CDATA[ >= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
+		</if>
+        order by l.LOTTERY_ID DESC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+	        l.LOTTERY_ID,
+			l.LOTTERYRULE,
+			l.STARTTIME,
+			l.ENDTIME,
+			l.LOTTERYDESC,
+			l.LIMITPEOPLE,
+			l.SPONSORNAME,
+			l.SPONSORURL,
+			f.FILEPATH
+        from
+        <include refid="tableName"></include> l
+         left join file f on l.lottery_id = f.reference_id and f.filetype = '4'
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	l.LOTTERYDESC LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="STARTTIME != null and STARTTIME != ''">
+			and l.starttime <![CDATA[ <= ]]> str_to_date(#{STARTTIME}, '%Y-%m-%d')
+		</if>
+		<if test="ENDTIME != null and ENDTIME != ''">
+			and l.endtime <![CDATA[ >= ]]> str_to_date(#{ENDTIME}, '%Y-%m-%d')
+		</if>
+        order by l.LOTTERY_ID DESC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="LOTTERY_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        LOTTERY_ID = #{LOTTERY_ID}
+        <if test="LOTTERYRULE != null and LOTTERYRULE != ''">
+            ,LOTTERYRULE = #{LOTTERYRULE}
+        </if>
+        <if test="LOTTERYDESC != null and LOTTERYDESC != ''">
+            ,LOTTERYDESC = #{LOTTERYDESC}
+        </if>
+        <if test="STARTTIME != null and STARTTIME != ''">
+            ,STARTTIME = #{STARTTIME}
+        </if>
+        <if test="ENDTIME != null and ENDTIME != ''">
+            ,ENDTIME = #{ENDTIME}
+        </if>
+        <if test="LIMITPEOPLE != null and LIMITPEOPLE != ''">
+            ,LIMITPEOPLE = #{LIMITPEOPLE}
+        </if>
+        <if test="SPONSORNAME != null and SPONSORNAME != ''">
+            ,SPONSORNAME = #{SPONSORNAME}
+        </if>
+        <if test="SPONSORURL != null and SPONSORURL != ''">
+            ,SPONSORURL = #{SPONSORURL}
+        </if>
+        where
+        LOTTERY_ID = #{LOTTERY_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        LOTTERY_ID = #{LOTTERY_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+	        l.LOTTERY_ID,
+			l.LOTTERYRULE,
+			l.STARTTIME,
+			l.ENDTIME,
+			l.LOTTERYDESC,
+			l.LIMITPEOPLE,
+			l.SPONSORNAME,
+			l.SPONSORURL,
+			f.FILEPATH,
+			f.FILENAME,
+			f.FILESIZE
+        from
+        <include refid="tableName"></include> l
+         left join file f on l.lottery_id = f.reference_id and f.filetype = '4'
+        where
+        LOTTERY_ID = #{LOTTERY_ID}
+    </select>
+</mapper>

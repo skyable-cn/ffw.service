@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		USER
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		USER_ID,
+		USERNAME,
+		PASSWORD,
+		NICKNAME,
+		PHONE,
+		DM_ID,
+		ROLE_ID,
+		CDT,
+		STATE
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{USER_ID},
+		#{USERNAME},
+		#{PASSWORD},
+		#{NICKNAME},
+		#{PHONE},
+		#{DM_ID},
+		#{ROLE_ID},
+		#{CDT},
+		#{STATE}
+	</sql>
+
+    <!-- 判断用户名和密码 -->
+    <select id="getUserInfo" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where 1=1
+        <if test="USERNAME!=null and PASSWORD!=null">
+            and USERNAME = #{USERNAME} and PASSWORD=#{PASSWORD}
+        </if>
+
+        <if test="PHONE!=null and PHONE!=''">
+            and PHONE = #{PHONE}
+        </if>
+    </select>
+
+
+    <!--&lt;!&ndash; 判断用户名和密码 &ndash;&gt;-->
+    <!--<select id="get" parameterType="pd" resultType="pd">-->
+        <!--select-->
+        <!--<include refid="Field"></include>-->
+        <!--from-->
+        <!--<include refid="tableName"></include>-->
+        <!--where 1=1-->
+        <!--<if test="USERNAME!=null and PASSWORD!=null">-->
+            <!--and USERNAME = #{USERNAME} and PASSWORD=#{PASSWORD}-->
+        <!--</if>-->
+
+        <!--<if test="PHONE!=null and PHONE!=''">-->
+            <!--and PHONE = #{PHONE}-->
+        <!--</if>-->
+
+        <!--<if test="DM_ID!=null and DM_ID!=''">-->
+            <!--and DM_ID = #{DM_ID}-->
+        <!--</if>-->
+        <!--limit 1-->
+    <!--</select>-->
+
+
+    <!-- 用户列表 -->
+    <select id="listPage" parameterType="page" resultType="pd">
+        select
+            u.USER_ID,
+	        u.USERNAME,
+	        u.PASSWORD,
+	        u.NICKNAME,
+	        u.PHONE,
+	        u.DM_ID,
+	        u.ROLE_ID,
+	        u.CDT,
+	        u.STATE,
+	        r.ROLENAME
+        from
+        <include refid="tableName"></include> u
+        LEFT JOIN ROLE r ON u.role_id = r.role_id
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            u.USERNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            or
+            u.PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.ROLE_ID!= null and pd.ROLE_ID != ''">
+            AND u.ROLE_ID = #{pd.ROLE_ID}
+        </if>
+        <if test="pd.DM_ID!= null and pd.DM_ID != ''">
+            AND u.DM_ID = #{pd.DM_ID}
+        </if>
+        order by u.USER_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+        u.USER_ID,
+        u.USERNAME,
+        u.PASSWORD,
+        u.NICKNAME,
+        u.PHONE,
+        u.DM_ID,
+        u.ROLE_ID,
+        u.CDT,
+        u.STATE,
+        um.DEVICE_TOKEN,
+        um.ONLINE
+        from <include refid="tableName"></include> u
+        left join umeng um on u.user_id = um.user_id
+        where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            u.USERNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+
+        <if test="DM_ID!= null and DM_ID != ''">
+            AND u.DM_ID = #{DM_ID}
+        </if>
+
+        <if test="DM_IDS!= null and DM_IDS != ''">
+            AND u.DM_ID IN (
+            SELECT rg.rg_id FROM regulatory rg
+            WHERE rg.rgl_id = 4
+            or (rg.rgl_id = 3 and (select pj.pjcounty from project pj where pj.pj_id = #{DM_IDS} ) like
+            concat(substr(rg.rgprovince,1,2),'%'))
+            or (rg.rgl_id = 2 and (select pj.pjcounty from project pj where pj.pj_id = #{DM_IDS} ) like
+            concat(substr(rg.rgcity,1,4),'%'))
+            or (rg.rgl_id = 1 and (select pj.pjcounty from project pj where pj.pj_id = #{DM_IDS} ) like
+            concat(substr(rg.rgcounty,1,6),'%'))
+            )
+        </if>
+
+        <if test="ROLE_ID!= null and ROLE_ID != ''">
+            AND u.ROLE_ID = #{ROLE_ID}
+        </if>
+        order by u.USER_ID ASC
+    </select>
+
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+        	u.USER_ID,
+	        u.USERNAME,
+	        u.PASSWORD,
+	        u.NICKNAME,
+	        u.PHONE,
+	        u.DM_ID,
+	        u.ROLE_ID,
+	        u.CDT,
+	        u.STATE,
+	        r.ROLENAME
+        from
+        <include refid="tableName"></include> u
+        LEFT JOIN ROLE r ON u.role_id = r.role_id
+        where
+        u.USER_ID = #{USER_ID}
+    </select>
+
+    <select id="findByUserName" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        USERNAME = #{USERNAME}
+        <if test="USER_ID != null and USER_ID != ''">
+            AND
+            USER_ID != #{USER_ID}
+        </if>
+
+    </select><select id="findByUserNameEditPhone" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        USERNAME = #{USERNAME}
+        <if test="USER_ID != null and USER_ID != ''">
+            AND
+            USER_ID = #{USER_ID}
+        </if>
+    </select>
+
+    <select id="findByUserPhone" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        <if test="PHONE != null and PHONE != ''">
+            PHONE = #{PHONE}
+        </if>
+        <if test="USER_ID != null and USER_ID != ''">
+            AND
+            USER_ID != #{USER_ID}
+        </if>
+        limit 0,1
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+
+    <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        user_id = #{USER_ID}
+        <if test="PASSWORD != null and PASSWORD != ''">
+            ,PASSWORD = #{PASSWORD}
+        </if>
+        <if test="NICKNAME != null and NICKNAME != ''">
+            ,NICKNAME = #{NICKNAME}
+        </if>
+        <if test="PHONE != null and PHONE != ''">
+            ,PHONE = #{PHONE}
+        </if>
+        <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
+        <if test="ROLE_ID != null and ROLE_ID != ''">
+            ,ROLE_ID = #{ROLE_ID}
+        </if>
+        where
+        user_id = #{USER_ID}
+    </update>
+
+    <!-- 修改密码 -->
+    <update id="editPassWord" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        PASSWORD = #{PASSWORD}
+        where
+        PHONE = #{PHONE}
+        <if test="USER_ID != null and USER_ID != ''">
+        	AND	user_id = #{USER_ID}
+        </if>
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        USER_ID = #{USER_ID}
+    </delete>
+
+    <!-- 批量删除用户 -->
+    <delete id="deleteAll" parameterType="String">
+        delete from
+        <include refid="tableName"></include>
+        where
+        USER_ID in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

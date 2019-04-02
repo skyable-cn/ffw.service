@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GroupsMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		groups
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		GROUPS_ID,
+		GROUPSDESC,
+		CREATETIME
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{GROUPS_ID},
+		#{GROUPSDESC},
+		#{CREATETIME}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+	        g.GROUPS_ID,
+			g.GROUPSDESC,
+			g.CREATETIME,
+			f1.FILE_ID AS FILE_ID1,
+			f1.FILEPATH AS FILEPATH1,
+			f1.FILENAME AS FILENAME1,
+			f2.FILE_ID AS FILE_ID2,
+			f2.FILEPATH AS FILEPATH2,
+			f2.FILENAME AS FILENAME2
+        from
+        <include refid="tableName"></include> g
+         left join file f1 on g.groups_id = f1.reference_id and f1.filetype = '5'
+          left join file f2 on g.groups_id = f2.reference_id and f2.filetype = '6'
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.GROUPSDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+         <if test="pd.STARTTIME != null and pd.STARTTIME != ''">
+			and g.createtime <![CDATA[ >= ]]> str_to_date(#{pd.STARTTIME}, '%Y-%m-%d')
+		</if>
+		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
+			and g.createtime <![CDATA[ <= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
+		</if>
+        order by g.GROUPS_ID DESC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+	        g.GROUPS_ID,
+			g.GROUPSDESC,
+			g.CREATETIME,
+			f1.FILE_ID AS FILE_ID1,
+			f1.FILEPATH AS FILEPATH1,
+			f1.FILENAME AS FILENAME1,
+			f2.FILE_ID AS FILE_ID2,
+			f2.FILEPATH AS FILEPATH2,
+			f2.FILENAME AS FILENAME2
+        from
+        <include refid="tableName"></include> g
+         left join file f1 on g.groups_id = f1.reference_id and f1.filetype = '5'
+          left join file f2 on g.groups_id = f2.reference_id and f2.filetype = '6'
+        where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.GROUPSDESC LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="STARTTIME != null and TARTTIME != ''">
+			and g.createtime <![CDATA[ >= ]]> str_to_date(#{STARTTIME}, '%Y-%m-%d')
+		</if>
+		<if test="ENDTIME != null and ENDTIME != ''">
+			and g.createtime <![CDATA[ <= ]]> str_to_date(#{ENDTIME}, '%Y-%m-%d')
+		</if>
+        order by g.GROUPS_ID DESC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="GROUPS_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        GROUPS_ID = #{GROUPS_ID}
+        <if test="GROUPSDESC != null and GROUPSDESC != ''">
+            ,GROUPSDESC = #{GROUPSDESC}
+        </if>
+        
+        where
+        GROUPS_ID = #{GROUPS_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        GROUPS_ID = #{GROUPS_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+         	g.GROUPS_ID,
+			g.GROUPSDESC,
+			g.CREATETIME,
+			f1.FILE_ID AS FILE_ID1,
+			f1.FILEPATH AS FILEPATH1,
+			f1.FILENAME AS FILENAME1,
+			f1.FILESIZE AS FILESIZE1,
+			f2.FILE_ID AS FILE_ID2,
+			f2.FILEPATH AS FILEPATH2,
+			f2.FILENAME AS FILENAME2,
+			f2.FILESIZE AS FILESIZE2
+        from
+        <include refid="tableName"></include> g
+         left join file f1 on g.groups_id = f1.reference_id and f1.filetype = '5'
+          left join file f2 on g.groups_id = f2.reference_id and f2.filetype = '6'
+        where
+        	g.GROUPS_ID = #{GROUPS_ID}
+    </select>
+</mapper>

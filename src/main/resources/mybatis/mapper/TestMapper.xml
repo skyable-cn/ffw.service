@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TestMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		member
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		MEMBER_ID,
+		USERNAME,
+		NICKNAME,
+		FULLNAME,
+		PHONE,
+		SEX,
+		WXOPEN_ID,
+		MEMBERTYPE_ID
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{MEMBER_ID},
+		#{USERNAME},
+		#{NICKNAME},
+		#{FULLNAME},
+		#{PHONE},
+		#{SEX},
+		#{WXOPEN_ID},
+		#{MEMBERTYPE_ID}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	ROLENAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        order by ROLE_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	ROLENAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        order by ROLE_ID ASC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="ROLE_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        ROLE_ID = #{ROLE_ID}
+        <if test="ROLENAME != null and ROLENAME != ''">
+            ,ROLENAME = #{ROLENAME}
+        </if>
+        
+        where
+        ROLE_ID = #{ROLE_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        ROLE_ID = #{ROLE_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        ROLE_ID = #{ROLE_ID}
+    </select>
+</mapper>

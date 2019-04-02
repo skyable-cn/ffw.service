@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FileMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		file
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		FILE_ID,
+		REFERENCE_ID,
+		FILENAME,
+		FILESIZE,
+		FILEPATH,
+		FILETYPE
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{FILE_ID},
+		#{REFERENCE_ID},
+		#{FILENAME},
+		#{FILESIZE},
+		#{FILEPATH},
+		#{FILETYPE}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	FILENAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        order by FILE_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	FILENAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="FILETYPE != null and FILETYPE != ''">
+            and FILETYPE = #{FILETYPE}
+        </if>
+        <if test="REFERENCE_ID != null and REFERENCE_ID != ''">
+            and REFERENCE_ID = #{REFERENCE_ID}
+        </if>
+        order by FILE_ID ASC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="FILE_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        FILE_ID = #{FILE_ID}
+        <if test="FILENAME != null and FILENAME != ''">
+            ,FILENAME = #{FILENAME}
+        </if>
+        
+        where
+        FILE_ID = #{FILE_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        FILE_ID = #{FILE_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        FILE_ID = #{FILE_ID}
+    </select>
+    
+    <select id="findBy" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+         1 = 1
+         <if test="FILE_ID != null and FILE_ID != ''">
+            and FILE_ID = #{FILE_ID}
+        </if>
+        <if test="FILETYPE != null and FILETYPE != ''">
+            and FILETYPE = #{FILETYPE}
+        </if>
+        <if test="REFERENCE_ID != null and REFERENCE_ID != ''">
+            and REFERENCE_ID = #{REFERENCE_ID}
+        </if>
+    </select>
+</mapper>

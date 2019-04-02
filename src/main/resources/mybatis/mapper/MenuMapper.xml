@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MenuMapper">
+	<select id="menulist" parameterType="pd" resultType="menu" >
+		select m.* from menu m
+		where
+			1 = 1
+		order by m.orderid ASC
+	</select>
+	<select id="menurolelist" parameterType="pd" resultType="menu" >
+		select m.* from menu m
+		left join rolemenu rm on m.id = rm.menu_id
+		where
+			1 = 1
+		<if test="ROLE_ID!= null and ROLE_ID != ''">
+			and
+				(
+					 (rm.role_id = #{ROLE_ID} and rm.state = '1' ) OR ( m.url = '#')
+				)
+		</if>
+		order by m.orderid ASC
+	</select>
+</mapper>
