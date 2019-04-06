@@ -15,6 +15,7 @@
 		FULLNAME,
 		PHONE,
 		SEX,
+		PHOTO,
 		WXOPEN_ID,
 		MEMBERTYPE_ID
 	</sql>
@@ -27,6 +28,7 @@
 		#{FULLNAME},
 		#{PHONE},
 		#{SEX},
+		#{PHOTO},
 		#{WXOPEN_ID},
 		#{MEMBERTYPE_ID}
 	</sql>
@@ -39,6 +41,7 @@
 			m.FULLNAME,
 			m.PHONE,
 			m.SEX,
+			m.PHOTO,
 			m.WXOPEN_ID,
 			m.MEMBERTYPE_ID,
 			mt.MEMBERTYPENAME
@@ -73,6 +76,7 @@
 			m.FULLNAME,
 			m.PHONE,
 			m.SEX,
+			m.PHOTO,
 			m.WXOPEN_ID,
 			m.MEMBERTYPE_ID,
 			mt.MEMBERTYPENAME
@@ -109,7 +113,7 @@
     </select>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="ROLE_ID">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="MEMBER_ID">
         insert into <include refid="tableName"></include> (
         <include refid="Field"></include>
         ) values (
@@ -122,13 +126,21 @@
         update
         <include refid="tableName"></include>
         set
-        ROLE_ID = #{ROLE_ID}
-        <if test="ROLENAME != null and ROLENAME != ''">
-            ,ROLENAME = #{ROLENAME}
+        MEMBER_ID = #{MEMBER_ID}
+        <if test="NICKNAME != null and NICKNAME != ''">
+            ,NICKNAME = #{NICKNAME}
         </if>
-        
+        <if test="SEX != null and SEX != ''">
+            ,SEX = #{SEX}
+        </if>
+        <if test="PHOTO != null and PHOTO != ''">
+            ,PHOTO = #{PHOTO}
+        </if>
+        <if test="MEMBERTYPE_ID != null and MEMBERTYPE_ID != ''">
+            ,MEMBERTYPE_ID = #{MEMBERTYPE_ID}
+        </if>
         where
-        ROLE_ID = #{ROLE_ID}
+        MEMBER_ID = #{MEMBER_ID}
     </update>
     
     <!-- 删除 -->
@@ -136,7 +148,7 @@
         delete from
         <include refid="tableName"></include>
         where
-        ROLE_ID = #{ROLE_ID}
+        MEMBER_ID = #{MEMBER_ID}
     </delete>
     
     <!-- 通过user_id获取数据 -->
@@ -146,6 +158,19 @@
         from
         <include refid="tableName"></include>
         where
-        ROLE_ID = #{ROLE_ID}
+        MEMBER_ID = #{MEMBER_ID}
+    </select>
+    
+    <select id="findBy" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        1 = 1
+        <if test="WXOPEN_ID != null and WXOPEN_ID != ''">
+            AND WXOPEN_ID = #{WXOPEN_ID}
+        </if>
+        limit 0,1
     </select>
 </mapper>

@@ -52,4 +52,9 @@ public class MemberServiceImpl implements IMemberService {
 		return (List<PageData>) dao.findForList("MemberMapper.listAllType", pd);
 	}
 
+	@Override
+	public PageData findBy(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("MemberMapper.findBy", pd);
+	}
+
 }

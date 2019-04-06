@@ -21,4 +21,6 @@ public interface IMemberService {
 
 	List<PageData> listAllType(PageData pd) throws Exception;
 
+	PageData findBy(PageData pd) throws Exception;
+
 }

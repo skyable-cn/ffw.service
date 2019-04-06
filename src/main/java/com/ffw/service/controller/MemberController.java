@@ -101,4 +101,15 @@ public class MemberController extends BaseController {
 		}
 		return pd;
 	}
+
+	@RequestMapping(value = "findBy", method = RequestMethod.POST)
+	public PageData findBy(@RequestBody PageData pd) {
+		try {
+			pd = memberService.findBy(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
 }
