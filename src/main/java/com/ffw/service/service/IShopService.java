@@ -24,4 +24,6 @@ public interface IShopService {
 	void saveApprove(PageData pd) throws Exception;
 
 	List<PageData> listAllApprove(PageData pd) throws Exception;
+
+	List<PageData> listAllType(PageData pd) throws Exception;
 }

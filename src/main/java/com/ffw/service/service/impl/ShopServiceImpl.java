@@ -63,4 +63,9 @@ public class ShopServiceImpl implements IShopService {
 				.findForList("ShopMapper.listAllApprove", pd);
 	}
 
+	@Override
+	public List<PageData> listAllType(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("ShopMapper.listAllType", pd);
+	}
+
 }

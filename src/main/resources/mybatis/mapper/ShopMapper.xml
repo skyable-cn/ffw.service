@@ -19,7 +19,8 @@
 		CONTRACTPHONE,
 		ACCOUNTER,
 		CDT,
-		SHOPSTATE_ID
+		SHOPSTATE_ID,
+		SHOPTYPE_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -34,7 +35,8 @@
 		#{CONTRACTPHONE},
 		#{ACCOUNTER},
 		#{CDT},
-		#{SHOPSTATE_ID}
+		#{SHOPSTATE_ID},
+		#{SHOPTYPE_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -106,6 +108,15 @@
         from
         	shopstate
         order by SHOPSTATE_ID ASC
+    </select>
+    
+    <select id="listAllType" parameterType="pd" resultType="pd">
+        select
+        	SHOPTYPE_ID,
+        	SHOPTYPENAME
+        from
+        	shoptype
+        order by SHOPTYPE_ID ASC
     </select>
     
     <select id="listAllApprove" parameterType="pd" resultType="pd">

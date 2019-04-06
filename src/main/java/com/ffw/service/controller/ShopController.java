@@ -56,6 +56,18 @@ public class ShopController extends BaseController {
 		return data;
 	}
 
+	@RequestMapping(value = "listAllType", method = RequestMethod.POST)
+	public List<PageData> listAllType(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = shopService.listAllType(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	@RequestMapping(value = "listPage", method = RequestMethod.POST)
 	public Page listPage(@RequestBody PageData pd) {
 		Page page = getPage(pd);
