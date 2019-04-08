@@ -92,10 +92,14 @@
 			g.VIEWNUMBER2,
 			g.PRAISENUMBER,
 			g.STATE,
-			s.SHOPNAME
+			s.SHOPNAME,
+			p.FILEPATH,
+			p1.FILEPATH AS FILEPATH1
         from
         <include refid="tableName"></include> g
         left join shop s on g.shop_id = s.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
+        left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -110,7 +114,15 @@
         <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{pd.SHOP_ID}
         </if>
-        order by g.GOODS_ID ASC
+        <if test="pd.SEARCHTYPE == null or  pd.SEARCHTYPE == ''">
+        	order by g.GOODS_ID ASC
+        </if>
+        <if test="pd.SEARCHTYPE != null and  pd.SEARCHTYPE == 1">
+        	order by g.CREATETIME DESC
+        </if>
+        <if test="pd.SEARCHTYPE != null and  pd.SEARCHTYPE == 2">
+        	order by g.BUYNUMBER DESC
+        </if>
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
@@ -140,10 +152,14 @@
 			g.VIEWNUMBER2,
 			g.PRAISENUMBER,
 			g.STATE,
-			s.SHOPNAME
+			s.SHOPNAME,
+			p.FILEPATH,
+			p1.FILEPATH AS FILEPATH1
         from
         <include refid="tableName"></include> g
         left join shop s on g.shop_id = s.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
+         left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
         where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -158,7 +174,15 @@
         <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{SHOP_ID}
         </if>
-        order by g.GOODS_ID ASC
+        <if test="SEARCHTYPE == null or  SEARCHTYPE == ''">
+        	order by g.GOODS_ID ASC
+        </if>
+        <if test="SEARCHTYPE != null and  SEARCHTYPE == 1">
+        	order by g.CREATETIME DESC
+        </if>
+        <if test="SEARCHTYPE != null and  SEARCHTYPE == 2">
+        	order by g.BUYNUMBER DESC
+        </if>
     </select>
 
     <!-- 新增 -->
@@ -282,10 +306,14 @@
 			g.VIEWNUMBER2,
 			g.PRAISENUMBER,
 			g.STATE,
-			s.SHOPNAME
+			s.SHOPNAME,
+			p.FILEPATH,
+			p1.FILEPATH AS FILEPATH1
         from
         <include refid="tableName"></include> g
         left join shop s on g.shop_id = s.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
+         left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
         where
         g.GOODS_ID = #{GOODS_ID}
     </select>
