@@ -56,7 +56,7 @@
             and m.MEMBER_ID = #{pd.MEMBER_ID}
         </if>
         <if test="pd.STATE != null and pd.STATE != ''"><!-- 关键词检索 -->
-            and m.STATE = #{pd.STATE}
+            and lr.STATE = #{pd.STATE}
         </if>
         order by LOTTERYRECORD_ID ASC
     </select>
@@ -90,7 +90,7 @@
             and m.MEMBER_ID = #{MEMBER_ID}
         </if>
          <if test="STATE != null and STATE != ''"><!-- 关键词检索 -->
-            and m.STATE = #{STATE}
+            and lr.STATE = #{STATE}
         </if>
         order by LOTTERYRECORD_ID ASC
     </select>
