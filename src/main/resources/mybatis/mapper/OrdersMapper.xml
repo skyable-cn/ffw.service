@@ -11,7 +11,9 @@
     <sql id="Field">
 		ORDER_ID,
 		MEMBER_ID,
-		DESCRIPTION,
+		MONEY,
+		DERATE,
+		CDT,
 		STATE
 	</sql>
 
@@ -19,7 +21,9 @@
     <sql id="FieldValue">
 		#{ORDER_ID},
 		#{MEMBER_ID},
-		#{DESCRIPTION},
+		#{MONEY},
+		#{DERATE},
+		#{CDT},
 		#{STATE}
 	</sql>
 
@@ -33,7 +37,7 @@
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	DESCRIPTION LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
          <if test="pd.MEMBER_ID != null and pd.MEMBER_ID != ''">
@@ -55,7 +59,7 @@
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	DESCRIPTION LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            	CDT LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
         <if test="MEMBER_ID != null and MEMBER_ID != ''">
