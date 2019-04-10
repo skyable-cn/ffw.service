@@ -5,7 +5,7 @@ import java.util.List;
 import com.ffw.api.model.Page;
 import com.ffw.api.model.PageData;
 
-public interface IOrdersService {
+public interface IOrdersitemService {
 
 	void save(PageData pd) throws Exception;
 
@@ -18,5 +18,7 @@ public interface IOrdersService {
 	List<PageData> listPage(Page page) throws Exception;
 
 	List<PageData> listAll(PageData pd) throws Exception;
+
+	List<PageData> listAllPeople(PageData pd) throws Exception;
 
 }
