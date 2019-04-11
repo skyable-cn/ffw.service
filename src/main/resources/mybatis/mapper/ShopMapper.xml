@@ -63,7 +63,19 @@
         from
         ( 
 			SELECT
-			    *,
+			    SHOP_ID,
+				SHOPNAME,
+				SHOPDESC,
+				SHOPADDRESS,
+				AVGMONEY,
+				LONGITUDE,
+				LATITUDE,
+				CONTRACTPERSON,
+				CONTRACTPHONE,
+				ACCOUNTER,
+				CDT,
+				SHOPSTATE_ID,
+				SHOPTYPE_ID,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -103,7 +115,7 @@
 			                )
 			            )
 			        ) * 1000
-			    ) AS distance
+			    ) AS DISTANCE
 			FROM
 			    shop
 		 ) s
@@ -146,7 +158,19 @@
         from
         ( 
 			SELECT
-			    *,
+			    SHOP_ID,
+				SHOPNAME,
+				SHOPDESC,
+				SHOPADDRESS,
+				AVGMONEY,
+				LONGITUDE,
+				LATITUDE,
+				CONTRACTPERSON,
+				CONTRACTPHONE,
+				ACCOUNTER,
+				CDT,
+				SHOPSTATE_ID,
+				SHOPTYPE_ID,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -186,7 +210,7 @@
 			                )
 			            )
 			        ) * 1000
-			    ) AS distance
+			    ) AS DISTANCE
 			FROM
 			    shop
 		 ) s
@@ -320,7 +344,19 @@
         from
         ( 
 			SELECT
-			    *,
+			    SHOP_ID,
+				SHOPNAME,
+				SHOPDESC,
+				SHOPADDRESS,
+				AVGMONEY,
+				LONGITUDE,
+				LATITUDE,
+				CONTRACTPERSON,
+				CONTRACTPHONE,
+				ACCOUNTER,
+				CDT,
+				SHOPSTATE_ID,
+				SHOPTYPE_ID,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -360,7 +396,7 @@
 			                )
 			            )
 			        ) * 1000
-			    ) AS distance
+			    ) AS DISTANCE
 			FROM
 			    shop
 		 ) s
