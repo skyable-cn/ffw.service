@@ -133,7 +133,15 @@
         <if test="pd.SHOPSTATE_ID!= null and pd.SHOPSTATE_ID != ''"><!-- 关键词检索 -->
             and s.SHOPSTATE_ID = #{pd.SHOPSTATE_ID}
         </if>
-        order by s.SHOP_ID ASC
+        <if test="pd.SHOPTYPE_ID != null and pd.SHOPTYPE_ID != ''"><!-- 关键词检索 -->
+            and s.SHOPTYPE_ID = #{pd.SHOPTYPE_ID}
+        </if>
+        <if test="pd.SQLCONDITION != null and pd.SQLCONDITION != ''"><!-- 关键词检索 -->
+            ${pd.SQLCONDITION}
+        </if>
+        <if test="pd.SQLCONDITION == null or pd.SQLCONDITION == ''"><!-- 关键词检索 -->
+            order by s.SHOP_ID ASC
+        </if>
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
@@ -228,7 +236,16 @@
         <if test="SHOPSTATE_ID!= null and SHOPSTATE_ID != ''"><!-- 关键词检索 -->
             and s.SHOPSTATE_ID = #{SHOPSTATE_ID}
         </if>
-        order by s.SHOP_ID ASC
+        <if test="SHOPTYPE_ID != null and SHOPTYPE_ID != ''"><!-- 关键词检索 -->
+            and s.SHOPTYPE_ID = #{SHOPTYPE_ID}
+        </if>
+        <if test="SQLCONDITION != null and SQLCONDITION != ''"><!-- 关键词检索 -->
+            ${SQLCONDITION}
+        </if>
+        <if test="SQLCONDITION == null or SQLCONDITION == ''"><!-- 关键词检索 -->
+            order by s.SHOP_ID ASC
+        </if>
+        
     </select>
     
     <select id="listAllState" parameterType="pd" resultType="pd">
