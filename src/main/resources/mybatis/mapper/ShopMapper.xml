@@ -56,11 +56,57 @@
 			s.CDT,
 			s.SHOPSTATE_ID,
 			s.SHOPTYPE_ID,
+			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
 			f.FILEPATH
         from
-        <include refid="tableName"></include> s
+        ( 
+			SELECT
+			    *,
+			    ROUND(
+			        6378.138 * 2 * ASIN(
+			            SQRT(
+			                POW(
+			                    SIN(
+			                        (
+			                        <if test="pd.LATITUDE == null or pd.LATITUDE == ''">
+			                            latitude
+			                        </if>
+			                        <if test="pd.LATITUDE != null and pd.LATITUDE != ''">
+			                            #{pd.LATITUDE}
+			                        </if>
+			                         * PI() / 180 - latitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                ) + COS(
+			                	<if test="pd.LATITUDE == null or pd.LATITUDE == ''">
+		                            latitude
+		                        </if>
+		                        <if test="pd.LATITUDE != null and pd.LATITUDE != ''">
+		                            #{pd.LATITUDE}
+		                        </if>
+			                 * PI() / 180) * COS(latitude * PI() / 180) * POW(
+			                    SIN(
+			                        (
+			                        <if test="pd.LONGITUDE == null or pd.LONGITUDE == ''">
+			                            longitude
+			                        </if>
+			                        <if test="pd.LONGITUDE != null and pd.LONGITUDE != ''">
+			                            #{pd.LONGITUDE}
+			                        </if> 
+			                             * PI() / 180 - longitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                )
+			            )
+			        ) * 1000
+			    ) AS distance
+			FROM
+			    shop
+		 ) s
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
         left join shoptype st on s.shoptype_id = st.shoptype_id
         left join file f on s.shop_id = f.reference_id and f.filetype = '7'
@@ -93,11 +139,57 @@
 			s.CDT,
 			s.SHOPSTATE_ID,
 			s.SHOPTYPE_ID,
+			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
 			f.FILEPATH
         from
-        <include refid="tableName"></include> s
+        ( 
+			SELECT
+			    *,
+			    ROUND(
+			        6378.138 * 2 * ASIN(
+			            SQRT(
+			                POW(
+			                    SIN(
+			                        (
+			                        <if test="LATITUDE == null or LATITUDE == ''">
+			                            latitude
+			                        </if>
+			                        <if test="LATITUDE != null and LATITUDE != ''">
+			                            #{LATITUDE}
+			                        </if>
+			                         * PI() / 180 - latitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                ) + COS(
+			                	<if test="LATITUDE == null or LATITUDE == ''">
+		                            latitude
+		                        </if>
+		                        <if test="LATITUDE != null and LATITUDE != ''">
+		                            #{LATITUDE}
+		                        </if>
+			                 * PI() / 180) * COS(latitude * PI() / 180) * POW(
+			                    SIN(
+			                        (
+			                        <if test="LONGITUDE == null or LONGITUDE == ''">
+			                            longitude
+			                        </if>
+			                        <if test="LONGITUDE != null and LONGITUDE != ''">
+			                            #{LONGITUDE}
+			                        </if> 
+			                             * PI() / 180 - longitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                )
+			            )
+			        ) * 1000
+			    ) AS distance
+			FROM
+			    shop
+		 ) s
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
         left join shoptype st on s.shoptype_id = st.shoptype_id
         left join file f on s.shop_id = f.reference_id and f.filetype = '7'
@@ -221,11 +313,57 @@
 			s.CDT,
 			s.SHOPSTATE_ID,
 			s.SHOPTYPE_ID,
+			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
 			f.FILEPATH
         from
-        <include refid="tableName"></include> s
+        ( 
+			SELECT
+			    *,
+			    ROUND(
+			        6378.138 * 2 * ASIN(
+			            SQRT(
+			                POW(
+			                    SIN(
+			                        (
+			                        <if test="LATITUDE == null or LATITUDE == ''">
+			                            latitude
+			                        </if>
+			                        <if test="LATITUDE != null and LATITUDE != ''">
+			                            #{LATITUDE}
+			                        </if>
+			                         * PI() / 180 - latitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                ) + COS(
+			                	<if test="LATITUDE == null or LATITUDE == ''">
+		                            latitude
+		                        </if>
+		                        <if test="LATITUDE != null and LATITUDE != ''">
+		                            #{LATITUDE}
+		                        </if>
+			                 * PI() / 180) * COS(latitude * PI() / 180) * POW(
+			                    SIN(
+			                        (
+			                        <if test="LONGITUDE == null or LONGITUDE == ''">
+			                            longitude
+			                        </if>
+			                        <if test="LONGITUDE != null and LONGITUDE != ''">
+			                            #{LONGITUDE}
+			                        </if> 
+			                             * PI() / 180 - longitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                )
+			            )
+			        ) * 1000
+			    ) AS distance
+			FROM
+			    shop
+		 ) s
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
         left join shoptype st on s.shoptype_id = st.shoptype_id
         left join file f on s.shop_id = f.reference_id and f.filetype = '7'
