@@ -97,7 +97,64 @@
 			p1.FILEPATH AS FILEPATH1
         from
         <include refid="tableName"></include> g
-        left join shop s on g.shop_id = s.shop_id
+        left join (
+        	SELECT
+			    SHOP_ID,
+				SHOPNAME,
+				SHOPDESC,
+				SHOPADDRESS,
+				AVGMONEY,
+				LONGITUDE,
+				LATITUDE,
+				CONTRACTPERSON,
+				CONTRACTPHONE,
+				ACCOUNTER,
+				CDT,
+				SHOPSTATE_ID,
+				SHOPTYPE_ID,
+			    ROUND(
+			        6378.138 * 2 * ASIN(
+			            SQRT(
+			                POW(
+			                    SIN(
+			                        (
+			                        <if test="pd.LATITUDE == null or pd.LATITUDE == ''">
+			                            latitude
+			                        </if>
+			                        <if test="pd.LATITUDE != null and pd.LATITUDE != ''">
+			                            #{pd.LATITUDE}
+			                        </if>
+			                         * PI() / 180 - latitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                ) + COS(
+			                	<if test="pd.LATITUDE == null or pd.LATITUDE == ''">
+		                            latitude
+		                        </if>
+		                        <if test="pd.LATITUDE != null and pd.LATITUDE != ''">
+		                            #{pd.LATITUDE}
+		                        </if>
+			                 * PI() / 180) * COS(latitude * PI() / 180) * POW(
+			                    SIN(
+			                        (
+			                        <if test="pd.LONGITUDE == null or pd.LONGITUDE == ''">
+			                            longitude
+			                        </if>
+			                        <if test="pd.LONGITUDE != null and pd.LONGITUDE != ''">
+			                            #{pd.LONGITUDE}
+			                        </if> 
+			                             * PI() / 180 - longitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                )
+			            )
+			        ) * 1000
+			    ) AS DISTANCE
+			FROM
+			    shop
+        ) s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
         left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
         where
@@ -113,6 +170,9 @@
         </if>
         <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{pd.SHOP_ID}
+        </if>
+        <if test="pd.DISTANCE!= null and pd.DISTANCE != ''"><!-- 关键词检索 -->
+            and s.DISTANCE <![CDATA[ < ]]> #{pd.DISTANCE}
         </if>
         <if test="pd.SEARCHTYPE == null or  pd.SEARCHTYPE == ''">
         	order by g.GOODS_ID ASC
@@ -157,7 +217,64 @@
 			p1.FILEPATH AS FILEPATH1
         from
         <include refid="tableName"></include> g
-        left join shop s on g.shop_id = s.shop_id
+        left join (
+        	SELECT
+			    SHOP_ID,
+				SHOPNAME,
+				SHOPDESC,
+				SHOPADDRESS,
+				AVGMONEY,
+				LONGITUDE,
+				LATITUDE,
+				CONTRACTPERSON,
+				CONTRACTPHONE,
+				ACCOUNTER,
+				CDT,
+				SHOPSTATE_ID,
+				SHOPTYPE_ID,
+			    ROUND(
+			        6378.138 * 2 * ASIN(
+			            SQRT(
+			                POW(
+			                    SIN(
+			                        (
+			                        <if test="LATITUDE == null or LATITUDE == ''">
+			                            latitude
+			                        </if>
+			                        <if test="LATITUDE != null and LATITUDE != ''">
+			                            #{LATITUDE}
+			                        </if>
+			                         * PI() / 180 - latitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                ) + COS(
+			                	<if test="LATITUDE == null or LATITUDE == ''">
+		                            latitude
+		                        </if>
+		                        <if test="LATITUDE != null and LATITUDE != ''">
+		                            #{LATITUDE}
+		                        </if>
+			                 * PI() / 180) * COS(latitude * PI() / 180) * POW(
+			                    SIN(
+			                        (
+			                        <if test="LONGITUDE == null or LONGITUDE == ''">
+			                            longitude
+			                        </if>
+			                        <if test="LONGITUDE != null and LONGITUDE != ''">
+			                            #{LONGITUDE}
+			                        </if> 
+			                             * PI() / 180 - longitude * PI() / 180
+			                        ) / 2
+			                    ),
+			                    2
+			                )
+			            )
+			        ) * 1000
+			    ) AS DISTANCE
+			FROM
+			    shop
+        ) s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
          left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
         where
@@ -173,6 +290,9 @@
         </if>
         <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{SHOP_ID}
+        </if>
+        <if test="DISTANCE!= null and DISTANCE != ''"><!-- 关键词检索 -->
+            and s.DISTANCE <![CDATA[ < ]]> #{DISTANCE}
         </if>
         <if test="SEARCHTYPE == null or  SEARCHTYPE == ''">
         	order by g.GOODS_ID ASC
