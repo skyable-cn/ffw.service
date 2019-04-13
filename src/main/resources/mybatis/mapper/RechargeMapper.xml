@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="CardsMapper">
+<mapper namespace="RechargeMapper">
     <!--表名 -->
     <sql id="tableName">
-		cards
+		recharge
 	</sql>
 
     <!-- 字段 -->
     <sql id="Field">
-		CARD_ID,
+		RECHARGE_ID,
+		RECHARGESN,
+		WEIXINSN,
 		MEMBER_ID,
+		PRODUCT_ID,
+		ORIGINAL,
 		MONEY,
-		DESCRIPTION,
-		STARTTIME,
-		ENDTIME,
-		STATE,
-		ORDER_ID
+		DERATE,
+		CDT,
+		STATE
 	</sql>
 
     <!-- 字段值 -->
     <sql id="FieldValue">
-		#{CARD_ID},
+		#{RECHARGE_ID},
+		#{RECHARGESN},
+		#{WEIXINSN},
 		#{MEMBER_ID},
+		#{PRODUCT_ID},
+		#{ORIGINAL},
 		#{MONEY},
-		#{DESCRIPTION},
-		#{STARTTIME},
-		#{ENDTIME},
-		#{STATE},
-		#{ORDER_ID}
+		#{DERATE},
+		#{CDT},
+		#{STATE}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -41,16 +45,16 @@
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	DESCRIPTION LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
-        <if test="pd.MEMBER_ID != null and pd.MEMBER_ID != ''">
+         <if test="pd.MEMBER_ID != null and pd.MEMBER_ID != ''">
             and MEMBER_ID = #{pd.MEMBER_ID}
         </if>
         <if test="pd.STATE != null and pd.STATE != ''">
             and STATE = #{pd.STATE}
         </if>
-        order by CARD_ID ASC
+        order by RECHARGE_ID ASC
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
@@ -63,7 +67,7 @@
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	DESCRIPTION LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            	CDT LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
         <if test="MEMBER_ID != null and MEMBER_ID != ''">
@@ -72,11 +76,11 @@
         <if test="STATE != null and STATE != ''">
             and STATE = #{STATE}
         </if>
-        order by CARD_ID ASC
+        order by RECHARGE_ID ASC
     </select>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="CARD_ID">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="RECHARGE_ID">
         insert into <include refid="tableName"></include> (
         <include refid="Field"></include>
         ) values (
@@ -89,15 +93,15 @@
         update
         <include refid="tableName"></include>
         set
-        CARD_ID = #{CARD_ID}
+        RECHARGE_ID = #{RECHARGE_ID}
         <if test="STATE != null and STATE != ''">
             ,STATE = #{STATE}
         </if>
-        <if test="ORDER_ID != null and ORDER_ID != ''">
-            ,ORDER_ID = #{ORDER_ID}
+        <if test="WEIXINSN != null and WEIXINSN != ''">
+            ,WEIXINSN = #{WEIXINSN}
         </if>
         where
-        CARD_ID = #{CARD_ID}
+        RECHARGE_ID = #{RECHARGE_ID}
     </update>
     
     <!-- 删除 -->
@@ -105,7 +109,7 @@
         delete from
         <include refid="tableName"></include>
         where
-        CARD_ID = #{CARD_ID}
+        RECHARGE_ID = #{RECHARGE_ID}
     </delete>
     
     <!-- 通过user_id获取数据 -->
@@ -115,6 +119,6 @@
         from
         <include refid="tableName"></include>
         where
-        CARD_ID = #{CARD_ID}
+        RECHARGE_ID = #{RECHARGE_ID}
     </select>
 </mapper>
