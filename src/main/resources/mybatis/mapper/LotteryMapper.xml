@@ -13,6 +13,7 @@
 		LOTTERYRULE,
 		STARTTIME,
 		ENDTIME,
+		SHOWTIME,
 		LOTTERYDESC,
 		LIMITPEOPLE,
 		SPONSORNAME,
@@ -25,6 +26,7 @@
 		#{LOTTERYRULE},
 		#{STARTTIME},
 		#{ENDTIME},
+		#{SHOWTIME},
 		#{LOTTERYDESC},
 		#{LIMITPEOPLE},
 		#{SPONSORNAME},
@@ -37,6 +39,7 @@
 			l.LOTTERYRULE,
 			l.STARTTIME,
 			l.ENDTIME,
+			l.SHOWTIME,
 			l.LOTTERYDESC,
 			l.LIMITPEOPLE,
 			l.SPONSORNAME,
@@ -68,6 +71,7 @@
 			l.LOTTERYRULE,
 			l.STARTTIME,
 			l.ENDTIME,
+			l.SHOWTIME,
 			l.LOTTERYDESC,
 			l.LIMITPEOPLE,
 			l.SPONSORNAME,
@@ -120,6 +124,9 @@
         <if test="ENDTIME != null and ENDTIME != ''">
             ,ENDTIME = #{ENDTIME}
         </if>
+        <if test="SHOWTIME != null and SHOWTIME != ''">
+            ,SHOWTIME = #{SHOWTIME}
+        </if>
         <if test="LIMITPEOPLE != null and LIMITPEOPLE != ''">
             ,LIMITPEOPLE = #{LIMITPEOPLE}
         </if>
@@ -148,6 +155,7 @@
 			l.LOTTERYRULE,
 			l.STARTTIME,
 			l.ENDTIME,
+			l.SHOWTIME,
 			l.LOTTERYDESC,
 			l.LIMITPEOPLE,
 			l.SPONSORNAME,

@@ -13,6 +13,7 @@
 		SHOPNAME,
 		SHOPDESC,
 		SHOPADDRESS,
+		AVGMONEY,
 		LONGITUDE,
 		LATITUDE,
 		CONTRACTPERSON,
@@ -29,6 +30,7 @@
 		#{SHOPNAME},
 		#{SHOPDESC},
 		#{SHOPADDRESS},
+		#{AVGMONEY},
 		#{LONGITUDE},
 		#{LATITUDE},
 		#{CONTRACTPERSON},
@@ -45,6 +47,7 @@
 			s.SHOPNAME,
 			s.SHOPDESC,
 			s.SHOPADDRESS,
+			s.AVGMONEY,
 			s.LONGITUDE,
 			s.LATITUDE,
 			s.CONTRACTPERSON,
@@ -52,10 +55,15 @@
 			s.ACCOUNTER,
 			s.CDT,
 			s.SHOPSTATE_ID,
-			ss.SHOPSTATENAME
+			s.SHOPTYPE_ID,
+			ss.SHOPSTATENAME,
+			st.SHOPTYPENAME,
+			f.FILEPATH
         from
         <include refid="tableName"></include> s
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
+        left join shoptype st on s.shoptype_id = st.shoptype_id
+        left join file f on s.shop_id = f.reference_id and f.filetype = '7'
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -76,6 +84,7 @@
 			s.SHOPNAME,
 			s.SHOPDESC,
 			s.SHOPADDRESS,
+			s.AVGMONEY,
 			s.LONGITUDE,
 			s.LATITUDE,
 			s.CONTRACTPERSON,
@@ -83,10 +92,15 @@
 			s.ACCOUNTER,
 			s.CDT,
 			s.SHOPSTATE_ID,
-			ss.SHOPSTATENAME
+			s.SHOPTYPE_ID,
+			ss.SHOPSTATENAME,
+			st.SHOPTYPENAME,
+			f.FILEPATH
         from
         <include refid="tableName"></include> s
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
+        left join shoptype st on s.shoptype_id = st.shoptype_id
+        left join file f on s.shop_id = f.reference_id and f.filetype = '7'
         where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -176,6 +190,9 @@
         <if test="SHOPADDRESS != null and SHOPADDRESS != ''">
             ,SHOPADDRESS = #{SHOPADDRESS}
         </if>
+        <if test="AVGMONEY != null and AVGMONEY != ''">
+            ,AVGMONEY = #{AVGMONEY}
+        </if>
         where
         SHOP_ID = #{SHOP_ID}
     </update>
@@ -191,9 +208,27 @@
     <!-- 通过user_id获取数据 -->
     <select id="findById" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+	        s.SHOP_ID,
+			s.SHOPNAME,
+			s.SHOPDESC,
+			s.SHOPADDRESS,
+			s.AVGMONEY,
+			s.LONGITUDE,
+			s.LATITUDE,
+			s.CONTRACTPERSON,
+			s.CONTRACTPHONE,
+			s.ACCOUNTER,
+			s.CDT,
+			s.SHOPSTATE_ID,
+			s.SHOPTYPE_ID,
+			ss.SHOPSTATENAME,
+			st.SHOPTYPENAME,
+			f.FILEPATH
         from
-        <include refid="tableName"></include>
+        <include refid="tableName"></include> s
+        left join shopstate ss on s.shopstate_id = ss.shopstate_id
+        left join shoptype st on s.shoptype_id = st.shoptype_id
+        left join file f on s.shop_id = f.reference_id and f.filetype = '7'
         where
         SHOP_ID = #{SHOP_ID}
     </select>
