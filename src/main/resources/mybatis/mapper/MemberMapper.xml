@@ -16,6 +16,7 @@
 		PHONE,
 		SEX,
 		PHOTO,
+		ACCOUNTBALANCE,
 		WXOPEN_ID,
 		MEMBERTYPE_ID
 	</sql>
@@ -29,6 +30,7 @@
 		#{PHONE},
 		#{SEX},
 		#{PHOTO},
+		#{ACCOUNTBALANCE},
 		#{WXOPEN_ID},
 		#{MEMBERTYPE_ID}
 	</sql>
@@ -42,6 +44,7 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
+			m.ACCOUNTBALANCE,
 			m.WXOPEN_ID,
 			m.MEMBERTYPE_ID,
 			mt.MEMBERTYPENAME
@@ -77,6 +80,7 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
+			m.ACCOUNTBALANCE,
 			m.WXOPEN_ID,
 			m.MEMBERTYPE_ID,
 			mt.MEMBERTYPENAME
@@ -136,6 +140,9 @@
         <if test="PHOTO != null and PHOTO != ''">
             ,PHOTO = #{PHOTO}
         </if>
+        <if test="ACCOUNTBALANCE != null and ACCOUNTBALANCE != ''">
+            ,ACCOUNTBALANCE = #{ACCOUNTBALANCE}
+        </if>
         <if test="MEMBERTYPE_ID != null and MEMBERTYPE_ID != ''">
             ,MEMBERTYPE_ID = #{MEMBERTYPE_ID}
         </if>
@@ -154,22 +161,44 @@
     <!-- 通过user_id获取数据 -->
     <select id="findById" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	m.MEMBER_ID,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.ACCOUNTBALANCE,
+			m.WXOPEN_ID,
+			m.MEMBERTYPE_ID,
+			mt.MEMBERTYPENAME
         from
-        <include refid="tableName"></include>
+        <include refid="tableName"></include> m
+        left join membertype mt on m.membertype_id = mt.membertype_id
         where
-        MEMBER_ID = #{MEMBER_ID}
+        m.MEMBER_ID = #{MEMBER_ID}
     </select>
     
     <select id="findBy" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	m.MEMBER_ID,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.ACCOUNTBALANCE,
+			m.WXOPEN_ID,
+			m.MEMBERTYPE_ID,
+			mt.MEMBERTYPENAME
         from
-        <include refid="tableName"></include>
+        <include refid="tableName"></include> m
+        left join membertype mt on m.membertype_id = mt.membertype_id
         where
         1 = 1
         <if test="WXOPEN_ID != null and WXOPEN_ID != ''">
-            AND WXOPEN_ID = #{WXOPEN_ID}
+            AND m.WXOPEN_ID = #{WXOPEN_ID}
         </if>
         limit 0,1
     </select>

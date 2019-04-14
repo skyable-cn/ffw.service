@@ -10,6 +10,7 @@
     <!-- 字段 -->
     <sql id="Field">
 		VIPINFO_ID,
+		VIPSN,
 		MEMBER_ID,
 		LASTTIME,
 		STATE
@@ -18,6 +19,7 @@
     <!-- 字段值 -->
     <sql id="FieldValue">
 		#{VIPINFO_ID},
+		#{VIPSN},
 		#{MEMBER_ID},
 		#{LASTTIME},
 		#{STATE}
