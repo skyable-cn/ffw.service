@@ -19,4 +19,6 @@ public interface IOrdersService {
 
 	List<PageData> listAll(PageData pd) throws Exception;
 
+	List<PageData> listAllPeople(PageData pd) throws Exception;
+
 }

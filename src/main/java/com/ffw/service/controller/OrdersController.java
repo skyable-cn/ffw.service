@@ -32,6 +32,18 @@ public class OrdersController extends BaseController {
 		return data;
 	}
 
+	@RequestMapping(value = "listAllPeople", method = RequestMethod.POST)
+	public List<PageData> listAllPeople(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = ordersService.listAllPeople(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	@RequestMapping(value = "listPage", method = RequestMethod.POST)
 	public Page listPage(@RequestBody PageData pd) {
 		Page page = getPage(pd);
