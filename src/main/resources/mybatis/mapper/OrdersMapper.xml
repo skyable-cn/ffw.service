@@ -17,6 +17,8 @@
 		MONEY,
 		DERATE,
 		CDT,
+		USEPERSON,
+		PERSONPHONE,
 		STATE
 	</sql>
 
@@ -30,6 +32,8 @@
 		#{MONEY},
 		#{DERATE},
 		#{CDT},
+		#{USEPERSON},
+		#{PERSONPHONE},
 		#{STATE}
 	</sql>
 
@@ -43,6 +47,8 @@
 			os.MONEY,
 			os.DERATE,
 			os.CDT,
+			os.USEPERSON,
+			os.PERSONPHONE,
 			os.STATE,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
@@ -82,6 +88,8 @@
 			os.MONEY,
 			os.DERATE,
 			os.CDT,
+			os.USEPERSON,
+			os.PERSONPHONE,
 			os.STATE,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
@@ -132,6 +140,12 @@
         <if test="WEIXINSN != null and WEIXINSN != ''">
             ,WEIXINSN = #{WEIXINSN}
         </if>
+        <if test="USEPERSON != null and USEPERSON != ''">
+            ,USEPERSON = #{USEPERSON}
+        </if>
+        <if test="PERSONPHONE != null and PERSONPHONE != ''">
+            ,PERSONPHONE = #{PERSONPHONE}
+        </if>
         where
         ORDER_ID = #{ORDER_ID}
     </update>
@@ -155,6 +169,8 @@
 			os.MONEY,
 			os.DERATE,
 			os.CDT,
+			os.USEPERSON,
+			os.PERSONPHONE,
 			os.STATE,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
