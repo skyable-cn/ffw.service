@@ -118,6 +118,18 @@
         </if>
         order by os.ORDER_ID DESC
     </select>
+    
+    <select id="listAllRefund" parameterType="pd" resultType="pd">
+    	select 
+    		REFUNDTYPE_ID,
+    		REFUNDTYPENAME
+    	from refundtype
+    		order by REFUNDTYPE_ID asc
+    </select>
+    
+    <insert id="saveRefund" parameterType="pd">
+    	insert into refundinfo values(null,#{ORDER_ID},#{REFUNDDESC},#{CDT})
+    </insert>
 
     <!-- 新增 -->
     <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="ORDER_ID">

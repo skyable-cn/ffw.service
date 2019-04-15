@@ -19,4 +19,8 @@ public interface IOrdersService {
 
 	List<PageData> listAll(PageData pd) throws Exception;
 
+	List<PageData> listAllRefund(PageData pd) throws Exception;
+
+	void saveRefund(PageData pd) throws Exception;
+
 }

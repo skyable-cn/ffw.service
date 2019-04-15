@@ -47,4 +47,15 @@ public class OrdersServiceImpl implements IOrdersService {
 		return (PageData) dao.findForObject("OrdersMapper.findById", pd);
 	}
 
+	@Override
+	public List<PageData> listAllRefund(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("OrdersMapper.listAllRefund",
+				pd);
+	}
+
+	@Override
+	public void saveRefund(PageData pd) throws Exception {
+		dao.save("OrdersMapper.saveRefund", pd);
+	}
+
 }

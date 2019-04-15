@@ -32,6 +32,18 @@ public class OrdersController extends BaseController {
 		return data;
 	}
 
+	@RequestMapping(value = "listAllRefund", method = RequestMethod.POST)
+	public List<PageData> listAllRefund(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = ordersService.listAllRefund(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	@RequestMapping(value = "listPage", method = RequestMethod.POST)
 	public Page listPage(@RequestBody PageData pd) {
 		Page page = getPage(pd);
@@ -50,6 +62,17 @@ public class OrdersController extends BaseController {
 	public PageData save(@RequestBody PageData pd) {
 		try {
 			ordersService.save(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
+
+	@RequestMapping(value = "saveRefund", method = RequestMethod.POST)
+	public PageData saveRefund(@RequestBody PageData pd) {
+		try {
+			ordersService.saveRefund(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();
