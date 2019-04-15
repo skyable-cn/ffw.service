@@ -38,6 +38,8 @@
         <include refid="tableName"></include>
         where
         1 = 1
+        and STR_TO_DATE(starttime,'%Y-%m-%d %H:%i:%s') <![CDATA[<=]]> now() 
+        and STR_TO_DATE(endtime,'%Y-%m-%d %H:%i:%s') <![CDATA[>=]]> now()
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
@@ -60,6 +62,8 @@
         <include refid="tableName"></include>
          where
         1 = 1
+        and STR_TO_DATE(starttime,'%Y-%m-%d %H:%i:%s') <![CDATA[<=]]> now() 
+        and STR_TO_DATE(endtime,'%Y-%m-%d %H:%i:%s') <![CDATA[>=]]> now()
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
