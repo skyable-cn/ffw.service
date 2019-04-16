@@ -17,6 +17,7 @@
 		MONEY,
 		DERATE,
 		CDT,
+		UDT,
 		USEPERSON,
 		PERSONPHONE,
 		STATE
@@ -32,6 +33,7 @@
 		#{MONEY},
 		#{DERATE},
 		#{CDT},
+		#{UDT},
 		#{USEPERSON},
 		#{PERSONPHONE},
 		#{STATE}
@@ -47,6 +49,7 @@
 			os.MONEY,
 			os.DERATE,
 			os.CDT,
+			os.UDT,
 			os.USEPERSON,
 			os.PERSONPHONE,
 			os.STATE,
@@ -55,18 +58,20 @@
 			osi.NUMBER,
 			g.GOODSNAME,
 			g.GOODSDESC,
+			s.SHOP_ID,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
+        left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	os.CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	os.ORDERSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
          <if test="pd.MEMBER_ID != null and pd.MEMBER_ID != ''">
@@ -74,6 +79,12 @@
         </if>
         <if test="pd.STATE != null and pd.STATE != ''">
             and os.STATE = #{pd.STATE}
+        </if>
+        <if test="pd.SHOP_ID != null and pd.SHOP_ID != ''">
+            and s.SHOP_ID = #{pd.SHOP_ID}
+        </if>
+        <if test="pd.SQLCONDITION != null and pd.SQLCONDITION != ''"><!-- 关键词检索 -->
+            ${pd.SQLCONDITION}
         </if>
         order by os.ORDER_ID DESC
     </select>
@@ -88,6 +99,7 @@
 			os.MONEY,
 			os.DERATE,
 			os.CDT,
+			os.UDT,
 			os.USEPERSON,
 			os.PERSONPHONE,
 			os.STATE,
@@ -96,18 +108,20 @@
 			osi.NUMBER,
 			g.GOODSNAME,
 			g.GOODSDESC,
+			s.SHOP_ID,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
+        left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
          where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	os.CDT LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            	os.ORDERSN LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
         <if test="MEMBER_ID != null and MEMBER_ID != ''">
@@ -115,6 +129,12 @@
         </if>
         <if test="STATE != null and STATE != ''">
             and os.STATE = #{STATE}
+        </if>
+        <if test="SHOP_ID != null and SHOP_ID != ''">
+            and s.SHOP_ID = #{SHOP_ID}
+        </if>
+        <if test="SQLCONDITION != null and SQLCONDITION != ''"><!-- 关键词检索 -->
+            ${SQLCONDITION}
         </if>
         order by os.ORDER_ID DESC
     </select>
@@ -181,6 +201,7 @@
 			os.MONEY,
 			os.DERATE,
 			os.CDT,
+			os.UDT,
 			os.USEPERSON,
 			os.PERSONPHONE,
 			os.STATE,
@@ -189,11 +210,13 @@
 			osi.NUMBER,
 			g.GOODSNAME,
 			g.GOODSDESC,
+			s.SHOP_ID,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
+        left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
         where
         os.ORDER_ID = #{ORDER_ID}

@@ -12,7 +12,9 @@
 		STAND_ID,
 		GOODS_ID,
 		STANDTYPE_ID,
-		CREATETIME
+		STANDDESC,
+		CREATETIME,
+		STATE
 	</sql>
 
     <!-- 字段值 -->
@@ -20,7 +22,9 @@
 		#{STAND_ID},
 		#{GOODS_ID},
 		#{STANDTYPE_ID},
-		#{CREATETIME}
+		#{STANDDESC},
+		#{CREATETIME},
+		#{STATE}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -28,14 +32,18 @@
 	        s.STAND_ID,
 			s.GOODS_ID,
 			s.STANDTYPE_ID,
+			s.STANDDESC,
 			s.CREATETIME,
+			s.STATE,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
+			sh.SHOP_ID,
 			f.FILEPATH
         from
         <include refid="tableName"></include> s
         left join standtype st on s.standtype_id = st.standtype_id
         left join goods g on s.goods_id = g.goods_id
+        left join shop sh on g.shop_id = sh.shop_id
         left join file f on s.stand_id = f.reference_id and f.filetype = '3'
         where
         1 = 1
@@ -48,6 +56,12 @@
         <if test="pd.STANDTYPE_ID!= null and pd.STANDTYPE_ID != ''"><!-- 关键词检索 -->
             and s.STANDTYPE_ID = #{pd.STANDTYPE_ID}
         </if>
+        <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
+            and s.STATE = #{pd.STATE}
+        </if>
+        <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
+            and sh.SHOP_ID = #{pd.SHOP_ID}
+        </if>
         order by s.STAND_ID DESC
     </select>
 
@@ -56,14 +70,18 @@
 	        s.STAND_ID,
 			s.GOODS_ID,
 			s.STANDTYPE_ID,
+			s.STANDDESC,
 			s.CREATETIME,
+			s.STATE,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
+			sh.SHOP_ID,
 			f.FILEPATH
         from
         <include refid="tableName"></include> s
         left join standtype st on s.standtype_id = st.standtype_id
         left join goods g on s.goods_id = g.goods_id
+        left join shop sh on g.shop_id = sh.shop_id
         left join file f on s.stand_id = f.reference_id and f.filetype = '3'
         where
         1 = 1
@@ -75,6 +93,12 @@
         </if>
         <if test="STANDTYPE_ID!= null and STANDTYPE_ID != ''"><!-- 关键词检索 -->
             and s.STANDTYPE_ID = #{STANDTYPE_ID}
+        </if>
+        <if test="STATE!= null and STATE != ''"><!-- 关键词检索 -->
+            and s.STATE = #{STATE}
+        </if>
+        <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
+            and sh.SHOP_ID = #{SHOP_ID}
         </if>
         order by s.STAND_ID DESC
     </select>
@@ -109,6 +133,9 @@
         <if test="STANDTYPE_ID != null and STANDTYPE_ID != ''">
             ,STANDTYPE_ID = #{STANDTYPE_ID}
         </if>
+        <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
         where
         STAND_ID = #{STAND_ID}
     </update>
@@ -127,14 +154,18 @@
 	        s.STAND_ID,
 			s.GOODS_ID,
 			s.STANDTYPE_ID,
+			s.STANDDESC,
 			s.CREATETIME,
+			s.STATE,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
+			sh.SHOP_ID,
 			f.FILEPATH
         from
         <include refid="tableName"></include> s
         left join standtype st on s.standtype_id = st.standtype_id
         left join goods g on s.goods_id = g.goods_id
+        left join shop sh on g.shop_id = sh.shop_id
         left join file f on s.stand_id = f.reference_id and f.filetype = '3'
         where
         s.STAND_ID = #{STAND_ID}
