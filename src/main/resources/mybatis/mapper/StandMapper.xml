@@ -38,13 +38,14 @@
 			st.STANDTYPENAME,
 			g.GOODSNAME,
 			sh.SHOP_ID,
-			f.FILEPATH
+			p.FILEPATH
         from
         <include refid="tableName"></include> s
         left join standtype st on s.standtype_id = st.standtype_id
         left join goods g on s.goods_id = g.goods_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
         left join shop sh on g.shop_id = sh.shop_id
-        left join file f on s.stand_id = f.reference_id and f.filetype = '3'
+        <!-- left join file f on s.stand_id = f.reference_id and f.filetype = '3' -->
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -76,13 +77,14 @@
 			st.STANDTYPENAME,
 			g.GOODSNAME,
 			sh.SHOP_ID,
-			f.FILEPATH
+			p.FILEPATH
         from
         <include refid="tableName"></include> s
         left join standtype st on s.standtype_id = st.standtype_id
         left join goods g on s.goods_id = g.goods_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
         left join shop sh on g.shop_id = sh.shop_id
-        left join file f on s.stand_id = f.reference_id and f.filetype = '3'
+        <!-- left join file f on s.stand_id = f.reference_id and f.filetype = '3' -->
         where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -160,13 +162,14 @@
 			st.STANDTYPENAME,
 			g.GOODSNAME,
 			sh.SHOP_ID,
-			f.FILEPATH
+			p.FILEPATH
         from
         <include refid="tableName"></include> s
         left join standtype st on s.standtype_id = st.standtype_id
         left join goods g on s.goods_id = g.goods_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
         left join shop sh on g.shop_id = sh.shop_id
-        left join file f on s.stand_id = f.reference_id and f.filetype = '3'
+        <!-- left join file f on s.stand_id = f.reference_id and f.filetype = '3' -->
         where
         s.STAND_ID = #{STAND_ID}
     </select>
