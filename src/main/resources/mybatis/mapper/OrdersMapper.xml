@@ -182,6 +182,9 @@
         <if test="PERSONPHONE != null and PERSONPHONE != ''">
             ,PERSONPHONE = #{PERSONPHONE}
         </if>
+        <if test="UDT != null and UDT != ''">
+            ,UDT = #{UDT}
+        </if>
         where
         ORDER_ID = #{ORDER_ID}
     </update>
