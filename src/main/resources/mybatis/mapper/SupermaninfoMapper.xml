@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="VipinfoMapper">
+<mapper namespace="SupermaninfoMapper">
     <!--表名 -->
     <sql id="tableName">
-		vipinfo
+		supermaninfo
 	</sql>
 
     <!-- 字段 -->
     <sql id="Field">
-		VIPINFO_ID,
-		VIPSN,
+		SUPERMANINFO_ID,
 		MEMBER_ID,
-		LASTTIME,
-		CDT,
-		STATE
+		SUPERMANDESC,
+		CDT
 	</sql>
 
     <!-- 字段值 -->
     <sql id="FieldValue">
-		#{VIPINFO_ID},
-		#{VIPSN},
+		#{SUPERMANINFO_ID},
 		#{MEMBER_ID},
-		#{LASTTIME},
-		#{CDT},
-		#{STATE}
+		#{SUPERMANDESC},
+		#{CDT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -37,10 +33,10 @@
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	LASTTIME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	SUPERMANDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
-        order by VIPINFO_ID ASC
+        order by SUPERMANINFO_ID ASC
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
@@ -53,14 +49,14 @@
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	LASTTIME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            	MONEY LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
-        order by VIPINFO_ID ASC
+        order by SUPERMANINFO_ID ASC
     </select>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="VIPINFO_ID">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="SUPERMANINFO_ID">
         insert into <include refid="tableName"></include> (
         <include refid="Field"></include>
         ) values (
@@ -73,15 +69,15 @@
         update
         <include refid="tableName"></include>
         set
-        VIPINFO_ID = #{VIPINFO_ID}
-        <if test="LASTTIME != null and LASTTIME != ''">
-            ,LASTTIME = #{LASTTIME}
+        SUPERMANINFO_ID = #{SUPERMANINFO_ID}
+        <if test="SUPERMANDESC != null and SUPERMANDESC != ''">
+            ,SUPERMANDESC = #{SUPERMANDESC}
         </if>
         <if test="STATE != null and STATE != ''">
             ,STATE = #{STATE}
         </if>
         where
-        VIPINFO_ID = #{VIPINFO_ID}
+        SUPERMANINFO_ID = #{SUPERMANINFO_ID}
     </update>
     
     <!-- 删除 -->
@@ -89,7 +85,7 @@
         delete from
         <include refid="tableName"></include>
         where
-        VIPINFO_ID = #{VIPINFO_ID}
+        SUPERMANINFO_ID = #{SUPERMANINFO_ID}
     </delete>
     
     <!-- 通过user_id获取数据 -->
@@ -99,7 +95,7 @@
         from
         <include refid="tableName"></include>
         where
-        VIPINFO_ID = #{VIPINFO_ID}
+        SUPERMANINFO_ID = #{SUPERMANINFO_ID}
     </select>
     
     <select id="findBy" parameterType="pd" resultType="pd">
