@@ -21,7 +21,8 @@
 		UDT,
 		USEPERSON,
 		PERSONPHONE,
-		STATE
+		STATE,
+		FROMWXOPEN_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -38,7 +39,8 @@
 		#{UDT},
 		#{USEPERSON},
 		#{PERSONPHONE},
-		#{STATE}
+		#{STATE},
+		#{FROMWXOPEN_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -56,6 +58,7 @@
 			os.USEPERSON,
 			os.PERSONPHONE,
 			os.STATE,
+			os.FROMWXOPEN_ID,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -83,6 +86,9 @@
         <if test="pd.STATE != null and pd.STATE != ''">
             and os.STATE = #{pd.STATE}
         </if>
+        <if test="pd.FROMWXOPEN_ID != null and pd.FROMWXOPEN_ID != ''">
+            and os.FROMWXOPEN_ID = #{pd.FROMWXOPEN_ID}
+        </if>
         <if test="pd.SHOP_ID != null and pd.SHOP_ID != ''">
             and s.SHOP_ID = #{pd.SHOP_ID}
         </if>
@@ -107,6 +113,7 @@
 			os.USEPERSON,
 			os.PERSONPHONE,
 			os.STATE,
+			os.FROMWXOPEN_ID,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -133,6 +140,9 @@
         </if>
         <if test="STATE != null and STATE != ''">
             and os.STATE = #{STATE}
+        </if>
+        <if test="FROMWXOPEN_ID != null and FROMWXOPEN_ID != ''">
+            and os.FROMWXOPEN_ID = #{FROMWXOPEN_ID}
         </if>
         <if test="SHOP_ID != null and SHOP_ID != ''">
             and s.SHOP_ID = #{SHOP_ID}
@@ -213,6 +223,7 @@
 			os.USEPERSON,
 			os.PERSONPHONE,
 			os.STATE,
+			os.FROMWXOPEN_ID,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
