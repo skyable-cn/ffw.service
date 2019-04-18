@@ -57,4 +57,19 @@ public class MemberServiceImpl implements IMemberService {
 		return (PageData) dao.findForObject("MemberMapper.findBy", pd);
 	}
 
+	@Override
+	public List<PageData> listTeam(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("MemberMapper.listTeam", pd);
+	}
+
+	@Override
+	public List<PageData> listCharges(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("MemberMapper.listCharges", pd);
+	}
+
+	@Override
+	public List<PageData> listNumber(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("MemberMapper.listNumber", pd);
+	}
+
 }

@@ -112,4 +112,40 @@ public class MemberController extends BaseController {
 		}
 		return pd;
 	}
+
+	@RequestMapping(value = "listTeam", method = RequestMethod.POST)
+	public List<PageData> listTeam(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = memberService.listTeam(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	@RequestMapping(value = "listCharges", method = RequestMethod.POST)
+	public List<PageData> listCharges(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = memberService.listCharges(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	@RequestMapping(value = "listNumber", method = RequestMethod.POST)
+	public List<PageData> listNumber(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = memberService.listNumber(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
 }

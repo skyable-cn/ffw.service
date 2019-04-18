@@ -111,6 +111,108 @@
         order by m.MEMBER_ID ASC
     </select>
     
+    <select id="listTeam" parameterType="pd" resultType="pd">
+        select
+	        m.MEMBER_ID,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.ACCOUNTBALANCE,
+			m.WXOPEN_ID,
+			m.FROMWXOPEN_ID,
+			m.MEMBERTYPE_ID,
+			m.LEVEL,
+			mt.MEMBERTYPENAME
+        from
+        (
+        	select *,1 as level from member m where m.fromwxopen_id = #{WXOPEN_ID}
+			UNION all select *,2 as level from member m where m.fromwxopen_id in (select wxopen_id from member m where m.fromwxopen_id = #{WXOPEN_ID})
+        ) m
+        left join membertype mt on m.membertype_id = mt.membertype_id
+        where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	m.USERNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	OR
+            	m.NICKNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	OR
+            	m.FULLNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	OR
+            	m.PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="MEMBERTYPE_ID!= null and MEMBERTYPE_ID != ''"><!-- 关键词检索 -->
+            and m.MEMBERTYPE_ID = #{MEMBERTYPE_ID}
+        </if>
+        order by m.MEMBER_ID ASC
+    </select>
+    
+    <select id="listCharges" parameterType="pd" resultType="pd">
+        select
+	        m.MEMBER_ID,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.ACCOUNTBALANCE,
+			m.WXOPEN_ID,
+			m.FROMWXOPEN_ID,
+			m.MEMBERTYPE_ID,
+			mt.MEMBERTYPENAME
+        from
+        <include refid="tableName"></include> m
+        left join membertype mt on m.membertype_id = mt.membertype_id
+        order by m.ACCOUNTBALANCE DESC
+        
+        LIMIT 0,100
+    </select>
+    
+    <select id="listNumber" parameterType="pd" resultType="pd">
+        select
+	        m.MEMBER_ID,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.ACCOUNTBALANCE,
+			m.WXOPEN_ID,
+			m.FROMWXOPEN_ID,
+			m.MEMBERTYPE_ID,
+			mt.MEMBERTYPENAME,
+			ifnull(t.COUNT,0) COUNT
+        from
+        <include refid="tableName"></include> m
+        left join membertype mt on m.membertype_id = mt.membertype_id
+        left join (
+        	select m.member_id ,count(1) count from ((select m1.member_id from
+			member m1
+			left join member m2 on m1.wxopen_id = m2.fromwxopen_id
+			where m2.wxopen_id is not null
+			)
+			UNION all
+			(select m1.member_id from
+			member m1
+			left join member m2 on m1.wxopen_id = m2.fromwxopen_id
+			left join member m3 on m2.wxopen_id = m3.fromwxopen_id
+			where m3.wxopen_id is not null
+			)
+			) m
+			group by m.member_id
+        ) t on m.member_id = t.member_id
+        order by t.COUNT DESC
+        
+        LIMIT 0,100
+    </select>
+    
     <select id="listAllType" parameterType="pd" resultType="pd">
     	select 
     		MEMBERTYPE_ID,

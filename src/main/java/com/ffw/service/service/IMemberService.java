@@ -23,4 +23,10 @@ public interface IMemberService {
 
 	PageData findBy(PageData pd) throws Exception;
 
+	List<PageData> listTeam(PageData pd) throws Exception;
+
+	List<PageData> listCharges(PageData pd) throws Exception;
+
+	List<PageData> listNumber(PageData pd) throws Exception;
+
 }
