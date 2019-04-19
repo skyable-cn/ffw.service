@@ -16,7 +16,8 @@
 		PHONE,
 		SEX,
 		PHOTO,
-		ACCOUNTBALANCE,
+		WAITACCOUNT,
+		ALREADYACCOUNT,
 		WXOPEN_ID,
 		FROMWXOPEN_ID,
 		MEMBERTYPE_ID
@@ -31,7 +32,8 @@
 		#{PHONE},
 		#{SEX},
 		#{PHOTO},
-		#{ACCOUNTBALANCE},
+		#{WAITACCOUNT},
+		#{ALREADYACCOUNT},
 		#{WXOPEN_ID},
 		#{FROMWXOPEN_ID},
 		#{MEMBERTYPE_ID}
@@ -46,7 +48,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
@@ -83,7 +86,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
@@ -120,7 +124,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
@@ -161,7 +166,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
@@ -169,7 +175,7 @@
         from
         <include refid="tableName"></include> m
         left join membertype mt on m.membertype_id = mt.membertype_id
-        order by m.ACCOUNTBALANCE DESC
+        order by m.WAITACCOUNT DESC
         
         LIMIT 0,100
     </select>
@@ -183,7 +189,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
@@ -231,6 +238,17 @@
         )
     </insert>
     
+    <insert id="saveAccount" parameterType="pd" useGeneratedKeys="true" keyProperty="ACCOUNT_ID">
+        insert into account values (
+        	null,
+        	#{ORDER_ID},
+        	#{MEMBER_ID},
+        	#{GIVEMONEY},
+        	#{DESCRIPTION},
+        	#{CDT}
+        )
+    </insert>
+    
         <!-- 修改 -->
     <update id="edit" parameterType="pd">
         update
@@ -246,8 +264,11 @@
         <if test="PHOTO != null and PHOTO != ''">
             ,PHOTO = #{PHOTO}
         </if>
-        <if test="ACCOUNTBALANCE != null and ACCOUNTBALANCE != ''">
-            ,ACCOUNTBALANCE = #{ACCOUNTBALANCE}
+        <if test="WAITACCOUNT != null and WAITACCOUNT != ''">
+            ,WAITACCOUNT = #{WAITACCOUNT}
+        </if>
+        <if test="ALREADYACCOUNT != null and ALREADYACCOUNT != ''">
+            ,ALREADYACCOUNT = #{ALREADYACCOUNT}
         </if>
         <if test="MEMBERTYPE_ID != null and MEMBERTYPE_ID != ''">
             ,MEMBERTYPE_ID = #{MEMBERTYPE_ID}
@@ -277,7 +298,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
@@ -298,7 +320,8 @@
 			m.PHONE,
 			m.SEX,
 			m.PHOTO,
-			m.ACCOUNTBALANCE,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,

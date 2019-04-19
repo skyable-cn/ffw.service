@@ -72,4 +72,9 @@ public class MemberServiceImpl implements IMemberService {
 		return (List<PageData>) dao.findForList("MemberMapper.listNumber", pd);
 	}
 
+	@Override
+	public void saveAccount(PageData pd) throws Exception {
+		dao.save("MemberMapper.saveAccount", pd);
+	}
+
 }

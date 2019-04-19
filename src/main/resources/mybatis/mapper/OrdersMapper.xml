@@ -22,7 +22,9 @@
 		USEPERSON,
 		PERSONPHONE,
 		STATE,
-		FROMWXOPEN_ID
+		FROMWXOPEN_ID,
+		GIVEMONEY,
+		GDT
 	</sql>
 
     <!-- 字段值 -->
@@ -40,7 +42,9 @@
 		#{USEPERSON},
 		#{PERSONPHONE},
 		#{STATE},
-		#{FROMWXOPEN_ID}
+		#{FROMWXOPEN_ID},
+		#{GIVEMONEY},
+		#{GDT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -59,6 +63,8 @@
 			os.PERSONPHONE,
 			os.STATE,
 			os.FROMWXOPEN_ID,
+			os.GIVEMONEY,
+			os.GDT,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -114,6 +120,8 @@
 			os.PERSONPHONE,
 			os.STATE,
 			os.FROMWXOPEN_ID,
+			os.GIVEMONEY,
+			os.GDT,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -195,6 +203,12 @@
         <if test="UDT != null and UDT != ''">
             ,UDT = #{UDT}
         </if>
+        <if test="GIVEMONEY != null and GIVEMONEY != ''">
+            ,GIVEMONEY = #{GIVEMONEY}
+        </if>
+        <if test="GDT != null and GDT != ''">
+            ,GDT = #{GDT}
+        </if>
         where
         ORDER_ID = #{ORDER_ID}
     </update>
@@ -224,6 +238,8 @@
 			os.PERSONPHONE,
 			os.STATE,
 			os.FROMWXOPEN_ID,
+			os.GIVEMONEY,
+			os.GDT,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,

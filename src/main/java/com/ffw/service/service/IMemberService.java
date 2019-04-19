@@ -29,4 +29,6 @@ public interface IMemberService {
 
 	List<PageData> listNumber(PageData pd) throws Exception;
 
+	void saveAccount(PageData pd) throws Exception;
+
 }

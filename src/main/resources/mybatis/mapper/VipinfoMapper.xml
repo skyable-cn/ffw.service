@@ -13,8 +13,7 @@
 		VIPSN,
 		MEMBER_ID,
 		LASTTIME,
-		CDT,
-		STATE
+		CDT
 	</sql>
 
     <!-- 字段值 -->
@@ -23,13 +22,17 @@
 		#{VIPSN},
 		#{MEMBER_ID},
 		#{LASTTIME},
-		#{CDT},
-		#{STATE}
+		#{CDT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
         select
-        <include refid="Field"></include>
+	        VIPINFO_ID,
+			VIPSN,
+			MEMBER_ID,
+			LASTTIME,
+			CDT,
+	        IF(now()>STR_TO_DATE(lasttime,'%Y-%m-%d %H:%i:%s'),0,1) STATE
         from
         <include refid="tableName"></include>
         where
@@ -45,7 +48,12 @@
 
     <select id="listAll" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	VIPINFO_ID,
+			VIPSN,
+			MEMBER_ID,
+			LASTTIME,
+			CDT,
+	        IF(now()>STR_TO_DATE(lasttime,'%Y-%m-%d %H:%i:%s'),0,1) STATE
         from
         <include refid="tableName"></include>
          where
@@ -77,9 +85,6 @@
         <if test="LASTTIME != null and LASTTIME != ''">
             ,LASTTIME = #{LASTTIME}
         </if>
-        <if test="STATE != null and STATE != ''">
-            ,STATE = #{STATE}
-        </if>
         where
         VIPINFO_ID = #{VIPINFO_ID}
     </update>
@@ -95,7 +100,12 @@
     <!-- 通过user_id获取数据 -->
     <select id="findById" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	VIPINFO_ID,
+			VIPSN,
+			MEMBER_ID,
+			LASTTIME,
+			CDT,
+	        IF(now()>STR_TO_DATE(lasttime,'%Y-%m-%d %H:%i:%s'),0,1) STATE
         from
         <include refid="tableName"></include>
         where
@@ -104,7 +114,12 @@
     
     <select id="findBy" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	VIPINFO_ID,
+			VIPSN,
+			MEMBER_ID,
+			LASTTIME,
+			CDT,
+	        IF(now()>STR_TO_DATE(lasttime,'%Y-%m-%d %H:%i:%s'),0,1) STATE
         from
         <include refid="tableName"></include>
         where

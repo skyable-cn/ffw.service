@@ -69,6 +69,17 @@ public class MemberController extends BaseController {
 		return pd;
 	}
 
+	@RequestMapping(value = "saveAccount", method = RequestMethod.POST)
+	public PageData saveAccount(@RequestBody PageData pd) {
+		try {
+			memberService.saveAccount(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
+
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public PageData edit(@RequestBody PageData pd) {
 		try {
