@@ -74,6 +74,9 @@
         <if test="pd.MEMBERTYPE_ID!= null and pd.MEMBERTYPE_ID != ''"><!-- 关键词检索 -->
             and m.MEMBERTYPE_ID = #{pd.MEMBERTYPE_ID}
         </if>
+        <if test="pd.FROMWXOPEN_ID!= null and pd.FROMWXOPEN_ID != ''"><!-- 关键词检索 -->
+            and m.FROMWXOPEN_ID = #{pd.FROMWXOPEN_ID}
+        </if>
         order by m.MEMBER_ID ASC
     </select>
 
@@ -111,6 +114,9 @@
         </if>
         <if test="MEMBERTYPE_ID!= null and MEMBERTYPE_ID != ''"><!-- 关键词检索 -->
             and m.MEMBERTYPE_ID = #{MEMBERTYPE_ID}
+        </if>
+        <if test="FROMWXOPEN_ID!= null and FROMWXOPEN_ID != ''"><!-- 关键词检索 -->
+            and m.FROMWXOPEN_ID = #{FROMWXOPEN_ID}
         </if>
         order by m.MEMBER_ID ASC
     </select>
