@@ -70,7 +70,9 @@
 			osi.NUMBER,
 			g.GOODSNAME,
 			g.GOODSDESC,
+			g.BUYNOTICE,
 			s.SHOP_ID,
+			s.SHOPNAME,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
@@ -127,7 +129,9 @@
 			osi.NUMBER,
 			g.GOODSNAME,
 			g.GOODSDESC,
+			g.BUYNOTICE,
 			s.SHOP_ID,
+			s.SHOPNAME,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
@@ -245,7 +249,9 @@
 			osi.NUMBER,
 			g.GOODSNAME,
 			g.GOODSDESC,
+			g.BUYNOTICE,
 			s.SHOP_ID,
+			s.SHOPNAME,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
