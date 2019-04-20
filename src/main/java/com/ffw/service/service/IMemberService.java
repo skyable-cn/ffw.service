@@ -31,4 +31,8 @@ public interface IMemberService {
 
 	void saveAccount(PageData pd) throws Exception;
 
+	PageData findIncome(PageData pd) throws Exception;
+
+	List<PageData> listIncome(PageData pd) throws Exception;
+
 }

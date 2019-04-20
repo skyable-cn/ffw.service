@@ -124,6 +124,29 @@ public class MemberController extends BaseController {
 		return pd;
 	}
 
+	@RequestMapping(value = "findIncome", method = RequestMethod.POST)
+	public PageData findIncome(@RequestBody PageData pd) {
+		try {
+			pd = memberService.findIncome(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
+
+	@RequestMapping(value = "listIncome", method = RequestMethod.POST)
+	public List<PageData> listIncome(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = memberService.listIncome(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	@RequestMapping(value = "listTeam", method = RequestMethod.POST)
 	public List<PageData> listTeam(@RequestBody PageData pd) {
 		List<PageData> data = null;

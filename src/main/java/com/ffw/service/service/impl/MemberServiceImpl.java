@@ -77,4 +77,14 @@ public class MemberServiceImpl implements IMemberService {
 		dao.save("MemberMapper.saveAccount", pd);
 	}
 
+	@Override
+	public PageData findIncome(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("MemberMapper.findIncome", pd);
+	}
+
+	@Override
+	public List<PageData> listIncome(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("MemberMapper.listIncome", pd);
+	}
+
 }

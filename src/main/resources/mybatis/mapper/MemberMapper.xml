@@ -220,6 +220,22 @@
         LIMIT 0,100
     </select>
     
+     <select id="listIncome" parameterType="pd" resultType="pd">
+     	select
+     		ORDER_ID, 
+     		ORDERSN,
+     		CDT
+     	from orders where order_id in (
+     		select order_id from account where type in (2,3,4) and member_id in (
+				select member_id from member m where m.wxopen_id = #{WXOPEN_ID}
+				UNION all 
+				select member_id from member m where m.fromwxopen_id = #{WXOPEN_ID}
+				UNION all select member_id from member m where m.fromwxopen_id in (select wxopen_id from member m where m.fromwxopen_id = #{WXOPEN_ID})
+			) group by order_id
+     	)
+		order by cdt desc
+     </select>
+    
     <select id="listAllType" parameterType="pd" resultType="pd">
     	select 
     		MEMBERTYPE_ID,
@@ -244,6 +260,7 @@
         	#{ORDER_ID},
         	#{MEMBER_ID},
         	#{GIVEMONEY},
+        	#{TYPE},
         	#{DESCRIPTION},
         	#{CDT}
         )
@@ -336,4 +353,16 @@
         </if>
         limit 0,1
     </select>
+    
+     <select id="findIncome" parameterType="pd" resultType="pd">
+     	select 
+		IFNULL((select sum(givemoney) memoney from account where member_id = #{MEMBER_ID} and type=2),0) AS MEACCOUNT,
+		IFNULL((select sum(givemoney) from account where type in (2,3,4) and member_id in (
+					select member_id from member m where m.wxopen_id = #{WXOPEN_ID}
+					UNION all 
+					select member_id from member m where m.fromwxopen_id = #{WXOPEN_ID}
+					UNION all select member_id from member m where m.fromwxopen_id in (select wxopen_id from member m where m.fromwxopen_id = #{WXOPEN_ID})
+		)),0) AS TEAMACCOUNT
+		FROM DUAL
+     </select>
 </mapper>
