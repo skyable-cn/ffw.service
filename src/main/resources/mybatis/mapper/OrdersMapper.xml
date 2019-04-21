@@ -71,8 +71,14 @@
 			g.GOODSNAME,
 			g.GOODSDESC,
 			g.BUYNOTICE,
+			g.STARTTIME,
+			g.ENDTIME,
 			s.SHOP_ID,
 			s.SHOPNAME,
+			s.SHOPADDRESS,
+			s.CONTRACTPHONE,
+			s.LONGITUDE,
+			s.LATITUDE,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
@@ -130,8 +136,14 @@
 			g.GOODSNAME,
 			g.GOODSDESC,
 			g.BUYNOTICE,
+			g.STARTTIME,
+			g.ENDTIME,
 			s.SHOP_ID,
 			s.SHOPNAME,
+			s.SHOPADDRESS,
+			s.CONTRACTPHONE,
+			s.LONGITUDE,
+			s.LATITUDE,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
@@ -250,8 +262,14 @@
 			g.GOODSNAME,
 			g.GOODSDESC,
 			g.BUYNOTICE,
+			g.STARTTIME,
+			g.ENDTIME,
 			s.SHOP_ID,
 			s.SHOPNAME,
+			s.SHOPADDRESS,
+			s.CONTRACTPHONE,
+			s.LONGITUDE,
+			s.LATITUDE,
 			p.FILEPATH
         from
         <include refid="tableName"></include> os
