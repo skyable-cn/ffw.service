@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderuseMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		orderuse
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+    	ORDERUSE_ID,
+    	ORDER_ID,
+    	SHOP_ID,
+		MEMBER_ID,
+		CDT
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{ORDERUSE_ID},
+    	#{ORDER_ID},
+    	#{SHOP_ID},
+		#{MEMBER_ID},
+		#{CDT}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+	        ou.ORDERUSE_ID,
+	    	ou.ORDER_ID,
+	    	ou.SHOP_ID,
+			ou.MEMBER_ID,
+			ou.CDT,
+			s.SHOPNAME
+        from
+        <include refid="tableName"></include> ou
+        left join shop s on ou.shop_id = s.shop_id
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	ou.CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.ORDER_ID != null and pd.ORDER_ID != ''">
+            and ou.ORDER_ID = #{pd.ORDER_ID}
+        </if>
+        order by ou.ORDERUSE_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+            ou.ORDERUSE_ID,
+	    	ou.ORDER_ID,
+	    	ou.SHOP_ID,
+			ou.MEMBER_ID,
+			ou.CDT,
+			s.SHOPNAME
+        from
+        <include refid="tableName"></include> ou
+        left join shop s on ou.shop_id = s.shop_id
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	ou.CDT LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="ORDER_ID != null and ORDER_ID != ''">
+            and ou.ORDER_ID = #{ORDER_ID}
+        </if>
+        order by ou.ORDERUSE_ID ASC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="ORDERUSE_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        ORDERUSE_ID = #{ORDERUSE_ID}
+        <if test="MEMBER_ID != null and MEMBER_ID != ''">
+            ,MEMBER_ID = #{MEMBER_ID}
+        </if>
+        
+        where
+        ORDERUSE_ID = #{ORDERUSE_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        ORDERUSE_ID = #{ORDERUSE_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+           ou.ORDERUSE_ID,
+	    	ou.ORDER_ID,
+	    	ou.SHOP_ID,
+			ou.MEMBER_ID,
+			ou.CDT,
+			s.SHOPNAME
+        from
+        <include refid="tableName"></include> ou
+        left join shop s on ou.shop_id = s.shop_id
+        where
+        ou.ORDERUSE_ID = #{ORDERUSE_ID}
+    </select>
+</mapper>
