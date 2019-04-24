@@ -160,4 +160,30 @@
         where
         r.RECHARGE_ID = #{RECHARGE_ID}
     </select>
+    
+    <select id="findBy" parameterType="pd" resultType="pd">
+       select
+	        r.RECHARGE_ID,
+			r.RECHARGESN,
+			r.WEIXINSN,
+			r.MEMBER_ID,
+			r.PRODUCT_ID,
+			r.ORIGINAL,
+			r.MONEY,
+			r.DERATE,
+			r.CDT,
+			r.STATE,
+			m.NICKNAME,
+			p.PRODUCTDESC
+        from
+        <include refid="tableName"></include> r
+        left join member m on r.member_id = m.member_id
+        left join product p on r.product_id = p.product_id
+        where
+        1 = 1
+        <if test="RECHARGESN != null and RECHARGESN != ''">
+            and RECHARGESN = #{RECHARGESN}
+        </if>
+        limit 0,1
+    </select>
 </mapper>

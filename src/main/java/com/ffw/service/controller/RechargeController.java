@@ -89,4 +89,15 @@ public class RechargeController extends BaseController {
 		}
 		return pd;
 	}
+
+	@RequestMapping(value = "findBy", method = RequestMethod.POST)
+	public PageData findBy(@RequestBody PageData pd) {
+		try {
+			pd = rechargeService.findBy(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
 }

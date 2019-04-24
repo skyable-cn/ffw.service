@@ -48,4 +48,9 @@ public class RechargeServiceImpl implements IRechargeService {
 		return (PageData) dao.findForObject("RechargeMapper.findById", pd);
 	}
 
+	@Override
+	public PageData findBy(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("RechargeMapper.findBy", pd);
+	}
+
 }
