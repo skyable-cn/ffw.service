@@ -147,7 +147,7 @@
             ${pd.SQLCONDITION}
         </if>
         <if test="pd.SQLCONDITION == null or pd.SQLCONDITION == ''"><!-- 关键词检索 -->
-            order by s.SHOP_ID ASC
+            order by s.SHOP_ID DESC
         </if>
     </select>
 
@@ -255,7 +255,7 @@
             ${SQLCONDITION}
         </if>
         <if test="SQLCONDITION == null or SQLCONDITION == ''"><!-- 关键词检索 -->
-            order by s.SHOP_ID ASC
+            order by s.SHOP_ID DESC
         </if>
         
     </select>

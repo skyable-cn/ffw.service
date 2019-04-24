@@ -187,7 +187,7 @@
         	order by g.CREATETIME DESC
         </if>
         <if test="pd.SEARCHTYPE != null and  pd.SEARCHTYPE == 2">
-        	order by g.BUYNUMBER DESC
+        	order by cast(g.BUYNUMBER as SIGNED) DESC
         </if>
     </select>
 
@@ -309,7 +309,7 @@
         	order by g.CREATETIME DESC
         </if>
         <if test="SEARCHTYPE != null and  SEARCHTYPE == 2">
-        	order by g.BUYNUMBER DESC
+        	order by cast(g.BUYNUMBER as SIGNED) DESC
         </if>
     </select>
 
