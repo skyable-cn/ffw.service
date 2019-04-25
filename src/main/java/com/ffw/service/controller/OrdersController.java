@@ -112,4 +112,15 @@ public class OrdersController extends BaseController {
 		}
 		return pd;
 	}
+
+	@RequestMapping(value = "findBy", method = RequestMethod.POST)
+	public PageData findBy(@RequestBody PageData pd) {
+		try {
+			pd = ordersService.findBy(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
 }

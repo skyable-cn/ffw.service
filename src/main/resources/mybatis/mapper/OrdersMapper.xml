@@ -14,8 +14,11 @@
 		WEIXINSN,
 		MEMBER_ID,
 		ORIGINAL,
+		NEEDMONEY,
+		PERCENT,
 		MONEY,
 		DERATE,
+		USEID,
 		USEKEY,
 		CDT,
 		UDT,
@@ -24,7 +27,8 @@
 		STATE,
 		FROMWXOPEN_ID,
 		GIVEMONEY,
-		GDT
+		GDT,
+		VIPFLAG
 	</sql>
 
     <!-- 字段值 -->
@@ -34,8 +38,11 @@
 		#{WEIXINSN},
 		#{MEMBER_ID},
 		#{ORIGINAL},
+		#{NEEDMONEY},
+		#{PERCENT},
 		#{MONEY},
 		#{DERATE},
+		#{USEID},
 		#{USEKEY},
 		#{CDT},
 		#{UDT},
@@ -44,7 +51,8 @@
 		#{STATE},
 		#{FROMWXOPEN_ID},
 		#{GIVEMONEY},
-		#{GDT}
+		#{GDT},
+		#{VIPFLAG}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -54,8 +62,11 @@
 			os.WEIXINSN,
 			os.MEMBER_ID,
 			os.ORIGINAL,
+			os.NEEDMONEY,
+			os.PERCENT,
 			os.MONEY,
 			os.DERATE,
+			os.USEID,
 			os.USEKEY,
 			os.CDT,
 			os.UDT,
@@ -65,6 +76,7 @@
 			os.FROMWXOPEN_ID,
 			os.GIVEMONEY,
 			os.GDT,
+			os.VIPFLAG,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -119,8 +131,11 @@
 			os.WEIXINSN,
 			os.MEMBER_ID,
 			os.ORIGINAL,
+			os.NEEDMONEY,
+			os.PERCENT,
 			os.MONEY,
 			os.DERATE,
+			os.USEID,
 			os.USEKEY,
 			os.CDT,
 			os.UDT,
@@ -130,6 +145,7 @@
 			os.FROMWXOPEN_ID,
 			os.GIVEMONEY,
 			os.GDT,
+			os.VIPFLAG,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -245,8 +261,11 @@
 			os.WEIXINSN,
 			os.MEMBER_ID,
 			os.ORIGINAL,
+			os.NEEDMONEY,
+			os.PERCENT,
 			os.MONEY,
 			os.DERATE,
+			os.USEID,
 			os.USEKEY,
 			os.CDT,
 			os.UDT,
@@ -256,6 +275,7 @@
 			os.FROMWXOPEN_ID,
 			os.GIVEMONEY,
 			os.GDT,
+			os.VIPFLAG,
 			osi.GOODS_ID,
 			osi.MONEY AS MONEYONE,
 			osi.NUMBER,
@@ -279,5 +299,56 @@
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
         where
         os.ORDER_ID = #{ORDER_ID}
+    </select>
+    
+    <select id="findBy" parameterType="pd" resultType="pd">
+        select
+        	os.ORDER_ID,
+			os.ORDERSN,
+			os.WEIXINSN,
+			os.MEMBER_ID,
+			os.ORIGINAL,
+			os.NEEDMONEY,
+			os.PERCENT,
+			os.MONEY,
+			os.DERATE,
+			os.USEID,
+			os.USEKEY,
+			os.CDT,
+			os.UDT,
+			os.USEPERSON,
+			os.PERSONPHONE,
+			os.STATE,
+			os.FROMWXOPEN_ID,
+			os.GIVEMONEY,
+			os.GDT,
+			os.VIPFLAG,
+			osi.GOODS_ID,
+			osi.MONEY AS MONEYONE,
+			osi.NUMBER,
+			g.GOODSNAME,
+			g.GOODSDESC,
+			g.BUYNOTICE,
+			g.STARTTIME,
+			g.ENDTIME,
+			s.SHOP_ID,
+			s.SHOPNAME,
+			s.SHOPADDRESS,
+			s.CONTRACTPHONE,
+			s.LONGITUDE,
+			s.LATITUDE,
+			p.FILEPATH
+        from
+        <include refid="tableName"></include> os
+        left join ordersitem osi on os.order_id = osi.order_id
+        left join goods g on osi.goods_id = g.goods_id
+        left join shop s on g.shop_id = s.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        where
+        1 = 1
+        <if test="USEID != null and USEID != ''">
+            and USEID = #{USEID}
+        </if>
+        limit 0,1
     </select>
 </mapper>

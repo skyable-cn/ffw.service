@@ -23,4 +23,6 @@ public interface IOrdersService {
 
 	void saveRefund(PageData pd) throws Exception;
 
+	PageData findBy(PageData pd) throws Exception;
+
 }
