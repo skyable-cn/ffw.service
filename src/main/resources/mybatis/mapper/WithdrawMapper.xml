@@ -27,34 +27,72 @@
 
    <select id="listPage" parameterType="page" resultType="pd">
         select
-        <include refid="Field"></include>
+	        wd.WITHDRAW_ID,
+			wd.MEMBER_ID,
+			wd.MONEY,
+			wd.CDT,
+			wd.STATE,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
+			m.WXOPEN_ID,
+			m.FROMWXOPEN_ID,
+			m.MEMBERTYPE_ID
         from
-        <include refid="tableName"></include>
+        <include refid="tableName"></include> wd
+        left join member m on wd.member_id = m.member_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	wd.CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
-        order by WITHDRAW_ID DESC
+        <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
+            and wd.STATE = #{pd.STATE}
+        </if>
+        order by wd.WITHDRAW_ID DESC
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	wd.WITHDRAW_ID,
+			wd.MEMBER_ID,
+			wd.MONEY,
+			wd.CDT,
+			wd.STATE,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
+			m.WXOPEN_ID,
+			m.FROMWXOPEN_ID,
+			m.MEMBERTYPE_ID
         from
-        <include refid="tableName"></include>
+        <include refid="tableName"></include> wd
+        left join member m on wd.member_id = m.member_id
          where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	CDT LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            	wd.CDT LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
-        order by WITHDRAW_ID DESC
+        <if test="STATE!= null and STATE != ''"><!-- 关键词检索 -->
+            and wd.STATE = #{STATE}
+        </if>
+        order by wd.WITHDRAW_ID DESC
     </select>
 
     <!-- 新增 -->
@@ -91,10 +129,26 @@
     <!-- 通过user_id获取数据 -->
     <select id="findById" parameterType="pd" resultType="pd">
         select
-        <include refid="Field"></include>
+        	wd.WITHDRAW_ID,
+			wd.MEMBER_ID,
+			wd.MONEY,
+			wd.CDT,
+			wd.STATE,
+			m.USERNAME,
+			m.NICKNAME,
+			m.FULLNAME,
+			m.PHONE,
+			m.SEX,
+			m.PHOTO,
+			m.WAITACCOUNT,
+			m.ALREADYACCOUNT,
+			m.WXOPEN_ID,
+			m.FROMWXOPEN_ID,
+			m.MEMBERTYPE_ID
         from
-        <include refid="tableName"></include>
+        <include refid="tableName"></include> wd
+        left join member m on wd.member_id = m.member_id
         where
-        WITHDRAW_ID = #{WITHDRAW_ID}
+        wd.WITHDRAW_ID = #{WITHDRAW_ID}
     </select>
 </mapper>
