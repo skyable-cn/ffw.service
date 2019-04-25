@@ -355,7 +355,10 @@
         where
         1 = 1
         <if test="USEID != null and USEID != ''">
-            and USEID = #{USEID}
+            and os.USEID = #{USEID}
+        </if>
+        <if test="ORDERSN != null and ORDERSN != ''">
+            and os.ORDERSN = #{ORDERSN}
         </if>
         limit 0,1
     </select>
