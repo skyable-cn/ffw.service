@@ -35,4 +35,6 @@ public interface IMemberService {
 
 	List<PageData> listIncome(PageData pd) throws Exception;
 
+	List<PageData> listPageIncome(Page page) throws Exception;
+
 }

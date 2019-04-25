@@ -58,6 +58,20 @@ public class MemberController extends BaseController {
 		return page;
 	}
 
+	@RequestMapping(value = "listPageIncome", method = RequestMethod.POST)
+	public Page listPageIncome(@RequestBody PageData pd) {
+		Page page = getPage(pd);
+		List<PageData> data = null;
+		try {
+			data = memberService.listPageIncome(page);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		page.setData(data);
+		return page;
+	}
+
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public PageData save(@RequestBody PageData pd) {
 		try {

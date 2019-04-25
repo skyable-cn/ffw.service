@@ -87,4 +87,10 @@ public class MemberServiceImpl implements IMemberService {
 		return (List<PageData>) dao.findForList("MemberMapper.listIncome", pd);
 	}
 
+	@Override
+	public List<PageData> listPageIncome(Page page) throws Exception {
+		return (List<PageData>) dao.findForList("MemberMapper.listPageIncome",
+				page);
+	}
+
 }
