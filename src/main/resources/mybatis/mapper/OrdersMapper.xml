@@ -129,6 +129,68 @@
         </if>
         order by os.ORDER_ID DESC
     </select>
+    
+    <select id="listPageBill" parameterType="page" resultType="pd">
+        select
+	    os.ORDER_ID,
+			os.ORDERSN,
+			os.WEIXINSN,
+			os.MEMBER_ID,
+			os.ORIGINAL,
+			os.NEEDMONEY,
+			os.PERCENT,
+			os.MONEY,
+			os.DERATE,
+			os.USEID,
+			os.USEKEY,
+			os.CDT,
+			os.UDT,
+			os.USEPERSON,
+			os.PERSONPHONE,
+			os.STATE,
+			os.FROMWXOPEN_ID,
+			os.GIVEMONEY,
+			os.GDT,
+			os.VIPFLAG,
+			osi.GOODS_ID,
+			osi.MONEY AS MONEYONE,
+			osi.NUMBER,
+			g.GOODSNAME,
+			g.GOODSDESC,
+			g.BUYNOTICE,
+			g.STARTTIME,
+			g.ENDTIME,
+			s.SHOP_ID,
+			s.SHOPNAME,
+			s.SHOPADDRESS,
+			s.CONTRACTPHONE,
+			s.LONGITUDE,
+			s.LATITUDE,
+			p.FILEPATH,
+			m.NICKNAME,
+			m.WXOPEN_ID,
+			ifnull((select a.givemoney from account a where a.type=0 and a.order_id = os.order_id and a.member_id = os.member_id),0) ACCOUNT0, 
+			ifnull((select a.givemoney from account a where a.type=1 and a.order_id = os.order_id and a.member_id = os.member_id),0) ACCOUNT1, 
+			ifnull((select a.givemoney from account a where a.type=2 and a.order_id = os.order_id and a.member_id = os.member_id),0) ACCOUNT2, 
+			ifnull((select a.givemoney from account a where a.type=3 and a.order_id = os.order_id and a.member_id = os.member_id),0) ACCOUNT3, 
+			ifnull((select a.givemoney from account a where a.type=4 and a.order_id = os.order_id and a.member_id = os.member_id),0) ACCOUNT4
+        from
+        <include refid="tableName"></include> os
+        left join ordersitem osi on os.order_id = osi.order_id
+        left join goods g on osi.goods_id = g.goods_id
+        left join shop s on g.shop_id = s.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        left join member m on os.member_id = m.member_id
+        where
+        os.ORDER_ID in (select order_id from account where member_id = #{pd.MEMBER_ID} GROUP BY order_id)
+         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	os.ORDERSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        order by os.ORDER_ID DESC
+    </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
         select

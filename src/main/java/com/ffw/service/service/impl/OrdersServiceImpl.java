@@ -63,4 +63,10 @@ public class OrdersServiceImpl implements IOrdersService {
 		return (PageData) dao.findForObject("OrdersMapper.findBy", pd);
 	}
 
+	@Override
+	public List<PageData> listPageBill(Page page) throws Exception {
+		return (List<PageData>) dao.findForList("OrdersMapper.listPageBill",
+				page);
+	}
+
 }

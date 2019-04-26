@@ -25,4 +25,6 @@ public interface IOrdersService {
 
 	PageData findBy(PageData pd) throws Exception;
 
+	List<PageData> listPageBill(Page page) throws Exception;
+
 }

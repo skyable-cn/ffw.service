@@ -58,6 +58,20 @@ public class OrdersController extends BaseController {
 		return page;
 	}
 
+	@RequestMapping(value = "listPageBill", method = RequestMethod.POST)
+	public Page listPageBill(@RequestBody PageData pd) {
+		Page page = getPage(pd);
+		List<PageData> data = null;
+		try {
+			data = ordersService.listPageBill(page);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		page.setData(data);
+		return page;
+	}
+
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public PageData save(@RequestBody PageData pd) {
 		try {
