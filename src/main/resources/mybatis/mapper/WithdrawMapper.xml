@@ -13,6 +13,8 @@
 		MEMBER_ID,
 		MONEY,
 		CDT,
+		ADT,
+		REMARK,
 		STATE
 	</sql>
 
@@ -22,6 +24,8 @@
 		#{MEMBER_ID},
 		#{MONEY},
 		#{CDT},
+		#{ADT},
+		#{REMARK},
 		#{STATE}
 	</sql>
 
@@ -31,6 +35,8 @@
 			wd.MEMBER_ID,
 			wd.MONEY,
 			wd.CDT,
+			wd.ADT,
+			wd.REMARK,
 			wd.STATE,
 			m.USERNAME,
 			m.NICKNAME,
@@ -66,6 +72,8 @@
 			wd.MEMBER_ID,
 			wd.MONEY,
 			wd.CDT,
+			wd.ADT,
+			wd.REMARK,
 			wd.STATE,
 			m.USERNAME,
 			m.NICKNAME,
@@ -113,7 +121,12 @@
         <if test="STATE != null and STATE != ''">
             ,STATE = #{STATE}
         </if>
-        
+        <if test="ADT != null and ADT != ''">
+            ,ADT = #{ADT}
+        </if>
+        <if test="REMARK != null and REMARK != ''">
+            ,REMARK = #{REMARK}
+        </if>
         where
         WITHDRAW_ID = #{WITHDRAW_ID}
     </update>
@@ -133,6 +146,8 @@
 			wd.MEMBER_ID,
 			wd.MONEY,
 			wd.CDT,
+			wd.ADT,
+			wd.REMARK,
 			wd.STATE,
 			m.USERNAME,
 			m.NICKNAME,
