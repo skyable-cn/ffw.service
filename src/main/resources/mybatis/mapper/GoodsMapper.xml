@@ -181,7 +181,7 @@
             and s.DISTANCE <![CDATA[ < ]]> #{pd.DISTANCE}
         </if>
         <if test="pd.SEARCHTYPE == null or  pd.SEARCHTYPE == ''">
-        	order by g.GOODS_ID ASC
+        	order by g.GOODS_ID DESC
         </if>
         <if test="pd.SEARCHTYPE != null and  pd.SEARCHTYPE == 1">
         	order by g.CREATETIME DESC
@@ -303,7 +303,7 @@
             and s.DISTANCE <![CDATA[ < ]]> #{DISTANCE}
         </if>
         <if test="SEARCHTYPE == null or  SEARCHTYPE == ''">
-        	order by g.GOODS_ID ASC
+        	order by g.GOODS_ID DESC
         </if>
         <if test="SEARCHTYPE != null and  SEARCHTYPE == 1">
         	order by g.CREATETIME DESC
