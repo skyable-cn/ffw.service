@@ -91,13 +91,15 @@
 			s.CONTRACTPHONE,
 			s.LONGITUDE,
 			s.LATITUDE,
-			p.FILEPATH
+			p.FILEPATH,
+			m.NICKNAME
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
         left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        left join member m on os.member_id = m.member_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -160,13 +162,15 @@
 			s.CONTRACTPHONE,
 			s.LONGITUDE,
 			s.LATITUDE,
-			p.FILEPATH
+			p.FILEPATH,
+			m.NICKNAME
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
         left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        left join member m on os.member_id = m.member_id
          where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -290,13 +294,15 @@
 			s.CONTRACTPHONE,
 			s.LONGITUDE,
 			s.LATITUDE,
-			p.FILEPATH
+			p.FILEPATH,
+			m.NICKNAME
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
         left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        left join member m on os.member_id = m.member_id
         where
         os.ORDER_ID = #{ORDER_ID}
     </select>
@@ -337,13 +343,15 @@
 			s.CONTRACTPHONE,
 			s.LONGITUDE,
 			s.LATITUDE,
-			p.FILEPATH
+			p.FILEPATH,
+			m.NICKNAME
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
         left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        left join member m on os.member_id = m.member_id
         where
         1 = 1
         <if test="USEID != null and USEID != ''">

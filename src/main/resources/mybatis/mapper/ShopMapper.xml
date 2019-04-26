@@ -62,7 +62,7 @@
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
-			f.FILEPATH
+			ifnull(f.FILEPATH,'shop.jpg') as FILEPATH
         from
         ( 
 			SELECT
@@ -170,7 +170,7 @@
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
-			f.FILEPATH
+			ifnull(f.FILEPATH,'shop.jpg') as FILEPATH
         from
         ( 
 			SELECT
@@ -338,6 +338,12 @@
         <if test="AVGMONEY != null and AVGMONEY != ''">
             ,AVGMONEY = #{AVGMONEY}
         </if>
+        <if test="CONTRACTPERSON != null and CONTRACTPERSON != ''">
+            ,CONTRACTPERSON = #{CONTRACTPERSON}
+        </if>
+        <if test="CONTRACTPHONE != null and CONTRACTPHONE != ''">
+            ,CONTRACTPHONE = #{CONTRACTPHONE}
+        </if>
         where
         SHOP_ID = #{SHOP_ID}
     </update>
@@ -370,7 +376,7 @@
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
-			f.FILEPATH
+			ifnull(f.FILEPATH,'shop.jpg') as FILEPATH
         from
         ( 
 			SELECT
