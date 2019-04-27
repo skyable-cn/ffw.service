@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ShopdrawMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		shopdraw
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		SHOPDRAW_ID,
+		SHOPDRAWSN,
+		SHOP_ID,
+		MONEY,
+		USER_ID,
+		CDT,
+		STATE
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{SHOPDRAW_ID},
+		#{SHOPDRAWSN},
+		#{SHOP_ID},
+		#{MONEY},
+		#{USER_ID},
+		#{CDT},
+		#{STATE}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+	         sd.SHOPDRAW_ID,
+	         sd.SHOPDRAWSN,
+			 sd.SHOP_ID,
+			 sd.MONEY,
+			 sd.USER_ID,
+			 sd.CDT,
+			 sd.STATE,
+			 u.USERNAME,
+			 u.NICKNAME
+        from
+        <include refid="tableName"></include> sd
+        left join user u on sd.user_id = u.user_id
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	sd.SHOPDRAWSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+         <if test="pd.SHOP_ID != null and pd.SHOP_ID != ''">
+            and sd.SHOP_ID = #{pd.SHOP_ID}
+        </if>
+        order by sd.SHOPDRAW_ID DESC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+	         sd.SHOPDRAW_ID,
+	         sd.SHOPDRAWSN,
+			 sd.SHOP_ID,
+			 sd.MONEY,
+			 sd.USER_ID,
+			 sd.CDT,
+			 sd.STATE,
+			 u.USERNAME,
+			 u.NICKNAME
+        from
+        <include refid="tableName"></include> sd
+        left join user u on sd.user_id = u.user_id
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	sd.SHOPDRAWSN LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+         <if test="SHOP_ID != null and SHOP_ID != ''">
+            and sd.SHOP_ID = #{SHOP_ID}
+        </if>
+        order by sd.SHOPDRAW_ID DESC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="SHOPDRAW_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        SHOPDRAW_ID = #{SHOPDRAW_ID}
+        <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
+        
+        where
+        SHOPDRAW_ID = #{SHOPDRAW_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        SHOPDRAW_ID = #{SHOPDRAW_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+	         sd.SHOPDRAW_ID,
+	         sd.SHOPDRAWSN,
+			 sd.SHOP_ID,
+			 sd.MONEY,
+			 sd.USER_ID,
+			 sd.CDT,
+			 sd.STATE,
+			 u.USERNAME,
+			 u.NICKNAME
+        from
+        <include refid="tableName"></include> sd
+        left join user u on sd.user_id = u.user_id
+        where
+        sd.SHOPDRAW_ID = #{SHOPDRAW_ID}
+    </select>
+</mapper>
