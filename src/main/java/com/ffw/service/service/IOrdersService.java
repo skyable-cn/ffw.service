@@ -27,4 +27,6 @@ public interface IOrdersService {
 
 	List<PageData> listPageBill(Page page) throws Exception;
 
+	List<PageData> listPageShop(Page page) throws Exception;
+
 }

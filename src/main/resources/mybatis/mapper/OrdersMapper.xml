@@ -99,7 +99,8 @@
 			s.LONGITUDE,
 			s.LATITUDE,
 			p.FILEPATH,
-			m.NICKNAME
+			m.NICKNAME,
+			m.WXOPEN_ID
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
@@ -205,6 +206,71 @@
         </if>
         order by os.ORDER_ID DESC
     </select>
+    
+    <select id="listPageShop" parameterType="page" resultType="pd">
+    	select
+	    	os.ORDER_ID,
+			os.ORDERSN,
+			os.WEIXINSN,
+			os.MEMBER_ID,
+			os.ORIGINAL,
+			os.NEEDMONEY,
+			os.PERCENT,
+			os.MONEY,
+			os.DERATE,
+			os.USEID,
+			os.USEKEY,
+			os.CDT,
+			os.UDT,
+			os.USEPERSON,
+			os.PERSONPHONE,
+			os.STATE,
+			os.FROMWXOPEN_ID,
+			os.GIVEMONEY,
+			os.GDT,
+			os.VIPFLAG,
+			osi.GOODS_ID,
+			osi.NUMBER,
+			g.GOODSNAME,
+			g.GOODSDESC,
+			g.BUYNOTICE,
+			g.SELLMONEY,
+			g.ORIGINALMONEY,
+			g.BALANCEMONEY,
+			g.MEMBERBACKMONEY,
+			g.VIPBACKMONEY,
+			g.BACKMONEY0,
+			g.BACKMONEY1,
+			g.BACKMONEY2,
+			g.STARTTIME,
+			g.ENDTIME,
+			s.SHOP_ID,
+			s.SHOPNAME,
+			s.SHOPADDRESS,
+			s.CONTRACTPHONE,
+			s.LONGITUDE,
+			s.LATITUDE,
+			p.FILEPATH,
+			m.NICKNAME,
+			m.WXOPEN_ID,
+			st.SETTLEMONEY
+        from
+        <include refid="tableName"></include> os
+        left join ordersitem osi on os.order_id = osi.order_id
+        left join goods g on osi.goods_id = g.goods_id
+        left join shop s on g.shop_id = s.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
+        left join member m on os.member_id = m.member_id
+				left join settle st on os.order_id = st.order_id
+		where os.state = 3 and s.shop_id = #{pd.SHOP_ID}
+		 <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	os.ORDERSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        order by os.ORDER_ID DESC
+    </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
         select
@@ -250,7 +316,8 @@
 			s.LONGITUDE,
 			s.LATITUDE,
 			p.FILEPATH,
-			m.NICKNAME
+			m.NICKNAME,
+			m.WXOPEN_ID
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
@@ -393,7 +460,8 @@
 			s.LONGITUDE,
 			s.LATITUDE,
 			p.FILEPATH,
-			m.NICKNAME
+			m.NICKNAME,
+			m.WXOPEN_ID
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id
@@ -449,7 +517,8 @@
 			s.LONGITUDE,
 			s.LATITUDE,
 			p.FILEPATH,
-			m.NICKNAME
+			m.NICKNAME,
+			m.WXOPEN_ID
         from
         <include refid="tableName"></include> os
         left join ordersitem osi on os.order_id = osi.order_id

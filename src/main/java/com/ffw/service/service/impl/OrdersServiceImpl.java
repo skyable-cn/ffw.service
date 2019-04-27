@@ -69,4 +69,10 @@ public class OrdersServiceImpl implements IOrdersService {
 				page);
 	}
 
+	@Override
+	public List<PageData> listPageShop(Page page) throws Exception {
+		return (List<PageData>) dao.findForList("OrdersMapper.listPageShop",
+				page);
+	}
+
 }
