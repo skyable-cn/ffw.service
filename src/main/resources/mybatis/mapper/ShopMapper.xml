@@ -356,6 +356,12 @@
         <if test="CONTRACTPHONE != null and CONTRACTPHONE != ''">
             ,CONTRACTPHONE = #{CONTRACTPHONE}
         </if>
+        <if test="WAITACCOUNT != null and WAITACCOUNT != ''">
+            ,WAITACCOUNT = #{WAITACCOUNT}
+        </if>
+        <if test="ALREADYACCOUNT != null and ALREADYACCOUNT != ''">
+            ,ALREADYACCOUNT = #{ALREADYACCOUNT}
+        </if>
         where
         SHOP_ID = #{SHOP_ID}
     </update>
