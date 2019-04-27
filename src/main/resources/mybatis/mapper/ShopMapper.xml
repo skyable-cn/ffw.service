@@ -253,6 +253,7 @@
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
         left join shoptype st on s.shoptype_id = st.shoptype_id
         left join file f on s.shop_id = f.reference_id and f.filetype = '7'
+        left join member m on s.member_id = m.member_id
         where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -472,6 +473,7 @@
         left join shopstate ss on s.shopstate_id = ss.shopstate_id
         left join shoptype st on s.shoptype_id = st.shoptype_id
         left join file f on s.shop_id = f.reference_id and f.filetype = '7'
+        left join member m on s.member_id = m.member_id
         where
         SHOP_ID = #{SHOP_ID}
     </select>
