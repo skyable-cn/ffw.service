@@ -22,7 +22,9 @@
 		ACCOUNTER,
 		CDT,
 		SHOPSTATE_ID,
-		SHOPTYPE_ID
+		SHOPTYPE_ID,
+		WAITACCOUNT,
+		ALREADYACCOUNT
 	</sql>
 
     <!-- 字段值 -->
@@ -40,7 +42,9 @@
 		#{ACCOUNTER},
 		#{CDT},
 		#{SHOPSTATE_ID},
-		#{SHOPTYPE_ID}
+		#{SHOPTYPE_ID},
+		#{WAITACCOUNT},
+		#{ALREADYACCOUNT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -60,6 +64,8 @@
 			s.SHOPSTATE_ID,
 			s.SHOPTYPE_ID,
 			s.DISTANCE,
+			s.WAITACCOUNT,
+			s.ALREADYACCOUNT,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
 			ifnull(f.FILEPATH,'shop.jpg') as FILEPATH
@@ -80,6 +86,8 @@
 				CDT,
 				SHOPSTATE_ID,
 				SHOPTYPE_ID,
+				WAITACCOUNT,
+				ALREADYACCOUNT,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -167,6 +175,8 @@
 			s.CDT,
 			s.SHOPSTATE_ID,
 			s.SHOPTYPE_ID,
+			s.WAITACCOUNT,
+			s.ALREADYACCOUNT,
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
@@ -188,6 +198,8 @@
 				CDT,
 				SHOPSTATE_ID,
 				SHOPTYPE_ID,
+				WAITACCOUNT,
+				ALREADYACCOUNT,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -373,6 +385,8 @@
 			s.CDT,
 			s.SHOPSTATE_ID,
 			s.SHOPTYPE_ID,
+			s.WAITACCOUNT,
+			s.ALREADYACCOUNT,
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
@@ -394,6 +408,8 @@
 				CDT,
 				SHOPSTATE_ID,
 				SHOPTYPE_ID,
+				WAITACCOUNT,
+				ALREADYACCOUNT,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
