@@ -68,6 +68,17 @@ public class LotteryrecordController extends BaseController {
 		return pd;
 	}
 
+	@RequestMapping(value = "editOpen", method = RequestMethod.POST)
+	public PageData editOpen(@RequestBody PageData pd) {
+		try {
+			lotteryrecordService.editOpen(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
+
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	public PageData delete(@RequestBody PageData pd) {
 		try {

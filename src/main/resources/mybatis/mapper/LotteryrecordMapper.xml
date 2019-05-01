@@ -118,6 +118,13 @@
         LOTTERYRECORD_ID = #{LOTTERYRECORD_ID}
     </update>
     
+    <update id="editOpen" parameterType="pd">
+        update lotteryrecord set state = #{STATE} where lotteryrecord_id in 
+        (
+        	select t.lotteryrecord_id from(select lotteryrecord_id from lotteryrecord where lottery_id = #{LOTTERY_ID} ORDER BY RAND() limit #{LIMITPEOPLE}) as t 
+		)
+    </update>
+    
     <!-- 删除 -->
     <delete id="delete" parameterType="pd" flushCache="false">
         delete from

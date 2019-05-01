@@ -17,7 +17,9 @@
 		LOTTERYDESC,
 		LIMITPEOPLE,
 		SPONSORNAME,
-		SPONSORURL
+		SPONSORURL,
+		CDT,
+		STATE
 	</sql>
 
     <!-- 字段值 -->
@@ -30,7 +32,9 @@
 		#{LOTTERYDESC},
 		#{LIMITPEOPLE},
 		#{SPONSORNAME},
-		#{SPONSORURL}
+		#{SPONSORURL},
+		#{CDT},
+		#{STATE}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -44,7 +48,10 @@
 			l.LIMITPEOPLE,
 			l.SPONSORNAME,
 			l.SPONSORURL,
-			f.FILEPATH
+			l.CDT,
+			l.STATE,
+			f.FILEPATH,
+			IF(NOW()>=STR_TO_DATE(showtime,'%Y-%m-%d %H:%i:%s'),1,0) KJFLAG
         from
         <include refid="tableName"></include> l
          left join file f on l.lottery_id = f.reference_id and f.filetype = '4'
@@ -76,7 +83,10 @@
 			l.LIMITPEOPLE,
 			l.SPONSORNAME,
 			l.SPONSORURL,
-			f.FILEPATH
+			l.CDT,
+			l.STATE,
+			f.FILEPATH,
+			IF(NOW()>=STR_TO_DATE(showtime,'%Y-%m-%d %H:%i:%s'),1,0) KJFLAG
         from
         <include refid="tableName"></include> l
          left join file f on l.lottery_id = f.reference_id and f.filetype = '4'
@@ -136,6 +146,9 @@
         <if test="SPONSORURL != null and SPONSORURL != ''">
             ,SPONSORURL = #{SPONSORURL}
         </if>
+         <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
         where
         LOTTERY_ID = #{LOTTERY_ID}
     </update>
@@ -160,9 +173,12 @@
 			l.LIMITPEOPLE,
 			l.SPONSORNAME,
 			l.SPONSORURL,
+			l.CDT,
+			l.STATE,
 			f.FILEPATH,
 			f.FILENAME,
-			f.FILESIZE
+			f.FILESIZE,
+			IF(NOW()>=STR_TO_DATE(showtime,'%Y-%m-%d %H:%i:%s'),1,0) KJFLAG
         from
         <include refid="tableName"></include> l
          left join file f on l.lottery_id = f.reference_id and f.filetype = '4'

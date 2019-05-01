@@ -21,4 +21,6 @@ public interface ILotteryrecordService {
 
 	PageData findBy(PageData pd) throws Exception;
 
+	void editOpen(PageData pd) throws Exception;
+
 }

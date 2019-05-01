@@ -54,4 +54,9 @@ public class LotteryrecordServiceImpl implements ILotteryrecordService {
 		return (PageData) dao.findForObject("LotteryrecordMapper.findBy", pd);
 	}
 
+	@Override
+	public void editOpen(PageData pd) throws Exception {
+		dao.update("LotteryrecordMapper.editOpen", pd);
+	}
+
 }
