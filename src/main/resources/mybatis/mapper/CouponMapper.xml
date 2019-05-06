@@ -44,6 +44,9 @@
 		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
 			and endtime <![CDATA[ >= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
 		</if>
+		<if test="pd.STATE != null and pd.STATE != ''">
+			and state = #{pd.STATE}
+		</if>
         order by COUPON_ID ASC
     </select>
 
@@ -65,6 +68,9 @@
 		</if>
 		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
 			and endtime <![CDATA[ >= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
+		</if>
+		<if test="STATE != null and STATE != ''">
+			and state = #{STATE}
 		</if>
         order by COUPON_ID ASC
     </select>

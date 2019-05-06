@@ -47,4 +47,9 @@ public class CardsServiceImpl implements ICardsService {
 		return (PageData) dao.findForObject("CardsMapper.findById", pd);
 	}
 
+	@Override
+	public PageData findBy(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("CardsMapper.findBy", pd);
+	}
+
 }

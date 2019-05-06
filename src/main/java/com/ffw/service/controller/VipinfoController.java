@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ffw.api.model.Page;
 import com.ffw.api.model.PageData;
+import com.ffw.service.service.ICardsService;
+import com.ffw.service.service.ICouponService;
 import com.ffw.service.service.IVipinfoService;
 
 @RestController
@@ -19,6 +21,12 @@ public class VipinfoController extends BaseController {
 
 	@Autowired
 	IVipinfoService vipinfoService;
+
+	@Autowired
+	ICouponService couponService;
+
+	@Autowired
+	ICardsService cardsService;
 
 	@RequestMapping(value = "listAll", method = RequestMethod.POST)
 	public List<PageData> listAll(@RequestBody PageData pd) {
@@ -50,6 +58,7 @@ public class VipinfoController extends BaseController {
 	public PageData save(@RequestBody PageData pd) {
 		try {
 			vipinfoService.save(pd);
+			handler(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();
@@ -61,6 +70,7 @@ public class VipinfoController extends BaseController {
 	public PageData edit(@RequestBody PageData pd) {
 		try {
 			vipinfoService.edit(pd);
+			handler(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();
@@ -99,5 +109,34 @@ public class VipinfoController extends BaseController {
 			e.printStackTrace();
 		}
 		return pd;
+	}
+
+	public void handler(PageData pd) throws Exception {
+
+		String MEMBER_ID = pd.getString("MEMBER_ID");
+
+		PageData pd1 = new PageData();
+		pd1.put("STATE", "1");
+		List<PageData> couponData = couponService.listAll(pd1);
+
+		for (PageData item : couponData) {
+			PageData pd2 = new PageData();
+			pd2.put("COUPON_ID", item.getString("COUPON_ID"));
+			pd2.put("MEMBER_ID", MEMBER_ID);
+
+			pd2 = cardsService.findBy(pd2);
+			if (null == pd2) {
+				PageData pd3 = new PageData();
+				pd3.put("COUPON_ID", item.getString("COUPON_ID"));
+				pd3.put("MEMBER_ID", MEMBER_ID);
+				pd3.put("MONEY", item.getString("MONEY"));
+				pd3.put("DESCRIPTION", item.getString("MONEY") + "现金券");
+				pd3.put("STARTTIME", item.getString("STARTTIME"));
+				pd3.put("ENDTIME", item.getString("ENDTIME"));
+				pd3.put("STATE", "0");
+				cardsService.save(pd3);
+			}
+
+		}
 	}
 }

@@ -19,4 +19,6 @@ public interface ICardsService {
 
 	List<PageData> listAll(PageData pd) throws Exception;
 
+	PageData findBy(PageData pd) throws Exception;
+
 }
