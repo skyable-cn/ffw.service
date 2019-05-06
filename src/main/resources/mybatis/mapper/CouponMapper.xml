@@ -63,11 +63,11 @@
             	MONEY LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
-        <if test="pd.STARTTIME != null and pd.STARTTIME != ''">
-			and starttime <![CDATA[ <= ]]> str_to_date(#{pd.STARTTIME}, '%Y-%m-%d')
+        <if test="STARTTIME != null and STARTTIME != ''">
+			and starttime <![CDATA[ <= ]]> str_to_date(#{STARTTIME}, '%Y-%m-%d')
 		</if>
-		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
-			and endtime <![CDATA[ >= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
+		<if test="ENDTIME != null and ENDTIME != ''">
+			and endtime <![CDATA[ >= ]]> str_to_date(#{ENDTIME}, '%Y-%m-%d')
 		</if>
 		<if test="STATE != null and STATE != ''">
 			and state = #{STATE}
