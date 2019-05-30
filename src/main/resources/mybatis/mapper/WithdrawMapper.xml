@@ -63,6 +63,9 @@
         <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
             and wd.STATE = #{pd.STATE}
         </if>
+        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and m.market_id = #{pd.MARKET_ID}
+        </if>
         order by wd.WITHDRAW_ID DESC
     </select>
 
@@ -99,6 +102,9 @@
         </if>
         <if test="STATE!= null and STATE != ''"><!-- 关键词检索 -->
             and wd.STATE = #{STATE}
+        </if>
+        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and m.market_id = #{pd.MARKET_ID}
         </if>
         order by wd.WITHDRAW_ID DESC
     </select>

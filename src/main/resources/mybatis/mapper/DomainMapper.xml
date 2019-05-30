@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ServiceMapper">
+<mapper namespace="DomainMapper">
     <!--表名 -->
     <sql id="tableName">
-		service
+		domain
 	</sql>
 
     <!-- 字段 -->
     <sql id="Field">
-		SERVICE_ID,
-		SERVICEDESC,
-		SERVICEPHONE,
-		SERVICEWECHAT,
-		SERVICEGROUP,
-		MARKET_ID
+		DOMAIN_ID,
+		DOMAINNAME,
+		CONTRACTPEOPLE,
+		CONTRACTPHONE,
+		ACCOUNTER,
+		PERCENT,
+		CDT
 	</sql>
 
     <!-- 字段值 -->
     <sql id="FieldValue">
-		#{SERVICE_ID},
-		#{SERVICEDESC},
-		#{SERVICEPHONE},
-		#{SERVICEWECHAT},
-		#{SERVICEGROUP},
-		#{MARKET_ID}
+		#{DOMAIN_ID},
+		#{DOMAINNAME},
+		#{CONTRACTPEOPLE},
+		#{CONTRACTPHONE},
+		#{ACCOUNTER},
+		#{PERCENT},
+		#{CDT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -37,10 +39,10 @@
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	SERVICEDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	DOMAINNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
-        order by SERVICE_ID ASC
+        order by DOMAIN_ID ASC
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
@@ -53,14 +55,14 @@
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	SERVICEDESC LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            	DOMAINNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
-        order by SERVICE_ID ASC
+        order by DOMAIN_ID ASC
     </select>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="SERVICE_ID">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="DOMAIN_ID">
         insert into <include refid="tableName"></include> (
         <include refid="Field"></include>
         ) values (
@@ -73,21 +75,21 @@
         update
         <include refid="tableName"></include>
         set
-        SERVICE_ID = #{SERVICE_ID}
-        <if test="SERVICEDESC != null and SERVICEDESC != ''">
-            ,SERVICEDESC = #{SERVICEDESC}
+        DOMAIN_ID = #{DOMAIN_ID}
+        <if test="DOMAINNAME != null and DOMAINNAME != ''">
+            ,DOMAINNAME = #{DOMAINNAME}
         </if>
-        <if test="SERVICEPHONE != null and SERVICEPHONE != ''">
-            ,SERVICEPHONE = #{SERVICEPHONE}
+        <if test="CONTRACTPEOPLE != null and CONTRACTPEOPLE != ''">
+            ,CONTRACTPEOPLE = #{CONTRACTPEOPLE}
         </if>
-        <if test="SERVICEWECHAT != null and SERVICEWECHAT != ''">
-            ,SERVICEWECHAT = #{SERVICEWECHAT}
+        <if test="CONTRACTPHONE != null and CONTRACTPHONE != ''">
+            ,CONTRACTPHONE = #{CONTRACTPHONE}
         </if>
-         <if test="SERVICEGROUP != null and SERVICEGROUP != ''">
-            ,SERVICEGROUP = #{SERVICEGROUP}
+        <if test="PERCENT != null and PERCENT != ''">
+            ,PERCENT = #{PERCENT}
         </if>
         where
-        SERVICE_ID = #{SERVICE_ID}
+        DOMAIN_ID = #{DOMAIN_ID}
     </update>
     
     <!-- 删除 -->
@@ -95,7 +97,7 @@
         delete from
         <include refid="tableName"></include>
         where
-        SERVICE_ID = #{SERVICE_ID}
+        DOMAIN_ID = #{DOMAIN_ID}
     </delete>
     
     <!-- 通过user_id获取数据 -->
@@ -105,18 +107,6 @@
         from
         <include refid="tableName"></include>
         where
-        SERVICE_ID = #{SERVICE_ID}
-    </select>
-    
-    <select id="findBy" parameterType="pd" resultType="pd">
-        select
-        <include refid="Field"></include>
-        from
-        <include refid="tableName"></include>
-        where
-        1 = 1
-        <if test="MARKET_ID != null and MARKET_ID != ''">
-            and MARKET_ID = #{MARKET_ID}
-        </if>
+        DOMAIN_ID = #{DOMAIN_ID}
     </select>
 </mapper>

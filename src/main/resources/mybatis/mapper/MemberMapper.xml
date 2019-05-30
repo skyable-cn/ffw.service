@@ -20,7 +20,9 @@
 		ALREADYACCOUNT,
 		WXOPEN_ID,
 		FROMWXOPEN_ID,
-		MEMBERTYPE_ID
+		MEMBERTYPE_ID,
+		CLASS,
+		MARKET_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -36,7 +38,9 @@
 		#{ALREADYACCOUNT},
 		#{WXOPEN_ID},
 		#{FROMWXOPEN_ID},
-		#{MEMBERTYPE_ID}
+		#{MEMBERTYPE_ID},
+		#{CLASS},
+		#{MARKET_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -53,10 +57,16 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
-			mt.MEMBERTYPENAME
+			m.CLASS,
+			m.MARKET_ID,
+			mt.MEMBERTYPENAME,
+			mk.MARKETNAME,
+			dn.DOMAINNAME
         from
         <include refid="tableName"></include> m
         left join membertype mt on m.membertype_id = mt.membertype_id
+        left join market mk on m.market_id = mk.market_id
+        left join domain dn on mk.domain_id = dn.domain_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -77,6 +87,15 @@
         <if test="pd.FROMWXOPEN_ID!= null and pd.FROMWXOPEN_ID != ''"><!-- 关键词检索 -->
             and m.FROMWXOPEN_ID = #{pd.FROMWXOPEN_ID}
         </if>
+        <if test="pd.CLASS!= null and pd.CLASS != ''"><!-- 关键词检索 -->
+            and m.CLASS = #{pd.CLASS}
+        </if>
+        <if test="pd.DOMAIN_ID!= null and pd.DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and dn.domain_id = #{pd.DOMAIN_ID}
+        </if>
+        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and mk.market_id = #{pd.MARKET_ID}
+        </if>
         order by m.MEMBER_ID ASC
     </select>
 
@@ -94,10 +113,16 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
-			mt.MEMBERTYPENAME
+			m.CLASS,
+			m.MARKET_ID,
+			mt.MEMBERTYPENAME,
+			mk.MARKETNAME,
+			dn.DOMAINNAME
         from
         <include refid="tableName"></include> m
         left join membertype mt on m.membertype_id = mt.membertype_id
+        left join market mk on m.market_id = mk.market_id
+        left join domain dn on mk.domain_id = dn.domain_id
         where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -118,6 +143,15 @@
         <if test="FROMWXOPEN_ID!= null and FROMWXOPEN_ID != ''"><!-- 关键词检索 -->
             and m.FROMWXOPEN_ID = #{FROMWXOPEN_ID}
         </if>
+        <if test="CLASS!= null and CLASS != ''"><!-- 关键词检索 -->
+            and m.CLASS = #{CLASS}
+        </if>
+        <if test="DOMAIN_ID!= null and DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and dn.domain_id = #{DOMAIN_ID}
+        </if>
+        <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and mk.market_id = #{MARKET_ID}
+        </if>
         order by m.MEMBER_ID ASC
     </select>
     
@@ -135,6 +169,8 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
+			m.CLASS,
+			m.MARKET_ID,
 			m.LEVEL,
 			mt.MEMBERTYPENAME
         from
@@ -177,6 +213,8 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
+			m.CLASS,
+			m.MARKET_ID,
 			mt.MEMBERTYPENAME
         from
         <include refid="tableName"></include> m
@@ -200,6 +238,8 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
+			m.CLASS,
+			m.MARKET_ID,
 			mt.MEMBERTYPENAME,
 			ifnull(t.COUNT,0) COUNT
         from
@@ -326,6 +366,8 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
+			m.CLASS,
+			m.MARKET_ID,
 			mt.MEMBERTYPENAME
         from
         <include refid="tableName"></include> m
@@ -348,6 +390,8 @@
 			m.WXOPEN_ID,
 			m.FROMWXOPEN_ID,
 			m.MEMBERTYPE_ID,
+			m.CLASS,
+			m.MARKET_ID,
 			mt.MEMBERTYPENAME
         from
         <include refid="tableName"></include> m
@@ -381,6 +425,8 @@
 				m.WXOPEN_ID,
 				m.FROMWXOPEN_ID,
 				m.MEMBERTYPE_ID,
+				m.CLASS,
+				m.MARKET_ID,
 				mt.MEMBERTYPENAME,
 				IFNULL((select sum(givemoney) memoney from account where member_id = m.member_id and type=2),0) AS MEACCOUNT,
 				IFNULL((select sum(givemoney) from account where type in (3,4) and member_id = m.member_id),0) AS TEAMACCOUNT
@@ -407,6 +453,9 @@
 	        </if>
 	        <if test="pd.FROMWXOPEN_ID!= null and pd.FROMWXOPEN_ID != ''"><!-- 关键词检索 -->
 	            and m.FROMWXOPEN_ID = #{pd.FROMWXOPEN_ID}
+	        </if>
+	        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+	            and m.market_id = #{pd.MARKET_ID}
 	        </if>
 	        order by m.MEMBER_ID ASC
       </select>

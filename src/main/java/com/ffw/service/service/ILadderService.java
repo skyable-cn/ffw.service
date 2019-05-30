@@ -5,7 +5,7 @@ import java.util.List;
 import com.ffw.api.model.Page;
 import com.ffw.api.model.PageData;
 
-public interface IServiceService {
+public interface ILadderService {
 
 	void save(PageData pd) throws Exception;
 
@@ -18,6 +18,4 @@ public interface IServiceService {
 	List<PageData> listPage(Page page) throws Exception;
 
 	List<PageData> listAll(PageData pd) throws Exception;
-
-	PageData findBy(PageData pd) throws Exception;
 }

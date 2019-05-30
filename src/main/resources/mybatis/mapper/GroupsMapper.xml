@@ -12,7 +12,8 @@
 		GROUPS_ID,
 		GROUPSDESC,
 		MEDIA_ID,
-		CREATETIME
+		CREATETIME,
+		MARKET_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -20,7 +21,8 @@
 		#{GROUPS_ID},
 		#{GROUPSDESC},
 		#{MEDIA_ID},
-		#{CREATETIME}
+		#{CREATETIME},
+		#{MARKET_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -29,6 +31,7 @@
 			g.GROUPSDESC,
 			g.MEDIA_ID,
 			g.CREATETIME,
+			g.MARKET_ID,
 			f1.FILE_ID AS FILE_ID1,
 			f1.FILEPATH AS FILEPATH1,
 			f1.FILENAME AS FILENAME1,
@@ -53,6 +56,9 @@
 		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
 			and g.createtime <![CDATA[ <= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
 		</if>
+		<if test="pd.MARKET_ID != null and pd.MARKET_ID != ''">
+			and g.market_id = #{pd.MARKET_ID}
+		</if>
         order by g.GROUPS_ID DESC
     </select>
 
@@ -62,6 +68,7 @@
 			g.GROUPSDESC,
 			g.MEDIA_ID,
 			g.CREATETIME,
+			g.MARKET_ID,
 			f1.FILE_ID AS FILE_ID1,
 			f1.FILEPATH AS FILEPATH1,
 			f1.FILENAME AS FILENAME1,
@@ -85,6 +92,9 @@
 		</if>
 		<if test="ENDTIME != null and ENDTIME != ''">
 			and g.createtime <![CDATA[ <= ]]> str_to_date(#{ENDTIME}, '%Y-%m-%d')
+		</if>
+		<if test="MARKET_ID != null and MARKET_ID != ''">
+			and g.market_id = #{MARKET_ID}
 		</if>
         order by g.GROUPS_ID DESC
     </select>
@@ -129,6 +139,7 @@
 			g.GROUPSDESC,
 			g.MEDIA_ID,
 			g.CREATETIME,
+			g.MARKET_ID,
 			f1.FILE_ID AS FILE_ID1,
 			f1.FILEPATH AS FILEPATH1,
 			f1.FILENAME AS FILENAME1,

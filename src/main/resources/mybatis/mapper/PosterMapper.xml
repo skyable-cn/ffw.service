@@ -12,7 +12,8 @@
 		POSTER_ID,
 		POSTERDESC,
 		CDT,
-		STATE
+		STATE,
+		MARKET_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -20,7 +21,8 @@
 		#{POSTER_ID},
 		#{POSTERDESC},
 		#{CDT},
-		#{STATE}
+		#{STATE},
+		#{MARKET_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -29,6 +31,7 @@
         	p.POSTERDESC,
         	p.CDT,
         	p.STATE,
+        	p.MARKET_ID,
         	f.FILE_ID AS FILE_ID,
 			f.FILEPATH AS FILEPATH,
 			f.FILENAME AS FILENAME
@@ -44,6 +47,9 @@
             	p.POSTERDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
+        <if test="pd.MARKET_ID != null and pd.MARKET_ID != ''">
+			and p.market_id = #{pd.MARKET_ID}
+		</if>
         order by p.POSTER_ID DESC
     </select>
 
@@ -53,6 +59,7 @@
         	p.POSTERDESC,
         	p.CDT,
         	p.STATE,
+        	p.MARKET_ID,
         	f.FILE_ID AS FILE_ID,
 			f.FILEPATH AS FILEPATH,
 			f.FILENAME AS FILENAME
@@ -68,6 +75,9 @@
             	p.POSTERDESC LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
+         <if test="MARKET_ID != null and MARKET_ID != ''">
+			and p.market_id = #{MARKET_ID}
+		</if>
         order by p.POSTER_ID DESC
     </select>
 
@@ -108,6 +118,7 @@
         	p.POSTERDESC,
         	p.CDT,
         	p.STATE,
+        	p.MARKET_ID,
         	f.FILE_ID AS FILE_ID,
 			f.FILEPATH AS FILEPATH,
 			f.FILENAME AS FILENAME,

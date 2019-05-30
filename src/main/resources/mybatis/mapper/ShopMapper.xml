@@ -24,7 +24,11 @@
 		SHOPSTATE_ID,
 		SHOPTYPE_ID,
 		WAITACCOUNT,
-		ALREADYACCOUNT
+		ALREADYACCOUNT,
+		MARKET_ID,
+		WXFLAG,
+		DYFLAG,
+		MEMBER_ID_DY
 	</sql>
 
     <!-- 字段值 -->
@@ -44,7 +48,11 @@
 		#{SHOPSTATE_ID},
 		#{SHOPTYPE_ID},
 		#{WAITACCOUNT},
-		#{ALREADYACCOUNT}
+		#{ALREADYACCOUNT},
+		#{MARKET_ID},
+		#{WXFLAG},
+		#{DYFLAG},
+		#{MEMBER_ID_DY}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -66,12 +74,17 @@
 			s.DISTANCE,
 			s.WAITACCOUNT,
 			s.ALREADYACCOUNT,
+			s.MARKET_ID,
+			s.WXFLAG,
+			s.DYFLAG,
+			s.MEMBER_ID_DY,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
 			ifnull(f.FILEPATH,'shop.jpg') as FILEPATH,
 			m.NICKNAME,
 			m.PHOTO,
-			m.WXOPEN_ID
+			m.WXOPEN_ID,
+			mk.MARKETNAME
         from
         ( 
 			SELECT
@@ -91,6 +104,10 @@
 				SHOPTYPE_ID,
 				WAITACCOUNT,
 				ALREADYACCOUNT,
+				MARKET_ID,
+				WXFLAG,
+				DYFLAG,
+				MEMBER_ID_DY,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -138,6 +155,7 @@
         left join shoptype st on s.shoptype_id = st.shoptype_id
         left join file f on s.shop_id = f.reference_id and f.filetype = '7'
         left join member m on s.member_id = m.member_id
+        left join market mk on s.market_id = mk.market_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -154,6 +172,9 @@
         </if>
         <if test="pd.SHOPTYPE_ID != null and pd.SHOPTYPE_ID != ''"><!-- 关键词检索 -->
             and s.SHOPTYPE_ID = #{pd.SHOPTYPE_ID}
+        </if>
+        <if test="pd.MARKET_ID != null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and s.MARKET_ID = #{pd.MARKET_ID}
         </if>
         <if test="pd.SQLCONDITION != null and pd.SQLCONDITION != ''"><!-- 关键词检索 -->
             ${pd.SQLCONDITION}
@@ -181,6 +202,10 @@
 			s.SHOPTYPE_ID,
 			s.WAITACCOUNT,
 			s.ALREADYACCOUNT,
+			s.MARKET_ID,
+			s.WXFLAG,
+			s.DYFLAG,
+			s.MEMBER_ID_DY,
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
@@ -207,6 +232,10 @@
 				SHOPTYPE_ID,
 				WAITACCOUNT,
 				ALREADYACCOUNT,
+				MARKET_ID,
+				WXFLAG,
+				DYFLAG,
+				MEMBER_ID_DY,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -270,6 +299,9 @@
         </if>
         <if test="SHOPTYPE_ID != null and SHOPTYPE_ID != ''"><!-- 关键词检索 -->
             and s.SHOPTYPE_ID = #{SHOPTYPE_ID}
+        </if>
+         <if test="MARKET_ID != null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and s.MARKET_ID = #{MARKET_ID}
         </if>
         <if test="SQLCONDITION != null and SQLCONDITION != ''"><!-- 关键词检索 -->
             ${SQLCONDITION}
@@ -370,6 +402,12 @@
         <if test="ALREADYACCOUNT != null and ALREADYACCOUNT != ''">
             ,ALREADYACCOUNT = #{ALREADYACCOUNT}
         </if>
+        <if test="WXFLAG != null and WXFLAG != ''">
+            ,WXFLAG = #{WXFLAG}
+        </if>
+        <if test="DYFLAG != null and DYFLAG != ''">
+            ,DYFLAG = #{DYFLAG}
+        </if>
         where
         SHOP_ID = #{SHOP_ID}
     </update>
@@ -401,6 +439,10 @@
 			s.SHOPTYPE_ID,
 			s.WAITACCOUNT,
 			s.ALREADYACCOUNT,
+			s.MARKET_ID,
+			s.WXFLAG,
+			s.DYFLAG,
+			s.MEMBER_ID_DY,
 			s.DISTANCE,
 			ss.SHOPSTATENAME,
 			st.SHOPTYPENAME,
@@ -427,6 +469,10 @@
 				SHOPTYPE_ID,
 				WAITACCOUNT,
 				ALREADYACCOUNT,
+				MARKET_ID,
+				WXFLAG,
+				DYFLAG,
+				MEMBER_ID_DY,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(

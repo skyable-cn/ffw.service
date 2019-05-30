@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MarketMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		market
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		MARKET_ID,
+		MARKETNAME,
+		MARKETDESC,
+		CONTRACTPEOPLE,
+		CONTRACTPHONE,
+		ACCOUNTER,
+		PERCENT,
+		WXFLAG,
+		WXAPPID,
+		WXAPPSECRET,
+		WXMCHID,
+		WXMCHKEY,
+		DYFLAG,
+		DYAPPID,
+		DYAPPSECRET,
+		DYMCHID,
+		DYPUBLICKEY,
+		DYPRIVATEKEY,
+		DOMAIN_ID
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{MARKET_ID},
+		#{MARKETNAME},
+		#{MARKETDESC},
+		#{CONTRACTPEOPLE},
+		#{CONTRACTPHONE},
+		#{ACCOUNTER},
+		#{PERCENT},
+		#{WXFLAG},
+		#{WXAPPID},
+		#{WXAPPSECRET},
+		#{WXMCHID},
+		#{WXMCHKEY},
+		#{DYFLAG},
+		#{DYAPPID},
+		#{DYAPPSECRET},
+		#{DYMCHID},
+		#{DYPUBLICKEY},
+		#{DYPRIVATEKEY},
+		#{DOMAIN_ID}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+        	m.MARKET_ID,
+			m.MARKETNAME,
+			m.MARKETDESC,
+			m.CONTRACTPEOPLE,
+			m.CONTRACTPHONE,
+			m.ACCOUNTER,
+			m.PERCENT,
+			m.WXFLAG,
+			m.WXAPPID,
+			m.WXAPPSECRET,
+			m.WXMCHID,
+			m.WXMCHKEY,
+			m.DYFLAG,
+			m.DYAPPID,
+			m.DYAPPSECRET,
+			m.DYMCHID,
+			m.DYPUBLICKEY,
+			m.DYPRIVATEKEY,
+			m.DOMAIN_ID,
+			dn.DOMAINNAME,
+			f1.FILE_ID AS FILE_ID1,
+			f1.FILEPATH AS FILEPATH1,
+			f1.FILENAME AS FILENAME1,
+			f2.FILE_ID AS FILE_ID2,
+			f2.FILEPATH AS FILEPATH2,
+			f2.FILENAME AS FILENAME2
+        from
+        <include refid="tableName"></include> m
+        left join domain dn on m.domain_id = dn.domain_id
+        left join file f1 on m.market_id = f1.reference_id and f1.filetype = '9'
+        left join file f2 on m.market_id = f2.reference_id and f2.filetype = '10'
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	m.MARKETNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.DOMAIN_ID!= null and pd.DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and m.domain_id = #{pd.DOMAIN_ID}
+        </if>
+        order by m.MARKET_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+        	m.MARKET_ID,
+			m.MARKETNAME,
+			m.MARKETDESC,
+			m.CONTRACTPEOPLE,
+			m.CONTRACTPHONE,
+			m.ACCOUNTER,
+			m.PERCENT,
+			m.WXFLAG,
+			m.WXAPPID,
+			m.WXAPPSECRET,
+			m.WXMCHID,
+			m.WXMCHKEY,
+			m.DYFLAG,
+			m.DYAPPID,
+			m.DYAPPSECRET,
+			m.DYMCHID,
+			m.DYPUBLICKEY,
+			m.DYPRIVATEKEY,
+			m.DOMAIN_ID,
+			dn.DOMAINNAME,
+			f1.FILE_ID AS FILE_ID1,
+			f1.FILEPATH AS FILEPATH1,
+			f1.FILENAME AS FILENAME1,
+			f2.FILE_ID AS FILE_ID2,
+			f2.FILEPATH AS FILEPATH2,
+			f2.FILENAME AS FILENAME2
+        from
+        <include refid="tableName"></include> m
+        left join domain dn on m.domain_id = dn.domain_id
+        left join file f1 on m.market_id = f1.reference_id and f1.filetype = '9'
+        left join file f2 on m.market_id = f2.reference_id and f2.filetype = '10'
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	m.MARKETNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="DOMAIN_ID!= null and DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and m.domain_id = #{DOMAIN_ID}
+        </if>
+        order by m.MARKET_ID ASC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="MARKET_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        MARKET_ID = #{MARKET_ID}
+        <if test="MARKETNAME != null and MARKETNAME != ''">
+            ,MARKETNAME = #{MARKETNAME}
+        </if>
+        <if test="MARKETDESC != null and MARKETDESC != ''">
+            ,MARKETDESC = #{MARKETDESC}
+        </if>
+        <if test="CONTRACTPEOPLE != null and CONTRACTPEOPLE != ''">
+            ,CONTRACTPEOPLE = #{CONTRACTPEOPLE}
+        </if>
+        <if test="CONTRACTPHONE != null and CONTRACTPHONE != ''">
+            ,CONTRACTPHONE = #{CONTRACTPHONE}
+        </if>
+         <if test="PERCENT != null and PERCENT != ''">
+            ,PERCENT = #{PERCENT}
+        </if>
+        <if test="WXFLAG != null and WXFLAG != ''">
+            ,WXFLAG = #{WXFLAG}
+        </if>
+        <if test="WXAPPID != null and WXAPPID != ''">
+            ,WXAPPID = #{WXAPPID}
+        </if>
+        <if test="WXAPPSECRET != null and WXAPPSECRET != ''">
+            ,WXAPPSECRET = #{WXAPPSECRET}
+        </if>
+        <if test="WXMCHID != null and WXMCHID != ''">
+            ,WXMCHID = #{WXMCHID}
+        </if>
+        <if test="WXMCHKEY != null and WXMCHKEY != ''">
+            ,WXMCHKEY = #{WXMCHKEY}
+        </if>
+        <if test="DYFLAG != null and DYFLAG != ''">
+            ,DYFLAG = #{DYFLAG}
+        </if>
+        <if test="DYAPPID != null and DYAPPID != ''">
+            ,DYAPPID = #{DYAPPID}
+        </if>
+        <if test="DYAPPSECRET != null and DYAPPSECRET != ''">
+            ,DYAPPSECRET = #{DYAPPSECRET}
+        </if>
+        <if test="DYMCHID != null and DYMCHID != ''">
+            ,DYMCHID = #{DYMCHID}
+        </if>
+        <if test="DYPUBLICKEY != null and DYPUBLICKEY != ''">
+            ,DYPUBLICKEY = #{DYPUBLICKEY}
+        </if>
+        <if test="DYPRIVATEKEY != null and DYPRIVATEKEY != ''">
+            ,DYPRIVATEKEY = #{DYPRIVATEKEY}
+        </if>
+        where
+        MARKET_ID = #{MARKET_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        MARKET_ID = #{MARKET_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+       select
+        	m.MARKET_ID,
+			m.MARKETNAME,
+			m.MARKETDESC,
+			m.CONTRACTPEOPLE,
+			m.CONTRACTPHONE,
+			m.ACCOUNTER,
+			m.PERCENT,
+			m.WXFLAG,
+			m.WXAPPID,
+			m.WXAPPSECRET,
+			m.WXMCHID,
+			m.WXMCHKEY,
+			m.DYFLAG,
+			m.DYAPPID,
+			m.DYAPPSECRET,
+			m.DYMCHID,
+			m.DYPUBLICKEY,
+			m.DYPRIVATEKEY,
+			m.DOMAIN_ID,
+			f1.FILE_ID AS FILE_ID1,
+			f1.FILEPATH AS FILEPATH1,
+			f1.FILENAME AS FILENAME1,
+			f2.FILE_ID AS FILE_ID2,
+			f2.FILEPATH AS FILEPATH2,
+			f2.FILENAME AS FILENAME2
+        from
+        <include refid="tableName"></include> m
+        left join file f1 on m.market_id = f1.reference_id and f1.filetype = '9'
+        left join file f2 on m.market_id = f2.reference_id and f2.filetype = '10'
+        where
+        m.MARKET_ID = #{MARKET_ID}
+    </select>
+</mapper>

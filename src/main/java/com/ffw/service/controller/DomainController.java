@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ffw.api.model.Page;
 import com.ffw.api.model.PageData;
-import com.ffw.service.service.IServiceService;
+import com.ffw.service.service.IDomainService;
 
 @RestController
-@RequestMapping("service")
-public class ServiceController extends BaseController {
+@RequestMapping("domain")
+public class DomainController extends BaseController {
 
 	@Autowired
-	IServiceService serviceService;
+	IDomainService domainService;
 
 	@RequestMapping(value = "listAll", method = RequestMethod.POST)
 	public List<PageData> listAll(@RequestBody PageData pd) {
 		List<PageData> data = null;
 		try {
-			data = serviceService.listAll(pd);
+			data = domainService.listAll(pd);
 		} catch (Exception e) {
 			data = new ArrayList<PageData>();
 			e.printStackTrace();
@@ -37,7 +37,7 @@ public class ServiceController extends BaseController {
 		Page page = getPage(pd);
 		List<PageData> data = null;
 		try {
-			data = serviceService.listPage(page);
+			data = domainService.listPage(page);
 		} catch (Exception e) {
 			data = new ArrayList<PageData>();
 			e.printStackTrace();
@@ -49,7 +49,7 @@ public class ServiceController extends BaseController {
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public PageData save(@RequestBody PageData pd) {
 		try {
-			serviceService.save(pd);
+			domainService.save(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();
@@ -60,7 +60,7 @@ public class ServiceController extends BaseController {
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public PageData edit(@RequestBody PageData pd) {
 		try {
-			serviceService.edit(pd);
+			domainService.edit(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class ServiceController extends BaseController {
 	@RequestMapping(value = "delete", method = RequestMethod.POST)
 	public PageData delete(@RequestBody PageData pd) {
 		try {
-			serviceService.delete(pd);
+			domainService.delete(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();
@@ -82,18 +82,7 @@ public class ServiceController extends BaseController {
 	@RequestMapping(value = "find", method = RequestMethod.POST)
 	public PageData find(@RequestBody PageData pd) {
 		try {
-			pd = serviceService.findById(pd);
-		} catch (Exception e) {
-			pd = null;
-			e.printStackTrace();
-		}
-		return pd;
-	}
-	
-	@RequestMapping(value = "findBy", method = RequestMethod.POST)
-	public PageData findBy(@RequestBody PageData pd) {
-		try {
-			pd = serviceService.findBy(pd);
+			pd = domainService.findById(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();

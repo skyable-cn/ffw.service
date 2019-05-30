@@ -15,7 +15,8 @@
 		STANDDESC,
 		CREATETIME,
 		STATE,
-		REMARK
+		REMARK,
+		MARKET_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -26,7 +27,8 @@
 		#{STANDDESC},
 		#{CREATETIME},
 		#{STATE},
-		#{REMARK}
+		#{REMARK},
+		#{MARKET_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -38,9 +40,11 @@
 			s.CREATETIME,
 			s.STATE,
 			s.REMARK,
+			s.MARKET_ID,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
 			sh.SHOP_ID,
+			sh.SHOPNAME,
 			ifnull(f.FILEPATH,p.FILEPATH) as FILEPATH
         from
         <include refid="tableName"></include> s
@@ -66,6 +70,9 @@
         <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
             and sh.SHOP_ID = #{pd.SHOP_ID}
         </if>
+        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and s.MARKET_ID = #{pd.MARKET_ID}
+        </if>
         order by s.STAND_ID DESC
     </select>
 
@@ -78,9 +85,11 @@
 			s.CREATETIME,
 			s.STATE,
 			s.REMARK,
+			s.MARKET_ID,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
 			sh.SHOP_ID,
+			sh.SHOPNAME,
 			ifnull(f.FILEPATH,p.FILEPATH) as FILEPATH
         from
         <include refid="tableName"></include> s
@@ -105,6 +114,9 @@
         </if>
         <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
             and sh.SHOP_ID = #{SHOP_ID}
+        </if>
+        <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and s.MARKET_ID = #{MARKET_ID}
         </if>
         order by s.STAND_ID DESC
     </select>
@@ -167,9 +179,11 @@
 			s.CREATETIME,
 			s.STATE,
 			s.REMARK,
+			s.MARKET_ID,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
 			sh.SHOP_ID,
+			sh.SHOPNAME,
 			ifnull(f.FILEPATH,p.FILEPATH) as FILEPATH
         from
         <include refid="tableName"></include> s

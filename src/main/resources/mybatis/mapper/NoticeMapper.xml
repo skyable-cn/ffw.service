@@ -1,75 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="BillMapper">
+<mapper namespace="NoticeMapper">
     <!--表名 -->
     <sql id="tableName">
-		bill
+		notice
 	</sql>
 
     <!-- 字段 -->
     <sql id="Field">
-    	K0,
-		K1,
-		K2,
-		K3,
-		K4,
-		K5,
-		K6,
-		K7,
-		K8,
-		K9,
-		K10,
-		K11,
-		K12,
-		K13,
-		K14,
-		K15,
-		K16,
-		K17,
-		K18,
-		K19,
-		K20,
-		K21,
-		K22,
-		K23,
-		K24,
-		K25,
-		K26,
-		K27,
+		NOTICE_ID,
+		NOTICECONTENT,
+		CDT,
+		STATE,
 		MARKET_ID
 	</sql>
-
+	
     <!-- 字段值 -->
     <sql id="FieldValue">
-    	#{K0},
-		#{K1},
-		#{K2},
-		#{K3},
-		#{K4},
-		#{K5},
-		#{K6},
-		#{K7},
-		#{K8},
-		#{K9},
-		#{K10},
-		#{K11},
-		#{K12},
-		#{K13},
-		#{K14},
-		#{K15},
-		#{K16},
-		#{K17},
-		#{K18},
-		#{K19},
-		#{K20},
-		#{K21},
-		#{K22},
-		#{K23},
-		#{K24},
-		#{K25},
-		#{K26},
-		#{K27},
+		#{NOTICE_ID},
+		#{NOTICECONTENT},
+		#{CDT},
+		#{STATE},
 		#{MARKET_ID}
 	</sql>
 
@@ -80,16 +32,10 @@
         <include refid="tableName"></include>
         where
         1 = 1
-        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
-            and
-            (
-            	K1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-            )
-        </if>
-        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
-            and market_id = #{pd.MARKET_ID}
-        </if>
-        order by K0 DESC
+        <if test="pd.MARKET_ID != null and pd.MARKET_ID != ''">
+			and market_id = #{pd.MARKET_ID}
+		</if>
+        order by NOTICE_ID DESC
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
@@ -99,20 +45,14 @@
         <include refid="tableName"></include>
          where
         1 = 1
-        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
-            and
-            (
-            	K1 LIKE CONCAT(CONCAT('%', #{keywords}),'%')
-            )
-        </if>
-        <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
-            and market_id = #{MARKET_ID}
-        </if>
-        order by K0 DESC
+        <if test="MARKET_ID != null and MARKET_ID != ''">
+			and market_id = #{MARKET_ID}
+		</if>
+        order by NOTICE_ID DESC
     </select>
 
     <!-- 新增 -->
-    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="K0">
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="NOTICE_ID">
         insert into <include refid="tableName"></include> (
         <include refid="Field"></include>
         ) values (
@@ -120,18 +60,19 @@
         )
     </insert>
     
-        <!-- 修改 -->
     <update id="edit" parameterType="pd">
         update
         <include refid="tableName"></include>
         set
-        K0 = #{K0}
-        <if test="K1 != null and K1 != ''">
-            ,K1 = #{K1}
+        NOTICE_ID = #{NOTICE_ID}
+        <if test="NOTICECONTENT != null and NOTICECONTENT != ''">
+            ,NOTICECONTENT = #{NOTICECONTENT}
         </if>
-        
+        <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
         where
-        K0 = #{K0}
+        NOTICE_ID = #{NOTICE_ID}
     </update>
     
     <!-- 删除 -->
@@ -139,9 +80,8 @@
         delete from
         <include refid="tableName"></include>
         where
-        K0 = #{K0}
+        NOTICE_ID = #{NOTICE_ID}
     </delete>
-    
     <!-- 通过user_id获取数据 -->
     <select id="findById" parameterType="pd" resultType="pd">
         select
@@ -149,6 +89,6 @@
         from
         <include refid="tableName"></include>
         where
-        K0 = #{K0}
+        NOTICE_ID = #{NOTICE_ID}
     </select>
 </mapper>

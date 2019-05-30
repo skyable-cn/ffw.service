@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LadderMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		ladder
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		LADDER_ID,
+		GOODS_ID,
+		REMARK,
+		CDT,
+		STATE,
+		MARKET_ID
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{LADDER_ID},
+		#{GOODS_ID},
+		#{REMARK},
+		#{CDT},
+		#{STATE},
+		#{MARKET_ID}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+	        l.LADDER_ID,
+			l.GOODS_ID,
+			l.REMARK,
+			l.CDT,
+			l.STATE,
+			l.MARKET_ID,
+			g.GOODSNAME,
+			sh.SHOPNAME,
+			p.FILEPATH
+        from
+        <include refid="tableName"></include> l
+        left join goods g on l.goods_id = g.goods_id
+        left join shop sh on g.shop_id = sh.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.GOODSNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+       <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
+            and l.STATE = #{pd.STATE}
+        </if>
+        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and l.MARKET_ID = #{pd.MARKET_ID}
+        </if>
+        order by l.LADDER_ID DESC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+	        l.LADDER_ID,
+			l.GOODS_ID,
+			l.REMARK,
+			l.CDT,
+			l.STATE,
+			l.MARKET_ID,
+			g.GOODSNAME,
+			sh.SHOPNAME,
+			p.FILEPATH
+        from
+        <include refid="tableName"></include> l
+        left join goods g on l.goods_id = g.goods_id
+        left join shop sh on g.shop_id = sh.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
+        where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.GOODSNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="STATE!= null and STATE != ''"><!-- 关键词检索 -->
+            and l.STATE = #{STATE}
+        </if>
+        <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and l.MARKET_ID = #{MARKET_ID}
+        </if>
+        order by l.LADDER_ID DESC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="LADDER_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        LADDER_ID = #{LADDER_ID}
+        <if test="GOODS_ID != null and GOODS_ID != ''">
+            ,GOODS_ID = #{GOODS_ID}
+        </if>
+        <if test="STATE != null and STATE != ''">
+            ,STATE = #{STATE}
+        </if>
+        <if test="REMARK != null and REMARK != ''">
+            ,REMARK = #{REMARK}
+        </if>
+        where
+        LADDER_ID = #{LADDER_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        LADDER_ID = #{LADDER_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+	        l.LADDER_ID,
+			l.GOODS_ID,
+			l.REMARK,
+			l.CDT,
+			l.STATE,
+			l.MARKET_ID,
+			g.GOODSNAME,
+			sh.SHOPNAME,
+			p.FILEPATH
+        from
+        <include refid="tableName"></include> l
+        left join goods g on l.goods_id = g.goods_id
+        left join shop sh on g.shop_id = sh.shop_id
+        left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
+        where
+        l.LADDER_ID = #{LADDER_ID}
+    </select>
+</mapper>

@@ -19,7 +19,8 @@
 		SPONSORNAME,
 		SPONSORURL,
 		CDT,
-		STATE
+		STATE,
+		MARKET_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -34,7 +35,8 @@
 		#{SPONSORNAME},
 		#{SPONSORURL},
 		#{CDT},
-		#{STATE}
+		#{STATE},
+		#{MARKET_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -50,6 +52,7 @@
 			l.SPONSORURL,
 			l.CDT,
 			l.STATE,
+			l.MARKET_ID,
 			f.FILEPATH,
 			IF(NOW()>=STR_TO_DATE(showtime,'%Y-%m-%d %H:%i:%s'),1,0) KJFLAG
         from
@@ -69,6 +72,9 @@
 		<if test="pd.ENDTIME != null and pd.ENDTIME != ''">
 			and l.endtime <![CDATA[ >= ]]> str_to_date(#{pd.ENDTIME}, '%Y-%m-%d')
 		</if>
+		<if test="pd.MARKET_ID != null and pd.MARKET_ID != ''">
+			and l.market_id = #{pd.MARKET_ID}
+		</if>
         order by l.LOTTERY_ID DESC
     </select>
 
@@ -85,6 +91,7 @@
 			l.SPONSORURL,
 			l.CDT,
 			l.STATE,
+			l.MARKET_ID,
 			f.FILEPATH,
 			IF(NOW()>=STR_TO_DATE(showtime,'%Y-%m-%d %H:%i:%s'),1,0) KJFLAG
         from
@@ -103,6 +110,9 @@
 		</if>
 		<if test="ENDTIME != null and ENDTIME != ''">
 			and l.endtime <![CDATA[ >= ]]> str_to_date(#{ENDTIME}, '%Y-%m-%d')
+		</if>
+		<if test="MARKET_ID != null and MARKET_ID != ''">
+			and l.market_id = #{MARKET_ID}
 		</if>
         order by l.LOTTERY_ID DESC
     </select>
@@ -175,6 +185,7 @@
 			l.SPONSORURL,
 			l.CDT,
 			l.STATE,
+			l.MARKET_ID,
 			f.FILEPATH,
 			f.FILENAME,
 			f.FILESIZE,

@@ -35,7 +35,11 @@
 		VIEWNUMBER1,
 		VIEWNUMBER2,
 		PRAISENUMBER,
-		STATE
+		STATE,
+		USESTARTTIME,
+		USEENDTIME,
+		WXFLAG,
+		DYFLAG
 	</sql>
 
     <!-- 字段值 -->
@@ -66,7 +70,11 @@
 		#{VIEWNUMBER1},
 		#{VIEWNUMBER2},
 		#{PRAISENUMBER},
-		#{STATE}
+		#{STATE},
+		#{USESTARTTIME},
+		#{USEENDTIME},
+		#{WXFLAG},
+		#{DYFLAG}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -98,9 +106,14 @@
 			g.VIEWNUMBER2,
 			g.PRAISENUMBER,
 			g.STATE,
+			g.USESTARTTIME,
+			g.USEENDTIME,
+			g.WXFLAG,
+			g.DYFLAG,
 			s.SHOPNAME,
 			p.FILEPATH,
-			p1.FILEPATH AS FILEPATH1
+			p1.FILEPATH AS FILEPATH1,
+			mk.MARKETNAME
         from
         <include refid="tableName"></include> g
         left join (
@@ -118,6 +131,7 @@
 				CDT,
 				SHOPSTATE_ID,
 				SHOPTYPE_ID,
+				MARKET_ID,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -163,6 +177,7 @@
         ) s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
         left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
+        left join market mk on s.market_id = mk.market_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -176,6 +191,9 @@
         </if>
         <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{pd.SHOP_ID}
+        </if>
+        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and s.MARKET_ID = #{pd.MARKET_ID}
         </if>
         <if test="pd.DISTANCE!= null and pd.DISTANCE != ''"><!-- 关键词检索 -->
             and s.DISTANCE <![CDATA[ < ]]> #{pd.DISTANCE}
@@ -220,6 +238,10 @@
 			g.VIEWNUMBER2,
 			g.PRAISENUMBER,
 			g.STATE,
+			g.USESTARTTIME,
+			g.USEENDTIME,
+			g.WXFLAG,
+			g.DYFLAG,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1
@@ -240,6 +262,7 @@
 				CDT,
 				SHOPSTATE_ID,
 				SHOPTYPE_ID,
+				MARKET_ID,
 			    ROUND(
 			        6378.138 * 2 * ASIN(
 			            SQRT(
@@ -298,6 +321,9 @@
         </if>
         <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{SHOP_ID}
+        </if>
+        <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and s.MARKET_ID = #{MARKET_ID}
         </if>
         <if test="DISTANCE!= null and DISTANCE != ''"><!-- 关键词检索 -->
             and s.DISTANCE <![CDATA[ < ]]> #{DISTANCE}
@@ -400,6 +426,12 @@
         <if test="SHOP_ID != null and SHOP_ID != ''">
             ,SHOP_ID = #{SHOP_ID}
         </if>
+        <if test="WXFLAG != null and WXFLAG != ''">
+            ,WXFLAG = #{WXFLAG}
+        </if>
+        <if test="DYFLAG != null and DYFLAG != ''">
+            ,DYFLAG = #{DYFLAG}
+        </if>
         where
         GOODS_ID = #{GOODS_ID}
     </update>
@@ -442,6 +474,10 @@
 			g.VIEWNUMBER2,
 			g.PRAISENUMBER,
 			g.STATE,
+			g.USESTARTTIME,
+			g.USEENDTIME,
+			g.WXFLAG,
+			g.DYFLAG,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1

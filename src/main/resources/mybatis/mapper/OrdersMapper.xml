@@ -28,7 +28,8 @@
 		FROMWXOPEN_ID,
 		GIVEMONEY,
 		GDT,
-		VIPFLAG
+		VIPFLAG,
+		CLASS
 	</sql>
 
     <!-- 字段值 -->
@@ -52,7 +53,8 @@
 		#{FROMWXOPEN_ID},
 		#{GIVEMONEY},
 		#{GDT},
-		#{VIPFLAG}
+		#{VIPFLAG},
+		#{CLASS}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -77,6 +79,7 @@
 			os.GIVEMONEY,
 			os.GDT,
 			os.VIPFLAG,
+			os.CLASS,
 			osi.GOODS_ID,
 			osi.NUMBER,
 			g.GOODSNAME,
@@ -100,14 +103,16 @@
 			s.LATITUDE,
 			p.FILEPATH,
 			m.NICKNAME,
-			m.WXOPEN_ID
+			m.WXOPEN_ID,
+			mk.MARKETNAME
         from
         <include refid="tableName"></include> os
-        left join ordersitem osi on os.order_id = osi.order_id
+        inner join ordersitem osi on os.order_id = osi.order_id
         left join goods g on osi.goods_id = g.goods_id
         left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
         left join member m on os.member_id = m.member_id
+        left join market mk on s.market_id = mk.market_id
         where
         1 = 1
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
@@ -135,6 +140,12 @@
         <if test="pd.SQLCONDITION != null and pd.SQLCONDITION != ''"><!-- 关键词检索 -->
             ${pd.SQLCONDITION}
         </if>
+        <if test="pd.CLASS != null and pd.CLASS != ''">
+            and os.CLASS = #{pd.CLASS}
+        </if>
+         <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
+            and mk.market_id = #{pd.MARKET_ID}
+        </if>
         order by os.ORDER_ID DESC
     </select>
     
@@ -160,6 +171,7 @@
 			os.GIVEMONEY,
 			os.GDT,
 			os.VIPFLAG,
+			os.CLASS,
 			osi.GOODS_ID,
 			osi.NUMBER,
 			g.GOODSNAME,
@@ -229,6 +241,7 @@
 			os.GIVEMONEY,
 			os.GDT,
 			os.VIPFLAG,
+			os.CLASS,
 			osi.GOODS_ID,
 			osi.NUMBER,
 			g.GOODSNAME,
@@ -269,6 +282,9 @@
             	os.ORDERSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
+        <if test="pd.CLASS != null and pd.CLASS != ''">
+            and os.CLASS = #{pd.CLASS}
+        </if>
         order by os.ORDER_ID DESC
     </select>
 
@@ -294,6 +310,7 @@
 			os.GIVEMONEY,
 			os.GDT,
 			os.VIPFLAG,
+			os.CLASS,
 			osi.GOODS_ID,
 			osi.NUMBER,
 			g.GOODSNAME,
@@ -438,6 +455,7 @@
 			os.GIVEMONEY,
 			os.GDT,
 			os.VIPFLAG,
+			os.CLASS,
 			osi.GOODS_ID,
 			osi.NUMBER,
 			g.GOODSNAME,
@@ -495,6 +513,7 @@
 			os.GIVEMONEY,
 			os.GDT,
 			os.VIPFLAG,
+			os.CLASS,
 			osi.GOODS_ID,
 			osi.NUMBER,
 			g.GOODSNAME,

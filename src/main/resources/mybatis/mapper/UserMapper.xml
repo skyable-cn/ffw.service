@@ -84,7 +84,14 @@
 	        u.ROLE_ID,
 	        u.CDT,
 	        u.STATE,
-	        r.ROLENAME
+	        r.ROLENAME,
+	        case 
+			when u.role_id = 1 then '西安芹菜网络公司'
+			when u.role_id = 2 then (SELECT domainname from domain where domain_id = u.dm_id)
+			when u.role_id = 3 then (SELECT marketname from market where market_id = u.dm_id)
+			when u.role_id = 4 then (SELECT shopname from shop where shop_id = u.dm_id)
+			else ''
+			end DMNAME
         from
         <include refid="tableName"></include> u
         LEFT JOIN ROLE r ON u.role_id = r.role_id
@@ -103,6 +110,9 @@
         </if>
         <if test="pd.DM_ID!= null and pd.DM_ID != ''">
             AND u.DM_ID = #{pd.DM_ID}
+        </if>
+        <if test="pd.STATE!= null and pd.STATE != ''">
+            AND u.STATE = #{pd.STATE}
         </if>
         order by u.USER_ID ASC
     </select>
@@ -128,6 +138,8 @@
             and
             (
             u.USERNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+             or
+            u.PHONE LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
 
@@ -135,21 +147,11 @@
             AND u.DM_ID = #{DM_ID}
         </if>
 
-        <if test="DM_IDS!= null and DM_IDS != ''">
-            AND u.DM_ID IN (
-            SELECT rg.rg_id FROM regulatory rg
-            WHERE rg.rgl_id = 4
-            or (rg.rgl_id = 3 and (select pj.pjcounty from project pj where pj.pj_id = #{DM_IDS} ) like
-            concat(substr(rg.rgprovince,1,2),'%'))
-            or (rg.rgl_id = 2 and (select pj.pjcounty from project pj where pj.pj_id = #{DM_IDS} ) like
-            concat(substr(rg.rgcity,1,4),'%'))
-            or (rg.rgl_id = 1 and (select pj.pjcounty from project pj where pj.pj_id = #{DM_IDS} ) like
-            concat(substr(rg.rgcounty,1,6),'%'))
-            )
-        </if>
-
         <if test="ROLE_ID!= null and ROLE_ID != ''">
             AND u.ROLE_ID = #{ROLE_ID}
+        </if>
+        <if test="STATE!= null and STATE != ''">
+            AND u.STATE = #{STATE}
         </if>
         order by u.USER_ID ASC
     </select>

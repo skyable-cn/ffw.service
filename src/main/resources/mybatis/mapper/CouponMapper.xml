@@ -13,7 +13,8 @@
 		MONEY,
 		STARTTIME,
 		ENDTIME,
-		STATE
+		STATE,
+		MARKET_ID
 	</sql>
 
     <!-- 字段值 -->
@@ -22,7 +23,8 @@
 		#{MONEY},
 		#{STARTTIME},
 		#{ENDTIME},
-		#{STATE}
+		#{STATE},
+		#{MARKET_ID}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -46,6 +48,9 @@
 		</if>
 		<if test="pd.STATE != null and pd.STATE != ''">
 			and state = #{pd.STATE}
+		</if>
+		<if test="pd.MARKET_ID != null and pd.MARKET_ID != ''">
+			and market_id = #{pd.MARKET_ID}
 		</if>
         order by COUPON_ID ASC
     </select>
@@ -71,6 +76,9 @@
 		</if>
 		<if test="STATE != null and STATE != ''">
 			and state = #{STATE}
+		</if>
+		<if test="MARKET_ID != null and MARKET_ID != ''">
+			and market_id = #{pd.MARKET_ID}
 		</if>
         order by COUPON_ID ASC
     </select>
