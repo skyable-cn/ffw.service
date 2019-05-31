@@ -176,6 +176,12 @@
         <if test="pd.MARKET_ID != null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
             and s.MARKET_ID = #{pd.MARKET_ID}
         </if>
+        <if test="pd.WXFLAG != null and pd.WXFLAG != ''"><!-- 关键词检索 -->
+            and s.WXFLAG = #{pd.WXFLAG}
+        </if>
+        <if test="pd.DYFLAG != null and pd.DYFLAG != ''"><!-- 关键词检索 -->
+            and s.DYFLAG = #{pd.DYFLAG}
+        </if>
         <if test="pd.SQLCONDITION != null and pd.SQLCONDITION != ''"><!-- 关键词检索 -->
             ${pd.SQLCONDITION}
         </if>
@@ -302,6 +308,12 @@
         </if>
          <if test="MARKET_ID != null and MARKET_ID != ''"><!-- 关键词检索 -->
             and s.MARKET_ID = #{MARKET_ID}
+        </if>
+        <if test="WXFLAG != null and WXFLAG != ''"><!-- 关键词检索 -->
+            and s.WXFLAG = #{WXFLAG}
+        </if>
+        <if test="DYFLAG != null and DYFLAG != ''"><!-- 关键词检索 -->
+            and s.DYFLAG = #{DYFLAG}
         </if>
         <if test="SQLCONDITION != null and SQLCONDITION != ''"><!-- 关键词检索 -->
             ${SQLCONDITION}

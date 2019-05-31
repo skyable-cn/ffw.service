@@ -342,6 +342,7 @@
         left join shop s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id
         left join member m on os.member_id = m.member_id
+        left join market mk on s.market_id = mk.market_id
          where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
@@ -365,6 +366,12 @@
         </if>
         <if test="SHOP_ID != null and SHOP_ID != ''">
             and s.SHOP_ID = #{SHOP_ID}
+        </if>
+         <if test="CLASS != null and CLASS != ''">
+            and os.CLASS = #{CLASS}
+        </if>
+         <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and mk.market_id = #{MARKET_ID}
         </if>
         <if test="SQLCONDITION != null and SQLCONDITION != ''"><!-- 关键词检索 -->
             ${SQLCONDITION}

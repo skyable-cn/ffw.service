@@ -192,6 +192,12 @@
         <if test="pd.SHOP_ID!= null and pd.SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{pd.SHOP_ID}
         </if>
+        <if test="pd.WXFLAG != null and pd.WXFLAG != ''"><!-- 关键词检索 -->
+            and g.WXFLAG = #{pd.WXFLAG}
+        </if>
+        <if test="pd.DYFLAG != null and pd.DYFLAG != ''"><!-- 关键词检索 -->
+            and g.DYFLAG = #{pd.DYFLAG}
+        </if>
         <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
             and s.MARKET_ID = #{pd.MARKET_ID}
         </if>
@@ -321,6 +327,12 @@
         </if>
         <if test="SHOP_ID!= null and SHOP_ID != ''"><!-- 关键词检索 -->
             and g.SHOP_ID = #{SHOP_ID}
+        </if>
+        <if test="WXFLAG != null and WXFLAG != ''"><!-- 关键词检索 -->
+            and g.WXFLAG = #{WXFLAG}
+        </if>
+        <if test="DYFLAG != null and DYFLAG != ''"><!-- 关键词检索 -->
+            and g.DYFLAG = #{DYFLAG}
         </if>
         <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
             and s.MARKET_ID = #{MARKET_ID}

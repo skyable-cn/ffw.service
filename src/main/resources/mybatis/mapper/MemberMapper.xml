@@ -219,8 +219,14 @@
         from
         <include refid="tableName"></include> m
         left join membertype mt on m.membertype_id = mt.membertype_id
+        where 1 = 1
+         <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and m.MARKET_ID = #{MARKET_ID}
+        </if>
+        <if test="CLASS!= null and CLASS != ''"><!-- 关键词检索 -->
+            and m.CLASS = #{CLASS}
+        </if>
         order by m.WAITACCOUNT DESC
-        
         LIMIT 0,100
     </select>
     
@@ -261,6 +267,15 @@
 			) m
 			group by m.member_id
         ) t on m.member_id = t.member_id
+        
+        where 1 = 1
+         <if test="MARKET_ID!= null and MARKET_ID != ''"><!-- 关键词检索 -->
+            and m.MARKET_ID = #{MARKET_ID}
+        </if>
+        <if test="CLASS!= null and CLASS != ''"><!-- 关键词检索 -->
+            and m.CLASS = #{CLASS}
+        </if>
+        
         order by t.COUNT DESC
         
         LIMIT 0,100
