@@ -39,7 +39,8 @@
 		USESTARTTIME,
 		USEENDTIME,
 		WXFLAG,
-		DYFLAG
+		DYFLAG,
+		PROVIDE
 	</sql>
 
     <!-- 字段值 -->
@@ -74,7 +75,8 @@
 		#{USESTARTTIME},
 		#{USEENDTIME},
 		#{WXFLAG},
-		#{DYFLAG}
+		#{DYFLAG},
+		#{PROVIDE}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -110,7 +112,9 @@
 			g.USEENDTIME,
 			g.WXFLAG,
 			g.DYFLAG,
+			g.PROVIDE,
 			s.SHOPNAME,
+			s.SHOPADDRESS,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1,
 			mk.MARKETNAME
@@ -184,6 +188,14 @@
             and
             (
             	g.GOODSNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	
+            	or 
+            	
+            	g.GOODSDESC LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	
+            	or
+            	
+            	s.SHOPNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
         <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
@@ -248,6 +260,7 @@
 			g.USEENDTIME,
 			g.WXFLAG,
 			g.DYFLAG,
+			g.PROVIDE,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1
@@ -444,6 +457,9 @@
         <if test="DYFLAG != null and DYFLAG != ''">
             ,DYFLAG = #{DYFLAG}
         </if>
+        <if test="PROVIDE != null and PROVIDE != ''">
+            ,PROVIDE = #{PROVIDE}
+        </if>
         where
         GOODS_ID = #{GOODS_ID}
     </update>
@@ -490,6 +506,7 @@
 			g.USEENDTIME,
 			g.WXFLAG,
 			g.DYFLAG,
+			g.PROVIDE,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1
