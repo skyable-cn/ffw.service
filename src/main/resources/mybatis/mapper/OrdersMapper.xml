@@ -390,6 +390,10 @@
     <insert id="saveRefund" parameterType="pd">
     	insert into refundinfo values(null,#{ORDER_ID},#{REFUNDDESC},#{CDT})
     </insert>
+    
+    <insert id="saveRate" parameterType="pd">
+    	insert into rate values(null,#{ORDER_ID},#{RATECONTENT},#{CDT})
+    </insert>
 
     <!-- 新增 -->
     <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="ORDER_ID">

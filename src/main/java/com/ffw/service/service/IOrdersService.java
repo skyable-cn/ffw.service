@@ -29,4 +29,6 @@ public interface IOrdersService {
 
 	List<PageData> listPageShop(Page page) throws Exception;
 
+	void saveRate(PageData pd) throws Exception;
+
 }

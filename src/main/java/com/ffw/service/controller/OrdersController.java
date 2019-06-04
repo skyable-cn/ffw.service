@@ -108,6 +108,17 @@ public class OrdersController extends BaseController {
 		return pd;
 	}
 
+	@RequestMapping(value = "saveRate", method = RequestMethod.POST)
+	public PageData saveRate(@RequestBody PageData pd) {
+		try {
+			ordersService.saveRate(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
+
 	@RequestMapping(value = "edit", method = RequestMethod.POST)
 	public PageData edit(@RequestBody PageData pd) {
 		try {

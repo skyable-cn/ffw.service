@@ -49,8 +49,7 @@ public class OrdersServiceImpl implements IOrdersService {
 
 	@Override
 	public List<PageData> listAllRefund(PageData pd) throws Exception {
-		return (List<PageData>) dao.findForList("OrdersMapper.listAllRefund",
-				pd);
+		return (List<PageData>) dao.findForList("OrdersMapper.listAllRefund", pd);
 	}
 
 	@Override
@@ -65,14 +64,17 @@ public class OrdersServiceImpl implements IOrdersService {
 
 	@Override
 	public List<PageData> listPageBill(Page page) throws Exception {
-		return (List<PageData>) dao.findForList("OrdersMapper.listPageBill",
-				page);
+		return (List<PageData>) dao.findForList("OrdersMapper.listPageBill", page);
 	}
 
 	@Override
 	public List<PageData> listPageShop(Page page) throws Exception {
-		return (List<PageData>) dao.findForList("OrdersMapper.listPageShop",
-				page);
+		return (List<PageData>) dao.findForList("OrdersMapper.listPageShop", page);
+	}
+
+	@Override
+	public void saveRate(PageData pd) throws Exception {
+		dao.save("OrdersMapper.saveRate", pd);
 	}
 
 }
