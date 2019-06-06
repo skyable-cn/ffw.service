@@ -25,8 +25,8 @@
 		DYAPPID,
 		DYAPPSECRET,
 		DYMCHID,
-		DYPUBLICKEY,
-		DYPRIVATEKEY,
+		DYMAPPID,
+		DYMAPPSECRET,
 		DOMAIN_ID
 	</sql>
 
@@ -48,8 +48,8 @@
 		#{DYAPPID},
 		#{DYAPPSECRET},
 		#{DYMCHID},
-		#{DYPUBLICKEY},
-		#{DYPRIVATEKEY},
+		#{DYMAPPID},
+		#{DYMAPPSECRET},
 		#{DOMAIN_ID}
 	</sql>
 
@@ -71,8 +71,8 @@
 			m.DYAPPID,
 			m.DYAPPSECRET,
 			m.DYMCHID,
-			m.DYPUBLICKEY,
-			m.DYPRIVATEKEY,
+			m.DYMAPPID,
+			m.DYMAPPSECRET,
 			m.DOMAIN_ID,
 			dn.DOMAINNAME,
 			f1.FILE_ID AS FILE_ID1,
@@ -118,8 +118,8 @@
 			m.DYAPPID,
 			m.DYAPPSECRET,
 			m.DYMCHID,
-			m.DYPUBLICKEY,
-			m.DYPRIVATEKEY,
+			m.DYMAPPID,
+			m.DYMAPPSECRET,
 			m.DOMAIN_ID,
 			dn.DOMAINNAME,
 			f1.FILE_ID AS FILE_ID1,
@@ -204,11 +204,11 @@
         <if test="DYMCHID != null and DYMCHID != ''">
             ,DYMCHID = #{DYMCHID}
         </if>
-        <if test="DYPUBLICKEY != null and DYPUBLICKEY != ''">
-            ,DYPUBLICKEY = #{DYPUBLICKEY}
+        <if test="DYMAPPID != null and DYMAPPID != ''">
+            ,DYMAPPID = #{DYMAPPID}
         </if>
-        <if test="DYPRIVATEKEY != null and DYPRIVATEKEY != ''">
-            ,DYPRIVATEKEY = #{DYPRIVATEKEY}
+        <if test="DYMAPPSECRET != null and DYMAPPSECRET != ''">
+            ,DYMAPPSECRET = #{DYMAPPSECRET}
         </if>
         where
         MARKET_ID = #{MARKET_ID}
@@ -241,8 +241,8 @@
 			m.DYAPPID,
 			m.DYAPPSECRET,
 			m.DYMCHID,
-			m.DYPUBLICKEY,
-			m.DYPRIVATEKEY,
+			m.DYMAPPID,
+			m.DYMAPPSECRET,
 			m.DOMAIN_ID,
 			f1.FILE_ID AS FILE_ID1,
 			f1.FILEPATH AS FILEPATH1,
