@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.ffw.api.model.Page;
 import com.ffw.api.model.PageData;
 import com.ffw.service.dao.DaoSupport;
-import com.ffw.service.service.ICouponService;
 import com.ffw.service.service.INoticeService;
 
 @Service
@@ -46,6 +45,16 @@ public class NoticeServiceImpl implements INoticeService {
 	@Override
 	public PageData findById(PageData pd) throws Exception {
 		return (PageData) dao.findForObject("NoticeMapper.findById", pd);
+	}
+
+	@Override
+	public List<PageData> listAllUnRead(PageData pd) throws Exception {
+		return (List<PageData>) dao.findForList("NoticeMapper.listAllUnRead", pd);
+	}
+
+	@Override
+	public void saveRecord(PageData pd) throws Exception {
+		dao.save("NoticeMapper.saveRecord", pd);
 	}
 
 }

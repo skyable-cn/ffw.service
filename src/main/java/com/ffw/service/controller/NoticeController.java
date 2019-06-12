@@ -32,6 +32,18 @@ public class NoticeController extends BaseController {
 		return data;
 	}
 
+	@RequestMapping(value = "listAllUnRead", method = RequestMethod.POST)
+	public List<PageData> listAllUnRead(@RequestBody PageData pd) {
+		List<PageData> data = null;
+		try {
+			data = noticeService.listAllUnRead(pd);
+		} catch (Exception e) {
+			data = new ArrayList<PageData>();
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	@RequestMapping(value = "listPage", method = RequestMethod.POST)
 	public Page listPage(@RequestBody PageData pd) {
 		Page page = getPage(pd);
@@ -50,6 +62,17 @@ public class NoticeController extends BaseController {
 	public PageData save(@RequestBody PageData pd) {
 		try {
 			noticeService.save(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
+
+	@RequestMapping(value = "saveRecord", method = RequestMethod.POST)
+	public PageData saveRecord(@RequestBody PageData pd) {
+		try {
+			noticeService.saveRecord(pd);
 		} catch (Exception e) {
 			pd = null;
 			e.printStackTrace();

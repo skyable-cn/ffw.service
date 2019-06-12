@@ -51,6 +51,23 @@
         order by NOTICE_ID DESC
     </select>
 
+	<select id="listAllUnRead" parameterType="pd" resultType="pd">
+        select
+	        n.NOTICE_ID,
+			n.NOTICECONTENT,
+			n.CDT,
+			n.STATE,
+			n.MARKET_ID
+        from
+        <include refid="tableName"></include> n
+        left join noticerecord nr on n.notice_id = nr.notice_id  and nr.member_id = #{MEMBER_ID}
+         where
+        	n.state = 1
+        	and n.market_id = #{MARKET_ID}
+        	and nr.member_id is null
+        order by n.NOTICE_ID DESC
+    </select>
+    
     <!-- 新增 -->
     <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="NOTICE_ID">
         insert into <include refid="tableName"></include> (
@@ -58,6 +75,10 @@
         ) values (
         <include refid="FieldValue"></include>
         )
+    </insert>
+    
+    <insert id="saveRecord" parameterType="pd" useGeneratedKeys="true" keyProperty="NOTICERECORD_ID">
+        insert into noticerecord values (null,#{NOTICE_ID},#{MEMBER_ID},#{SCDT})
     </insert>
     
     <update id="edit" parameterType="pd">
