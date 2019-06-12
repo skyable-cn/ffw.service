@@ -450,7 +450,11 @@
 	        left join membertype mt on m.membertype_id = mt.membertype_id
 	        where
 	        1 = 1
-	        and m.membertype_id in (3,4)
+	        and (
+	        	m.membertype_id in (3,4) and m.class = 'wx'
+	        	or
+	        	m.membertype_id in (1) and m.class = 'dy'
+	        )
 	        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 	            and
 	            (
@@ -471,6 +475,9 @@
 	        </if>
 	        <if test="pd.MARKET_ID!= null and pd.MARKET_ID != ''"><!-- 关键词检索 -->
 	            and m.market_id = #{pd.MARKET_ID}
+	        </if>
+	        <if test="pd.CLASS!= null and pd.CLASS != ''"><!-- 关键词检索 -->
+	            and m.class = #{pd.CLASS}
 	        </if>
 	        order by m.MEMBER_ID ASC
       </select>

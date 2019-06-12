@@ -31,9 +31,18 @@
         from
         <include refid="tableName"></include>
         where
-        1 = 1
+         1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	NOTICECONTENT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
         <if test="pd.MARKET_ID != null and pd.MARKET_ID != ''">
 			and market_id = #{pd.MARKET_ID}
+		</if>
+		<if test="pd.STATE != null and pd.STATE != ''">
+			and state = #{pd.STATE}
 		</if>
         order by NOTICE_ID DESC
     </select>
