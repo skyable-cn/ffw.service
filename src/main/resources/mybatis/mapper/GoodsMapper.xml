@@ -198,6 +198,9 @@
             	s.SHOPNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
+        <if test="pd.DOMAIN_ID!= null and pd.DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and mk.domain_id = #{pd.DOMAIN_ID}
+        </if>
         <if test="pd.STATE!= null and pd.STATE != ''"><!-- 关键词检索 -->
             and g.STATE = #{pd.STATE}
         </if>
@@ -326,13 +329,23 @@
 			    shop
         ) s on g.shop_id = s.shop_id
         left join ( SELECT * FROM file WHERE filetype = '1'  GROUP BY reference_id ) p on g.goods_id = p.reference_id 
-         left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
+        left join ( SELECT * FROM file WHERE filetype = '2'  GROUP BY reference_id ) p1 on g.goods_id = p1.reference_id 
+        left join market mk on s.market_id = mk.market_id
         where
         1 = 1
         <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
             and
             (
             	g.GOODSNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="DOMAIN_ID!= null and DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and mk.domain_id = #{DOMAIN_ID}
+        </if>
+        <if test="CCDT!= null and CCDT != ''"><!-- 关键词检索 -->
+            and
+            (
+            	g.createtime LIKE CONCAT(CONCAT('%', #{CCDT}),'%')
             )
         </if>
         <if test="STATE!= null and STATE != ''"><!-- 关键词检索 -->

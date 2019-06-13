@@ -58,6 +58,12 @@
             	DOMAINNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
             )
         </if>
+        <if test="CCDT!= null and CCDT != ''"><!-- 关键词检索 -->
+            and
+            (
+            	CDT LIKE CONCAT(CONCAT('%', #{CCDT}),'%')
+            )
+        </if>
         order by DOMAIN_ID ASC
     </select>
 

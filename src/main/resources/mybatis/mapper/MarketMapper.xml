@@ -27,7 +27,8 @@
 		DYMCHID,
 		DYMAPPID,
 		DYMAPPSECRET,
-		DOMAIN_ID
+		DOMAIN_ID,
+		CDT
 	</sql>
 
     <!-- 字段值 -->
@@ -50,7 +51,8 @@
 		#{DYMCHID},
 		#{DYMAPPID},
 		#{DYMAPPSECRET},
-		#{DOMAIN_ID}
+		#{DOMAIN_ID},
+		#{CDT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -143,6 +145,12 @@
         </if>
         <if test="DOMAIN_ID!= null and DOMAIN_ID != ''"><!-- 关键词检索 -->
             and m.domain_id = #{DOMAIN_ID}
+        </if>
+        <if test="CCDT!= null and CCDT != ''"><!-- 关键词检索 -->
+            and
+            (
+            	m.CDT LIKE CONCAT(CONCAT('%', #{CCDT}),'%')
+            )
         </if>
         order by m.MARKET_ID ASC
     </select>

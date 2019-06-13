@@ -127,6 +127,9 @@
             	os.USEKEY LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
             )
         </if>
+        <if test="pd.DOMAIN_ID!= null and pd.DOMAIN_ID != ''"><!-- 关键词检索 -->
+            and mk.domain_id = #{pd.DOMAIN_ID}
+        </if>
          <if test="pd.MEMBER_ID != null and pd.MEMBER_ID != ''">
             and os.MEMBER_ID = #{pd.MEMBER_ID}
         </if>
