@@ -268,18 +268,18 @@
     
     <select id="findDesk" parameterType="pd" resultType="pd">
     select 
-		(select sum(os.original) from orders os
+		ifnull((select sum(os.original) from orders os
 		left join member m on os.member_id = m.member_id
-		 where m.market_id  = #{MARKET_ID} and os.cdt like CONCAT(#{CDTD},'%') and os.state not in (0)) as DAYMONEYSUM,
+		 where m.market_id  = #{MARKET_ID} and os.cdt like CONCAT(#{CDTD},'%') and os.state not in (0)),0) as DAYMONEYSUM,
 		(select count(1) from orders os
 		left join member m on os.member_id = m.member_id
 		 where m.market_id  = #{MARKET_ID} and os.udt like CONCAT(#{CDTD},'%') and os.state in (3,4)) as DAYUSEDSUM,
 		(select count(1) from orders os
 		left join member m on os.member_id = m.member_id
 		 where m.market_id  = #{MARKET_ID} and os.cdt like CONCAT(#{CDTD},'%') and os.state not in (0,3,4)) as DAYPAYEDSUM,
-		(select sum(os.original) from orders os
+		ifnull((select sum(os.original) from orders os
 		left join member m on os.member_id = m.member_id
-		 where m.market_id  = #{MARKET_ID} and os.cdt like CONCAT(#{CDTM},'%') and os.state not in (0)) as MONTHMONEYSUM,
+		 where m.market_id  = #{MARKET_ID} and os.cdt like CONCAT(#{CDTM},'%') and os.state not in (0)),0) as MONTHMONEYSUM,
 		(select count(1) from orders os
 		left join member m on os.member_id = m.member_id
 		 where m.market_id  = #{MARKET_ID} and os.udt like CONCAT(#{CDTM},'%') and os.state in (3,4)) as MONTHUSEDSUM,
