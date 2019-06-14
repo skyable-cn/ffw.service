@@ -89,4 +89,15 @@ public class MarketController extends BaseController {
 		}
 		return pd;
 	}
+
+	@RequestMapping(value = "findDesk", method = RequestMethod.POST)
+	public PageData findDesk(@RequestBody PageData pd) {
+		try {
+			pd = marketService.findDesk(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
 }

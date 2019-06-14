@@ -18,4 +18,6 @@ public interface IMarketService {
 	List<PageData> listPage(Page page) throws Exception;
 
 	List<PageData> listAll(PageData pd) throws Exception;
+
+	PageData findDesk(PageData pd) throws Exception;
 }

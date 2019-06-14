@@ -47,4 +47,9 @@ public class MarketServiceImpl implements IMarketService {
 		return (PageData) dao.findForObject("MarketMapper.findById", pd);
 	}
 
+	@Override
+	public PageData findDesk(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("MarketMapper.findDesk", pd);
+	}
+
 }
