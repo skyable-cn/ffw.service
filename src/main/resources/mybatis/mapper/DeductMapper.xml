@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DeductMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		deduct
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+		DEDUCT_ID,
+		ORDER_ID,
+		DM_ID,
+		DM_TYPE,
+		INCOMEMONEY,
+		PROFITMONEY,
+		SERVICEMONEY,
+		CLASS,
+		CDT
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{DEDUCT_ID},
+		#{ORDER_ID},
+		#{DM_ID},
+		#{DM_TYPE},
+		#{INCOMEMONEY},
+		#{PROFITMONEY},
+		#{SERVICEMONEY},
+		#{CLASS},
+		#{CDT}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+        	dd.DEDUCT_ID,
+			dd.ORDER_ID,
+			dd.DM_ID,
+			dd.DM_TYPE,
+			dd.INCOMEMONEY,
+			dd.PROFITMONEY,
+			dd.SERVICEMONEY,
+			dd.CLASS,
+			dd.CDT,
+	        <if test="pd.DM_TYPE == 'shop'"><!-- 关键词检索 -->
+	            dm.SHOPNAME DM_NAME,
+	        </if>
+	        <if test="pd.DM_TYPE == 'market'"><!-- 关键词检索 -->
+	            dm.MARKETNAME DM_NAME,
+	        </if>
+	        <if test="pd.DM_TYPE == 'domain'"><!-- 关键词检索 -->
+	            dm.DOMAINNAME DM_NAME,
+	        </if>
+	        od.ORDERSN
+        from
+        <include refid="tableName"></include> dd
+        left join orders od on dd.order_id = od.order_id
+        left join ${pd.DM_TYPE} dm on
+        <if test="pd.DM_TYPE == 'shop'"><!-- 关键词检索 -->
+            dd.dm_id = dm.shop_id
+        </if>
+        <if test="pd.DM_TYPE == 'market'"><!-- 关键词检索 -->
+            dd.dm_id = dm.market_id
+        </if>
+        <if test="pd.DM_TYPE == 'domain'"><!-- 关键词检索 -->
+            dd.dm_id = dm.domain_id
+        </if>
+        where
+        1 = 1
+        <if test="pd.DM_TYPE == 'shop'"><!-- 关键词检索 -->
+            AND dd.dm_type = 'shop'
+        </if>
+        <if test="pd.DM_TYPE == 'market'"><!-- 关键词检索 -->
+            and dd.dm_type = 'market'
+        </if>
+        <if test="pd.DM_TYPE == 'domain'"><!-- 关键词检索 -->
+            and dd.dm_type = 'domain'
+        </if>
+        <if test="pd.DM_ID != null and pd.DM_ID != ''"><!-- 关键词检索 -->
+            and
+            (
+            	<if test="pd.DM_TYPE == 'shop'"><!-- 关键词检索 -->
+		            dm.market_id = #{pd.DM_ID}
+		        </if>
+		        <if test="pd.DM_TYPE == 'market'"><!-- 关键词检索 -->
+		            dm.domain_id = #{pd.DM_ID}
+		        </if>
+            )
+        </if>
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	od.ORDERSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        <if test="pd.CLASS != null and pd.CLASS != ''">
+            and dd.CLASS = #{pd.CLASS}
+        </if>
+        order by dd.DEDUCT_ID DESC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	ORDER_ID LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        order by DEDUCT_ID DESC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="DEDUCT_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        DEDUCT_ID = #{DEDUCT_ID}
+        <if test="CDT != null and CDT != ''">
+            ,CDT = #{CDT}
+        </if>
+        where
+        DEDUCT_ID = #{DEDUCT_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        DEDUCT_ID = #{DEDUCT_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        DEDUCT_ID = #{DEDUCT_ID}
+    </select>
+</mapper>
