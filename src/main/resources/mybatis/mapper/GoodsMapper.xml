@@ -40,7 +40,8 @@
 		USEENDTIME,
 		WXFLAG,
 		DYFLAG,
-		PROVIDE
+		PROVIDE,
+		VIRTUALSELLED
 	</sql>
 
     <!-- 字段值 -->
@@ -76,7 +77,8 @@
 		#{USEENDTIME},
 		#{WXFLAG},
 		#{DYFLAG},
-		#{PROVIDE}
+		#{PROVIDE},
+		#{VIRTUALSELLED}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -113,6 +115,7 @@
 			g.WXFLAG,
 			g.DYFLAG,
 			g.PROVIDE,
+	   g.VIRTUALSELLED,
 			s.SHOPNAME,
 			s.SHOPADDRESS,
 			p.FILEPATH,
@@ -473,6 +476,9 @@
         <if test="PROVIDE != null and PROVIDE != ''">
             ,PROVIDE = #{PROVIDE}
         </if>
+		<if test="VIRTUALSELLED != null and VIRTUALSELLED != ''">
+			,VIRTUALSELLED = #{VIRTUALSELLED}
+		</if>
         where
         GOODS_ID = #{GOODS_ID}
     </update>
@@ -520,6 +526,7 @@
 			g.WXFLAG,
 			g.DYFLAG,
 			g.PROVIDE,
+		g.VIRTUALSELLED,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1
