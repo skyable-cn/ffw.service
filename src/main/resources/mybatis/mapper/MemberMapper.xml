@@ -22,7 +22,8 @@
 		FROMWXOPEN_ID,
 		MEMBERTYPE_ID,
 		CLASS,
-		MARKET_ID
+		MARKET_ID,
+		CDT
 	</sql>
 
     <!-- 字段值 -->
@@ -40,7 +41,8 @@
 		#{FROMWXOPEN_ID},
 		#{MEMBERTYPE_ID},
 		#{CLASS},
-		#{MARKET_ID}
+		#{MARKET_ID},
+		#{CDT}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -59,6 +61,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			mt.MEMBERTYPENAME,
 			mk.MARKETNAME,
 			dn.DOMAINNAME
@@ -115,6 +118,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			mt.MEMBERTYPENAME,
 			mk.MARKETNAME,
 			dn.DOMAINNAME
@@ -171,6 +175,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			m.LEVEL,
 			mt.MEMBERTYPENAME
         from
@@ -215,6 +220,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			mt.MEMBERTYPENAME
         from
         <include refid="tableName"></include> m
@@ -246,6 +252,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			mt.MEMBERTYPENAME,
 			ifnull(t.COUNT,0) COUNT
         from
@@ -383,6 +390,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			mt.MEMBERTYPENAME
         from
         <include refid="tableName"></include> m
@@ -407,6 +415,7 @@
 			m.MEMBERTYPE_ID,
 			m.CLASS,
 			m.MARKET_ID,
+			m.CDT,
 			mt.MEMBERTYPENAME
         from
         <include refid="tableName"></include> m
@@ -442,6 +451,7 @@
 				m.MEMBERTYPE_ID,
 				m.CLASS,
 				m.MARKET_ID,
+				m.CDT,
 				mt.MEMBERTYPENAME,
 				IFNULL((select sum(givemoney) memoney from account where member_id = m.member_id and type=2),0) AS MEACCOUNT,
 				IFNULL((select sum(givemoney) from account where type in (3,4) and member_id = m.member_id),0) AS TEAMACCOUNT
