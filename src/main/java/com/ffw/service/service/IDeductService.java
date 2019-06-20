@@ -18,4 +18,6 @@ public interface IDeductService {
 	List<PageData> listPage(Page page) throws Exception;
 
 	List<PageData> listAll(PageData pd) throws Exception;
+
+	PageData findCount(PageData pd) throws Exception;
 }

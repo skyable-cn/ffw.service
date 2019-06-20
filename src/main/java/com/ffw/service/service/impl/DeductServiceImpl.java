@@ -47,4 +47,9 @@ public class DeductServiceImpl implements IDeductService {
 		return (PageData) dao.findForObject("DeductMapper.findById", pd);
 	}
 
+	@Override
+	public PageData findCount(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("DeductMapper.findCount", pd);
+	}
+
 }

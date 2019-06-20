@@ -55,7 +55,8 @@
 	        <if test="pd.DM_TYPE == 'domain'"><!-- 关键词检索 -->
 	            dm.DOMAINNAME DM_NAME,
 	        </if>
-	        od.ORDERSN
+	        od.ORDERSN,
+	        dm.PERCENT
         from
         <include refid="tableName"></include> dd
         left join orders od on dd.order_id = od.order_id
@@ -113,7 +114,48 @@
         order by dd.DM_ID ASC
         ) t
     </select>
-
+    
+    <select id="findCount" parameterType="pd" resultType="pd">
+       select
+			sum(dd.INCOMEMONEY) INCOMEMONEY,
+			sum(dd.PROFITMONEY) PROFITMONEY,
+			sum(dd.SERVICEMONEY) SERVICEMONEY
+        from
+        <include refid="tableName"></include> dd
+        left join ${DM_TYPE} dm on
+        <if test="DM_TYPE == 'shop'"><!-- 关键词检索 -->
+            dd.dm_id = dm.shop_id
+        </if>
+        <if test="DM_TYPE == 'market'"><!-- 关键词检索 -->
+            dd.dm_id = dm.market_id
+        </if>
+        <if test="DM_TYPE == 'domain'"><!-- 关键词检索 -->
+            dd.dm_id = dm.domain_id
+        </if>
+        where
+        1 = 1
+        <if test="DM_TYPE == 'shop'"><!-- 关键词检索 -->
+            AND dd.dm_type = 'shop'
+        </if>
+        <if test="DM_TYPE == 'market'"><!-- 关键词检索 -->
+            and dd.dm_type = 'market'
+        </if>
+        <if test="DM_TYPE == 'domain'"><!-- 关键词检索 -->
+            and dd.dm_type = 'domain'
+        </if>
+        <if test="DM_ID != null and DM_ID != ''"><!-- 关键词检索 -->
+            and
+            (
+            	<if test="DM_TYPE == 'shop'"><!-- 关键词检索 -->
+		            dm.market_id = #{pd.DM_ID}
+		        </if>
+		        <if test="DM_TYPE == 'market'"><!-- 关键词检索 -->
+		            dm.domain_id = #{pd.DM_ID}
+		        </if>
+            )
+        </if>
+    </select>
+    
     <select id="listAll" parameterType="pd" resultType="pd">
         select
         <include refid="Field"></include>

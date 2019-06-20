@@ -89,4 +89,15 @@ public class DeductController extends BaseController {
 		}
 		return pd;
 	}
+
+	@RequestMapping(value = "findCount", method = RequestMethod.POST)
+	public PageData findCount(@RequestBody PageData pd) {
+		try {
+			pd = deductService.findCount(pd);
+		} catch (Exception e) {
+			pd = null;
+			e.printStackTrace();
+		}
+		return pd;
+	}
 }
