@@ -34,14 +34,16 @@
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
-        select
+        select t.* from 
+        (
+        	select
         	dd.DEDUCT_ID,
 			dd.ORDER_ID,
 			dd.DM_ID,
 			dd.DM_TYPE,
-			dd.INCOMEMONEY,
-			dd.PROFITMONEY,
-			dd.SERVICEMONEY,
+			sum(dd.INCOMEMONEY) INCOMEMONEY,
+			sum(dd.PROFITMONEY) PROFITMONEY,
+			sum(dd.SERVICEMONEY) SERVICEMONEY,
 			dd.CLASS,
 			dd.CDT,
 	        <if test="pd.DM_TYPE == 'shop'"><!-- 关键词检索 -->
@@ -92,13 +94,24 @@
         <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
             and
             (
-            	od.ORDERSN LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            	
+            	<if test="pd.DM_TYPE == 'shop'"><!-- 关键词检索 -->
+		            dm.SHOPNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+		        </if>
+		        <if test="pd.DM_TYPE == 'market'"><!-- 关键词检索 -->
+		            dm.MARKETNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+		        </if>
+		        <if test="pd.DM_TYPE == 'domain'"><!-- 关键词检索 -->
+		            dm.DOMAINNAME LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+		        </if>
             )
         </if>
         <if test="pd.CLASS != null and pd.CLASS != ''">
             and dd.CLASS = #{pd.CLASS}
         </if>
-        order by dd.DEDUCT_ID DESC
+        GROUP BY dd.DM_ID
+        order by dd.DM_ID ASC
+        ) t
     </select>
 
     <select id="listAll" parameterType="pd" resultType="pd">
