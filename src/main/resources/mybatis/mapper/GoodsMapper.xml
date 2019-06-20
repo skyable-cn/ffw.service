@@ -41,7 +41,8 @@
 		WXFLAG,
 		DYFLAG,
 		PROVIDE,
-		VIRTUALSELLED
+		VIRTUALSELLED,
+		GOODSDETIAL
 	</sql>
 
     <!-- 字段值 -->
@@ -78,7 +79,8 @@
 		#{WXFLAG},
 		#{DYFLAG},
 		#{PROVIDE},
-		#{VIRTUALSELLED}
+		#{VIRTUALSELLED},
+		#{GOODSDETIAL}
 	</sql>
 
    <select id="listPage" parameterType="page" resultType="pd">
@@ -116,6 +118,7 @@
 			g.DYFLAG,
 			g.PROVIDE,
 	   		g.VIRTUALSELLED,
+	   		g.GOODSDETIAL,
 			s.SHOPNAME,
 			s.SHOPADDRESS,
 			p.FILEPATH,
@@ -268,6 +271,7 @@
 			g.DYFLAG,
 			g.PROVIDE,
 			g.VIRTUALSELLED,
+			g.GOODSDETIAL,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1
@@ -480,6 +484,9 @@
 		<if test="VIRTUALSELLED != null and VIRTUALSELLED != ''">
 			,VIRTUALSELLED = #{VIRTUALSELLED}
 		</if>
+		<if test="GOODSDETIAL != null and GOODSDETIAL != ''">
+			,GOODSDETIAL = #{GOODSDETIAL}
+		</if>
         where
         GOODS_ID = #{GOODS_ID}
     </update>
@@ -528,6 +535,7 @@
 			g.DYFLAG,
 			g.PROVIDE,
 			g.VIRTUALSELLED,
+			g.GOODSDETIAL,
 			s.SHOPNAME,
 			p.FILEPATH,
 			p1.FILEPATH AS FILEPATH1
