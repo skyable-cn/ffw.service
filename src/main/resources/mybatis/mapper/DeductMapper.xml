@@ -147,10 +147,10 @@
             and
             (
             	<if test="DM_TYPE == 'shop'"><!-- 关键词检索 -->
-		            dm.market_id = #{pd.DM_ID}
+		            dm.market_id = #{DM_ID}
 		        </if>
 		        <if test="DM_TYPE == 'market'"><!-- 关键词检索 -->
-		            dm.domain_id = #{pd.DM_ID}
+		            dm.domain_id = #{DM_ID}
 		        </if>
             )
         </if>
