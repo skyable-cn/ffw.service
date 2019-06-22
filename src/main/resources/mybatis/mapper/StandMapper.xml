@@ -88,6 +88,7 @@
 			s.MARKET_ID,
 			st.STANDTYPENAME,
 			g.GOODSNAME,
+			g.STATE GSTATE,
 			sh.SHOP_ID,
 			sh.SHOPNAME,
 			ifnull(f.FILEPATH,p.FILEPATH) as FILEPATH
