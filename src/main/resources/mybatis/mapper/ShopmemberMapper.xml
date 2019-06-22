@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ShopmemberMapper">
+    <!--表名 -->
+    <sql id="tableName">
+		shopmember
+	</sql>
+
+    <!-- 字段 -->
+    <sql id="Field">
+    	SHOPMEMBER_ID,
+    	SHOP_ID,
+		MEMBER_ID,
+		CLASS,
+		CDT
+	</sql>
+
+    <!-- 字段值 -->
+    <sql id="FieldValue">
+		#{SHOPMEMBER_ID},
+    	#{SHOP_ID},
+		#{MEMBER_ID},
+		#{CLASS},
+		#{CDT}
+	</sql>
+
+   <select id="listPage" parameterType="page" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        1 = 1
+        <if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	CDT LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
+            )
+        </if>
+        order by SHOPMEMBER_ID ASC
+    </select>
+
+    <select id="listAll" parameterType="pd" resultType="pd">
+        select
+	        sm.SHOPMEMBER_ID,
+	    	sm.SHOP_ID,
+			sm.MEMBER_ID,
+			sm.CLASS,
+			sm.CDT,
+			m.NICKNAME,
+			m.PHOTO,
+			s.SHOPNAME,
+			ss.SHOPSTATENAME
+        from
+        <include refid="tableName"></include> sm
+        left join member m on sm.member_id = m.member_id
+        left join shop s on sm.shop_id = s.shop_id
+        left join shopstate ss on s.shopstate_id = ss.shopstate_id
+         where
+        1 = 1
+        <if test="keywords!= null and keywords != ''"><!-- 关键词检索 -->
+            and
+            (
+            	m.NICKNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+            )
+        </if>
+        <if test="CLASS != null and CLASS != ''"><!-- 关键词检索 -->
+            and sm.class = #{CLASS}
+        </if>
+        <if test="SHOP_ID != null and SHOP_ID != ''"><!-- 关键词检索 -->
+            and sm.shop_id = #{SHOP_ID}
+        </if>
+        <if test="MEMBER_ID != null and MEMBER_ID != ''"><!-- 关键词检索 -->
+            and sm.member_id = #{MEMBER_ID}
+        </if>
+        order by sm.SHOPMEMBER_ID ASC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="pd" useGeneratedKeys="true" keyProperty="SHOPMEMBER_ID">
+        insert into <include refid="tableName"></include> (
+        <include refid="Field"></include>
+        ) values (
+        <include refid="FieldValue"></include>
+        )
+    </insert>
+    
+        <!-- 修改 -->
+    <update id="edit" parameterType="pd">
+        update
+        <include refid="tableName"></include>
+        set
+        SHOPMEMBER_ID = #{SHOPMEMBER_ID}
+        <if test="CDT != null and CDT != ''">
+            ,CDT = #{CDT}
+        </if>
+        
+        where
+        SHOPMEMBER_ID = #{SHOPMEMBER_ID}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="pd" flushCache="false">
+        delete from
+        <include refid="tableName"></include>
+        where
+        SHOPMEMBER_ID = #{SHOPMEMBER_ID}
+    </delete>
+    
+    <!-- 通过user_id获取数据 -->
+    <select id="findById" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        SHOPMEMBER_ID = #{SHOPMEMBER_ID}
+    </select>
+</mapper>
