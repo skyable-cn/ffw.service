@@ -294,7 +294,7 @@
 		 where s.market_id  = #{MARKET_ID} and g.endtime <![CDATA[<=]]> #{CDT}) as DOWNSTANDSUM,
 		(select count(1) from goods g
 		left join shop s on g.shop_id = s.shop_id
-		 where s.market_id  = #{MARKET_ID} and g.selled <![CDATA[>=]]> g.store) as SELLENDSUM
+		 where s.market_id  = #{MARKET_ID} and (g.state = '2' or g.store = '0') ) as SELLENDSUM
 	from dual
 	</select>
 </mapper>
