@@ -27,6 +27,9 @@
 		DYMCHID,
 		DYMAPPID,
 		DYMAPPSECRET,
+		ALIAPPID,
+		ALIPRIVATEKEY,
+		ALIPUBLICKEY,
 		DOMAIN_ID,
 		CDT
 	</sql>
@@ -51,6 +54,9 @@
 		#{DYMCHID},
 		#{DYMAPPID},
 		#{DYMAPPSECRET},
+		#{ALIAPPID},
+		#{ALIPRIVATEKEY},
+		#{ALIPUBLICKEY},
 		#{DOMAIN_ID},
 		#{CDT}
 	</sql>
@@ -75,6 +81,9 @@
 			m.DYMCHID,
 			m.DYMAPPID,
 			m.DYMAPPSECRET,
+			m.ALIAPPID,
+			m.ALIPRIVATEKEY,
+			m.ALIPUBLICKEY,
 			m.DOMAIN_ID,
 			dn.DOMAINNAME,
 			f1.FILE_ID AS FILE_ID1,
@@ -122,6 +131,9 @@
 			m.DYMCHID,
 			m.DYMAPPID,
 			m.DYMAPPSECRET,
+			m.ALIAPPID,
+			m.ALIPRIVATEKEY,
+			m.ALIPUBLICKEY,
 			m.DOMAIN_ID,
 			dn.DOMAINNAME,
 			f1.FILE_ID AS FILE_ID1,
@@ -218,6 +230,15 @@
         <if test="DYMAPPSECRET != null and DYMAPPSECRET != ''">
             ,DYMAPPSECRET = #{DYMAPPSECRET}
         </if>
+        <if test="ALIAPPID != null and ALIAPPID != ''">
+            ,ALIAPPID = #{ALIAPPID}
+        </if>
+        <if test="ALIPRIVATEKEY != null and ALIPRIVATEKEY != ''">
+            ,ALIPRIVATEKEY = #{ALIPRIVATEKEY}
+        </if>
+        <if test="ALIPUBLICKEY != null and ALIPUBLICKEY != ''">
+            ,ALIPUBLICKEY = #{ALIPUBLICKEY}
+        </if>
         where
         MARKET_ID = #{MARKET_ID}
     </update>
@@ -251,6 +272,9 @@
 			m.DYMCHID,
 			m.DYMAPPID,
 			m.DYMAPPSECRET,
+			m.ALIAPPID,
+			m.ALIPRIVATEKEY,
+			m.ALIPUBLICKEY,
 			m.DOMAIN_ID,
 			f1.FILE_ID AS FILE_ID1,
 			f1.FILEPATH AS FILEPATH1,
